@@ -5,14 +5,14 @@
 Format:
 
 ```
-(type): message
+type: message
 ```
 
 Examples:
 
 ```
-docs add readme
-ref update all js to ts
+docs: add readme
+ref: update all js to ts
 ```
 
 ### Types
