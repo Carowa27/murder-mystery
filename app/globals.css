@@ -1,26 +1,49 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* THEME */
+
+  --background: #090c11;
+
+  --text-primary: #f2e7d5;
+  --text-secondary: #c6b59c;
+  --muted: #788691;
+
+  --surface: #241a13;
+
+  --wood: #4a2f1d;
+
+  --gold: #bb7e3b;
+  --gold-light: #e6c07b;
+
+  --paper: #dabc95;
+  --folder: #b99668;
+
+  /* STATUS */
+
+  --success: #58775a;
+  --warning: #c9954a;
+  --danger: #8b3c31;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-muted: var(--muted);
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  --color-surface: var(--surface);
+
+  --color-wood: var(--wood);
+
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+
+  --color-paper: var(--paper);
+  --color-folder: var(--folder);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
 }
