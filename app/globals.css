@@ -1,13 +1,12 @@
 @import 'tailwindcss';
 
 :root {
-  /* THEME */
-
   --background: #090c11;
 
   --text-primary: #f2e7d5;
   --text-secondary: #c6b59c;
-  --muted: #788691;
+  --muted-primary: #788691;
+  --muted-secondary: #c7cbce;
 
   --surface: #241a13;
 
@@ -19,19 +18,30 @@
   --paper: #dabc95;
   --folder: #b99668;
 
-  /* STATUS */
-
   --success: #58775a;
   --warning: #c9954a;
   --danger: #8b3c31;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 4);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 5);
+
+  --btn-primary: linear-gradient(
+    50deg,
+    var(--gold) 30%,
+    var(--gold-light) 75%,
+    var(--gold-light) 85%,
+    var(--gold) 100%
+  );
 }
 
 @theme {
+  --color-primary: var(--gold);
   --color-background: var(--background);
 
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
-  --color-muted: var(--muted);
+  --color-muted: var(--muted-primary);
 
   --color-surface: var(--surface);
 
@@ -43,7 +53,24 @@
   --color-paper: var(--paper);
   --color-folder: var(--folder);
 
+  /* STATUS */
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+
+  /* FORMS */
+  --color-required: var(--warning);
+  --color-error: var(--danger);
+
+  /* SHADOWS */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  /* BUTTONS */
+  --background-image-btn-primary: var(--btn-primary);
+  --color-btn-secondary-bg: var(--background);
+  --color-btn-secondary-border: var(--gold);
+  --color-btn-disabled: var(--muted-primary);
+  --color-btn-disabled-text: var(--muted-secondary);
 }
