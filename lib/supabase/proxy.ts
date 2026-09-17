@@ -21,27 +21,27 @@ export async function updateSession(request: NextRequest) {
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll()
+          return request.cookies.getAll();
         },
         setAll(cookiesToSet, headers) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
             request,
-          })
+          });
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
-          )
+          );
           Object.entries(headers).forEach(([key, value]) =>
             supabaseResponse.headers.set(key, value)
-          )
+          );
         },
       },
     }
-  )
+  );
 
   const { data } = await supabase.auth.getClaims(); // `.getClaims()` är en heavy duty funktion som verifierar JWT åt oss och förnyar sessionen om den håller på att gå ut!
 
-  const user = data?.claims
+  const user = data?.claims;
 
   if (
     !user &&
@@ -49,11 +49,11 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith('/auth')
   ) {
     // Ingen giltig användare. Redirect till /login
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
   }
 
   // Från Supabase docs: "IMPORTANT: You *must* return the supabaseResponse object as it is"
-  return supabaseResponse
+  return supabaseResponse;
 }
