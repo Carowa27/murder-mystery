@@ -1,0 +1,15 @@
+name: Branch Created
+
+on:
+  create:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show event
+        run: |
+          echo '${{ toJson(github.event) }}'
+
+# log what logs we get from branch creation
