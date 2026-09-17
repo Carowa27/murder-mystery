@@ -1,0 +1,310 @@
+// ER-diagram för NOCTURNE (murder-mystery).
+// Spegling av db/schema.sql, men utan RLS, triggers och funktioner,
+// eftersom dbdiagram.io inte kan importera sådant.
+//
+// Så här används filen: gå till dbdiagram.io, skapa ett nytt diagram,
+// markera exempelkoden i rutan till vänster och klistra in hela den här
+// filen i stället. Diagrammet ritas direkt. Dra isär tabellerna och
+// välj Export, PNG. Import-menyn ska inte användas, den är till för att
+// göra om SQL till DBML.
+//
+// OBS Ändras schema.sql ska den här filen ändras i samma PR, annars
+// visar diagrammet något annat än databasen. OBS
+
+Project nocturne {
+  database_type: 'PostgreSQL'
+  Note: 'Samarbetsbaserade mordmysterier. Nivåerna free, premium och unlimited räknas fram ur profiles.unlimited_until och purchases, de lagras inte som kolumn.'
+}
+
+
+// ============================================================
+// 1. Uppslagstabeller
+// ============================================================
+
+Table difficulties {
+  id int [pk, increment]
+  name text [not null, unique, note: 'beginner, intermediate, hard']
+  max_accusations int [not null, note: 'beginner 3, intermediate 2, hard 1']
+}
+
+Table clue_types {
+  id int [pk, increment]
+  name text [not null, unique, note: 'polisrapport, vittnesmål, telefonlogg och så vidare']
+}
+
+
+// ============================================================
+// 2. Användare
+// ============================================================
+
+Table profiles {
+  id uuid [pk, note: 'samma id som auth.users.id i Supabase Auth']
+  display_name text [not null]
+  avatar_url text [note: 'sökväg till fördefinierad bild i storage bucket']
+  role text [not null, default: 'user', note: 'user eller admin']
+  unlimited_until timestamptz [note: 'Unlimited gäller så länge datumet är i framtiden']
+  created_at timestamptz [not null, default: `now()`]
+
+  Note: 'Raden skapas automatiskt av en trigger på auth.users vid registrering.'
+}
+
+
+// ============================================================
+// 3. Mysterier
+// ============================================================
+
+Table cases {
+  id uuid [pk, default: `gen_random_uuid()`]
+  title text [not null]
+  description text
+  image_url text
+  location text
+  story_date date [note: 'datum i berättelsen, till exempel 1926-09-12']
+  difficulty_id int [not null]
+  is_free boolean [not null, default: false, note: 'ingår i gratisnivån']
+  price int [not null, default: 0, note: 'i kronor']
+  stage text [not null, default: 'dev', note: 'dev, active eller inactive. inactive är soft delete']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table characters {
+  id uuid [pk, default: `gen_random_uuid()`]
+  case_id uuid [not null]
+  first_name text [not null]
+  last_name text
+  relationship text [note: 'relation till offret, tom för offret själv']
+  description text
+  image_url text
+  is_guilty boolean [not null, default: false]
+  is_victim boolean [not null, default: false]
+  created_at timestamptz [not null, default: `now()`]
+
+  Note: 'Exakt en mördare och ett offer per fall, säkrat med partiella unika index. Samma person kan inte vara bådadera.'
+}
+
+Table case_clues {
+  id uuid [pk, default: `gen_random_uuid()`]
+  case_id uuid [not null]
+  clue_type_id int [not null]
+  title text [not null]
+  content text
+  image_url text
+  is_key boolean [not null, default: false, note: 'alla nyckelledtrådar krävs för att få anklaga']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table clue_requirements {
+  clue_id uuid [not null, note: 'den låsta ledtråden']
+  required_clue_id uuid [not null, note: 'måste hittas först']
+
+  indexes {
+    (clue_id, required_clue_id) [pk]
+  }
+
+  Note: 'En ledtråd syns först när alla ledtrådar den kräver är hittade.'
+}
+
+Table clue_characters {
+  clue_id uuid [not null]
+  character_id uuid [not null]
+
+  indexes {
+    (clue_id, character_id) [pk]
+  }
+
+  Note: 'En ledtråd kan handla om flera personer, till exempel ett telefonsamtal.'
+}
+
+
+// ============================================================
+// 4. Team
+// ============================================================
+
+Table teams {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name text [not null]
+  invite_code text [not null, unique]
+  owner_id uuid [not null]
+  max_members int [not null, default: 4, note: 'beslut 2026-09-17, tidigare 5']
+  created_at timestamptz [not null, default: `now()`]
+
+  Note: 'Ägaren ligger också i team_members. Övriga medlemmar är gäster och spelar ägarens mysterier.'
+}
+
+Table team_members {
+  team_id uuid [not null]
+  user_id uuid [not null]
+  joined_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    (team_id, user_id) [pk]
+  }
+}
+
+
+// ============================================================
+// 5. Spelomgångar
+// ============================================================
+
+Table investigations {
+  id uuid [pk, default: `gen_random_uuid()`]
+  team_id uuid [not null]
+  case_id uuid [not null]
+  status text [not null, default: 'active', note: 'active, paused, solved, failed eller abandoned']
+  started_at timestamptz [not null, default: `now()`]
+  ended_at timestamptz
+
+  Note: 'En omgång av ett mysterium. Nytt försök blir en ny rad. Ett team kan bara ha en pågående omgång åt gången.'
+}
+
+Table investigation_found_clues {
+  investigation_id uuid [not null]
+  clue_id uuid [not null]
+  found_by uuid [note: 'null om användaren raderats']
+  found_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    (investigation_id, clue_id) [pk]
+  }
+
+  Note: 'En rad betyder att ledtråden är hittad i omgången.'
+}
+
+Table notes {
+  id uuid [pk, default: `gen_random_uuid()`]
+  investigation_id uuid [not null]
+  user_id uuid
+  clue_id uuid [note: 'valfri koppling till en ledtråd']
+  content text [not null]
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table accusations {
+  id uuid [pk, default: `gen_random_uuid()`]
+  investigation_id uuid [not null]
+  user_id uuid
+  character_id uuid [not null]
+  created_at timestamptz [not null, default: `now()`]
+
+  Note: 'Rätt eller fel avgörs av characters.is_guilty. Antal använda anklagelser räknas fram och jämförs med difficulties.max_accusations.'
+}
+
+
+// ============================================================
+// 6. Betalningar
+// ============================================================
+
+Table payments {
+  id uuid [pk, default: `gen_random_uuid()`]
+  user_id uuid [not null]
+  product text [not null, note: 'case eller unlimited_month']
+  case_id uuid [note: 'satt när product är case, annars null']
+  amount int [not null, note: 'i kronor']
+  status text [not null, default: 'pending', note: 'pending, paid eller failed']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table purchases {
+  user_id uuid [not null]
+  case_id uuid [not null]
+  payment_id uuid [not null, unique]
+  created_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    (user_id, case_id) [pk]
+  }
+
+  Note: 'Mysterier som användaren äger för alltid, även utan Unlimited.'
+}
+
+Table receipts {
+  id uuid [pk, default: `gen_random_uuid()`]
+  payment_id uuid [not null, unique]
+  receipt_number text [not null, unique]
+  created_at timestamptz [not null, default: `now()`]
+
+  Note: 'Ett kvitto per betalning. Användare och belopp hämtas via payments.'
+}
+
+
+// ============================================================
+// Relationer
+// ============================================================
+
+Ref: cases.difficulty_id > difficulties.id
+
+Ref: characters.case_id > cases.id [delete: cascade]
+
+Ref: case_clues.case_id > cases.id [delete: cascade]
+Ref: case_clues.clue_type_id > clue_types.id
+
+Ref: clue_requirements.clue_id > case_clues.id [delete: cascade]
+Ref: clue_requirements.required_clue_id > case_clues.id [delete: cascade]
+
+Ref: clue_characters.clue_id > case_clues.id [delete: cascade]
+Ref: clue_characters.character_id > characters.id [delete: cascade]
+
+Ref: teams.owner_id > profiles.id [delete: cascade]
+Ref: team_members.team_id > teams.id [delete: cascade]
+Ref: team_members.user_id > profiles.id [delete: cascade]
+
+Ref: investigations.team_id > teams.id [delete: cascade]
+Ref: investigations.case_id > cases.id
+
+Ref: investigation_found_clues.investigation_id > investigations.id [delete: cascade]
+Ref: investigation_found_clues.clue_id > case_clues.id [delete: cascade]
+Ref: investigation_found_clues.found_by > profiles.id [delete: set null]
+
+Ref: notes.investigation_id > investigations.id [delete: cascade]
+Ref: notes.user_id > profiles.id [delete: set null]
+Ref: notes.clue_id > case_clues.id [delete: set null]
+
+Ref: accusations.investigation_id > investigations.id [delete: cascade]
+Ref: accusations.user_id > profiles.id [delete: set null]
+Ref: accusations.character_id > characters.id [delete: cascade]
+
+Ref: payments.user_id > profiles.id [delete: cascade]
+Ref: payments.case_id > cases.id
+
+Ref: purchases.user_id > profiles.id [delete: cascade]
+Ref: purchases.case_id > cases.id [delete: cascade]
+Ref: purchases.payment_id - payments.id
+
+Ref: receipts.payment_id - payments.id [delete: cascade]
+
+
+// ============================================================
+// Grupper, styr bara layouten i dbdiagram
+// ============================================================
+
+TableGroup uppslag {
+  difficulties
+  clue_types
+}
+
+TableGroup anvandare {
+  profiles
+  teams
+  team_members
+}
+
+TableGroup mysterier {
+  cases
+  characters
+  case_clues
+  clue_requirements
+  clue_characters
+}
+
+TableGroup spelomgangar {
+  investigations
+  investigation_found_clues
+  notes
+  accusations
+}
+
+TableGroup betalningar {
+  payments
+  purchases
+  receipts
+}

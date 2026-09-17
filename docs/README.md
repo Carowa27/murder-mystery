@@ -1,5 +1,11 @@
 # Docs
 
+## ER diagram
+
+The database diagram is in [diagrams/erd.png](diagrams/erd.png).
+
+It is drawn from [../db/schema.dbml](../db/schema.dbml), which mirrors `db/schema.sql` without RLS, triggers and functions. Paste the dbml file into a new diagram on [dbdiagram.io](https://dbdiagram.io) and export as PNG. When the schema changes, update the dbml file and export a new image in the same pull request.
+
 ## Commit message convention
 
 Format:
