@@ -127,7 +127,7 @@ CREATE TABLE teams (
   name text NOT NULL,
   invite_code text NOT NULL UNIQUE,
   owner_id uuid NOT NULL REFERENCES profiles (id) ON DELETE CASCADE,
-  max_members int NOT NULL DEFAULT 5 CHECK (max_members > 0),
+  max_members int NOT NULL DEFAULT 4 CHECK (max_members > 0),
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
