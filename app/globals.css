@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 
 :root {
+  -webkit-tap-highlight-color: transparent;
+
   --background: #090c11;
 
   --text-primary: #f2e7d5;
