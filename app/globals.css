@@ -33,6 +33,13 @@
     var(--gold-light) 85%,
     var(--gold) 100%
   );
+
+  /* FONTS */
+  --heading: var(--font-caveat), cursive;
+  --paragraph: var(--font-caveat), cursive;
+  --printed: var(--font-syne), monospace;
+  --handwritten: var(--font-average), sans-serif;
+  --label: var(--font-syne), monospace;
 }
 
 @theme {
@@ -73,4 +80,11 @@
   --color-btn-secondary-border: var(--gold);
   --color-btn-disabled: var(--muted-primary);
   --color-btn-disabled-text: var(--muted-secondary);
+
+  /* FONTS */
+  --font-heading: var(--heading);
+  --font-paragraph: var(--paragraph);
+  --font-printed: var(--printed);
+  --font-handwritten: var(--handwritten);
+  --font-label: var(--label);
 }
