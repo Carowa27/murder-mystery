@@ -6,7 +6,7 @@ export async function createClient() {
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, // I dokumentationen vill de ha `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` vilket är det nyare namnet. Kan hända att vi ändrar till det i efterhand
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, // Nu ändrad till `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
     {
       cookies: {
         getAll() {
