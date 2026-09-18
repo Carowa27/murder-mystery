@@ -37,10 +37,10 @@
   );
 
   /* FONTS */
-  --heading: var(--font-caveat), cursive;
-  --paragraph: var(--font-caveat), cursive;
+  --heading: var(--font-average), sans-serif;
+  --paragraph: var(--font-average), sans-serif;
   --printed: var(--font-syne), monospace;
-  --handwritten: var(--font-average), sans-serif;
+  --handwritten: var(--font-caveat), cursive;
   --label: var(--font-syne), monospace;
 }
 
