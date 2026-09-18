@@ -17,7 +17,7 @@ export async function updateSession(request: NextRequest) {
   // Liknar `createServerClient` i server.ts men hanterar cookies via request/response istället för Next.js cookies() API
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
     {
       cookies: {
         getAll() {
