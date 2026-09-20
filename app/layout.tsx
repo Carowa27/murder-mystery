@@ -1,18 +1,12 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Caveat, Average_Sans, Syne_Mono } from 'next/font/google';
 import './globals.css';
 import { Header } from './components/Header';
 import { PageFoot } from './components/PageFoot';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+const caveat = Caveat({ subsets: ['latin'], variable: '--font-caveat' });
+const averageSans = Average_Sans({ weight: '400', subsets: ['latin'], variable: '--font-average' });
+const syneMono = Syne_Mono({ weight: '400', subsets: ['latin'], variable: '--font-syne' });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,7 +15,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${caveat.variable} ${averageSans.variable} ${syneMono.variable} h-full antialiased`}
+    >
       <body className="min-h-full max-w-3xl flex flex-col px-4 pt-2 mx-auto">
         <Header />
         {children}
