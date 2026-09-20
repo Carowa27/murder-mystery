@@ -5,7 +5,7 @@ import { GameNav } from './GameNav';
 import { Footer } from './Footer';
 export const PageFoot = () => {
   const pathname = usePathname();
-  if (pathname.includes('login')) {
+  if (pathname.includes('investigation')) {
     return <GameNav />;
   } else {
     return <Footer />;
