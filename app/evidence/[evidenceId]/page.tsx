@@ -6,6 +6,7 @@ const EvidenceSpecificPage = () => {
     'Polisrapport',
     'Obduktionsrapport',
     'Fingeravtrycksanalys',
+    'Övervakningsbilder',
   ];
   const otherDocs = ['Vittnesmål', 'Telefonlogg'];
   const evidence = {
