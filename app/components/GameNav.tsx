@@ -1,28 +1,25 @@
 import Link from 'next/link';
+import { MagnifyingGlassIcon, BooksIcon, UsersThreeIcon, LockIcon } from '@phosphor-icons/react';
 
 export const GameNav = () => {
   return (
-    <header className="w-full flex justify-center gap-10 mt-auto pb-1">
-      <Link href={'/investigation'} className="flex flex-col text-center">
-        <p> magnifier</p>
-        {/* <MagnifyingGlassIcon size={32} weight="duotone" /> */}
-        <p> OFFICE </p>
+    <nav className="w-full h-[80px] flex justify-evenly mt-auto items-center position-absolute bottom-0 sticky z-1000 bg-background text-primary">
+      <Link href={'/investigation'} className="flex flex-col items-center gap-1">
+        <MagnifyingGlassIcon size={32} weight="duotone" />
+        <p className="!text-[0.70rem]"> OFFICE </p>
       </Link>
-      <Link href={'/evidence'} className="flex flex-col text-center">
-        <p> book</p>
-        {/* <BooksIcon size={32} weight="duotone" /> */}
-        <p> EVIDENCE </p>
+      <Link href={'/evidence'} className="flex flex-col items-center gap-1">
+        <BooksIcon size={32} weight="duotone" />
+        <p className="!text-[0.70rem]"> EVIDENCE </p>
       </Link>
-      <Link href={'/team'} className="flex flex-col text-center">
-        <p> team</p>
-        {/* <UsersThreeIcon size={32} weight="duotone" /> */}
-        <p> TEAM </p>
+      <Link href={'/team'} className="flex flex-col items-center gap-1">
+        <UsersThreeIcon size={32} weight="duotone" />
+        <p className="!text-[0.70rem]"> TEAM </p>
       </Link>
-      <Link href={'/accusation'} className="flex flex-col text-center">
-        <p> lock</p>
-        {/* <LockIcon size={32} weight="duotone" /> */}
-        <p> ACCUSE </p>
+      <Link href={'/accusation'} className="flex flex-col items-center gap-1">
+        <LockIcon size={32} weight="duotone" />
+        <p className="!text-[0.70rem]"> ACCUSE </p>
       </Link>
-    </header>
+    </nav>
   );
 };
