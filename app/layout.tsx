@@ -19,7 +19,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       lang="en"
       className={`${caveat.variable} ${averageSans.variable} ${syneMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full max-w-3xl flex flex-col p-0 mx-auto">
+      <body className="min-h-full max-w-3xl flex flex-col p-0 mx-auto bg-background text-text-primary">
         <Header />
         <main className="px-2">{children}</main>
         <PageFoot />
