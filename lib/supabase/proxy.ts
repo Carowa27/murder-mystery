@@ -46,7 +46,8 @@ export async function updateSession(request: NextRequest) {
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
+    !request.nextUrl.pathname.startsWith('/auth') && // Sparar denna för säkerhets skull. Skadar inte
+    !request.nextUrl.pathname.startsWith('/api/auth')
   ) {
     // Ingen giltig användare. Redirect till /login
     const url = request.nextUrl.clone();
