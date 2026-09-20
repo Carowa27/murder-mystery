@@ -21,7 +21,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     >
       <body className="min-h-full max-w-3xl flex flex-col p-0 mx-auto">
         <Header />
-        {children}
+        <main className="px-2">{children}</main>
         <PageFoot />
       </body>
     </html>
