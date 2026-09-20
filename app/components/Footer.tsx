@@ -1,3 +1,7 @@
 export const Footer = () => {
-  return <footer className="mt-auto w-full text-center pb-1">&copy; Nocturne</footer>;
+  return (
+    <footer className="mt-auto w-full flex justify-center items-center pb-1 px-4 pt-2">
+      &copy; Nocturne
+    </footer>
+  );
 };
