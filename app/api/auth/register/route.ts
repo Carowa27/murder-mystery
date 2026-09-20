@@ -36,5 +36,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 
+  // Här skulle vi "normalt" ha kod för att göra en SQL INSERT i databasen men tack vare vår trigger function
+  // som körs när en ny row skapas i vår Auth table skapas en korresponderande row i vår egen Profile table
+  // automatiskt!
+
   return NextResponse.json({ user: data.user }, { status: 201 });
 }
