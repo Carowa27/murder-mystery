@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request: Request) {
-  // Ta emot body
+  const body = await request.json();
+  const { email, password } = body;
+
   // Skapa Supabase Client
   // Kalla på `supabase.auth.signInWithPassword`
   // Error hantering
