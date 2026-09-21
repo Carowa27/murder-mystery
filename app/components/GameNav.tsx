@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon, BooksIcon, UsersThreeIcon, LockIcon } from '@phosp
 export const GameNav = () => {
   return (
     <nav className="w-full h-[80px] flex justify-evenly mt-auto items-center position-absolute bottom-0 sticky z-1000 bg-background text-primary">
-      <Link href={'/investigation'} className="flex flex-col items-center gap-1">
+      <Link href={'/office'} className="flex flex-col items-center gap-1">
         <MagnifyingGlassIcon size={32} weight="duotone" />
         <p className="!text-[0.70rem]"> OFFICE </p>
       </Link>
