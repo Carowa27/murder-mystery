@@ -7,8 +7,14 @@ export async function POST(request: Request) {
 
   const supabase = await createClient();
 
-  // Kalla på `supabase.auth.signInWithPassword`
-  // Error hantering
+  // The `signInWithPassword` method will take care of:
+  // * check that email exists
+  // * verifies the password against the stored hash
+  // * *and* generates the JWT: returns a sessions with access/refresh tokens!
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
   return NextResponse.json({ test: 'test' }, { status: 201 });
 }
