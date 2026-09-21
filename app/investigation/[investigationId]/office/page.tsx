@@ -1,6 +1,6 @@
-import { Polaroid } from '../components/Polaroid';
+import { Polaroid } from '../../../components/Polaroid';
 
-const CharacterPage = () => {
+const OfficePage = () => {
   const involvedPeople = [
     {
       first_name: 'Rosa',
@@ -39,8 +39,9 @@ const CharacterPage = () => {
       is_victim: false,
     },
   ];
+
   return (
-    <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/character-overview-bg.png)] bg-center bg-no-repeat bg-cover">
+    <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-bg.png)] bg-center bg-no-repeat bg-cover">
       <section className="grid grid-cols-1 gap-2 mx-2 grid-cols-3">
         {involvedPeople.map((p, i) => (
           <Polaroid c={p} key={i} />
@@ -49,4 +50,4 @@ const CharacterPage = () => {
     </div>
   );
 };
-export default CharacterPage;
+export default OfficePage;
