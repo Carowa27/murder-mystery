@@ -5,7 +5,8 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { email, password } = body;
 
-  // Skapa Supabase Client
+  const supabase = await createClient();
+
   // Kalla på `supabase.auth.signInWithPassword`
   // Error hantering
 
