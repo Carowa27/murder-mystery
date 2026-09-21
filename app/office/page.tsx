@@ -1,6 +1,6 @@
 import { Polaroid } from '../components/Polaroid';
 
-export const OfficePage = () => {
+const OfficePage = () => {
   const involvedPeople = [
     {
       first_name: 'Rosa',
@@ -50,3 +50,4 @@ export const OfficePage = () => {
     </div>
   );
 };
+export default OfficePage;
