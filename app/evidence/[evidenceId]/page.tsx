@@ -1,3 +1,4 @@
+import { KeyEvidence } from '@/app/components/KeyEvidence';
 import Image from 'next/image';
 
 const EvidenceSpecificPage = () => {
@@ -15,12 +16,13 @@ const EvidenceSpecificPage = () => {
     content:
       '23:40, samtal från kontorets apparat till Banque Rolland i Genève, fyra minuter. 00:15, samtal från samma apparat till svit 402, en minut. Därefter kopplades inga fler samtal den natten.',
     image_url: null,
+    key: true,
   };
 
   return (
     <div className="w-full min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/evidence-bg.png)] bg-center bg-no-repeat bg-cover flex flex-col justify-center items-center">
       <div
-        className={`w-[calc(0.9*100%)] rounded-md h-100 ${policeDocs.some((type) => evidence.clue_type.includes(type)) ? 'bg-[url(/images/item-backgrounds/document-v2.png)] bg-cover shadow-lg' : otherDocs.some((type) => evidence.clue_type.includes(type)) ? 'bg-[url(/images/item-backgrounds/document-v1.png)] bg-cover shadow-lg brightness-140' : evidence.clue_type === 'Övervakningsbilder' ? 'bg-[url(/images/item-backgrounds/open-case-v3.png)] bg-contain' : ''} bg-center bg-no-repeat`}
+        className={`relative w-[calc(0.9*100%)] rounded-md h-100 ${policeDocs.some((type) => evidence.clue_type.includes(type)) ? 'bg-[url(/images/item-backgrounds/document-v2.png)] bg-cover shadow-lg' : otherDocs.some((type) => evidence.clue_type.includes(type)) ? 'bg-[url(/images/item-backgrounds/document-v1.png)] bg-cover shadow-lg brightness-140' : evidence.clue_type === 'Övervakningsbilder' ? 'bg-[url(/images/item-backgrounds/open-case-v3.png)] bg-contain' : ''} bg-center bg-no-repeat`}
       >
         <div
           className={
@@ -45,6 +47,7 @@ const EvidenceSpecificPage = () => {
             />
           )}
         </div>
+        {evidence.key && <KeyEvidence />}
       </div>
     </div>
   );
