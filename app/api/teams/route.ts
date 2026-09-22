@@ -55,8 +55,9 @@ export async function POST(request: Request) {
       break;
     }
 
-    // 23505 is the Postgres error code for status 409 uniqueness violation that Supabase
+    // 23505 is the Postgres error code for uniqueness violation that Supabase
     // uses: https://supabase.com/docs/guides/api/rest/postgrest-error-codes
+    // Equivalent to a HTTP Status code 409
     if (error.code !== '23505') {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -68,7 +69,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Kunde inte generera unik invite-kod' }, { status: 500 });
   }
 
-  // Also insert into team_members
+  // Also insert the current user into team_members with the newly created team id
+  const { error: memberError } = await supabase.from('team_members').insert({
+    team_id: team.id,
+    user_id: user.sub,
+  });
+
+  if (memberError) {
+    return NextResponse.json({ error: memberError.message }, { status: 500 });
+  }
 
   return NextResponse.json({ team }, { status: 201 });
 }
