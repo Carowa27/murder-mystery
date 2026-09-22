@@ -199,6 +199,17 @@ CREATE INDEX accusations_investigation_id_idx ON accusations (investigation_id);
 -- 6. Betalningar
 -- ============================================================
 
+-- Vad ett abonnemang kostar och hur länge det gäller. En rad i dag, men
+-- priset ska gå att ändra utan att röra koden.
+CREATE TABLE subscription_plans (
+  id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  code text NOT NULL UNIQUE, -- samma sträng som payments.product, alltså unlimited_month
+  name text NOT NULL, -- visningsnamn på prenumerationssidan
+  price int NOT NULL CHECK (price >= 0), -- i kronor
+  duration_days int NOT NULL CHECK (duration_days > 0),
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
 -- product är antingen ett enstaka mysterium eller en månad Unlimited.
 CREATE TABLE payments (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -640,6 +651,7 @@ ALTER TABLE investigations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE investigation_found_clues ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE accusations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE subscription_plans ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE purchases ENABLE ROW LEVEL SECURITY;
 ALTER TABLE receipts ENABLE ROW LEVEL SECURITY;
@@ -657,6 +669,14 @@ CREATE POLICY clue_types_select ON clue_types
   FOR SELECT TO anon, authenticated USING (true);
 
 CREATE POLICY clue_types_admin ON clue_types
+  FOR ALL TO authenticated USING (public.is_admin()) WITH CHECK (public.is_admin());
+
+-- Priset måste synas för alla, även utloggade, eftersom det står på
+-- prenumerationssidan. Bara admin får ändra det.
+CREATE POLICY subscription_plans_select ON subscription_plans
+  FOR SELECT TO anon, authenticated USING (true);
+
+CREATE POLICY subscription_plans_admin ON subscription_plans
   FOR ALL TO authenticated USING (public.is_admin()) WITH CHECK (public.is_admin());
 
 
@@ -877,3 +897,8 @@ INSERT INTO clue_types (name) VALUES
   ('Övervakningsbilder'),
   ('Fingeravtrycksanalys'),
   ('Item');
+
+-- Priset är satt av gruppen och ändras här, inte i koden. code måste vara
+-- exakt samma sträng som payments.product tillåter.
+INSERT INTO subscription_plans (code, name, price, duration_days) VALUES
+  ('unlimited_month', 'Unlimited', 99, 30);
