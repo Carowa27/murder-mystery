@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Caveat, Average_Sans, Syne_Mono } from 'next/font/google';
 import './globals.css';
+import { Header } from './components/Header';
+import { PageFoot } from './components/PageFoot';
 
 const caveat = Caveat({ subsets: ['latin'], variable: '--font-caveat' });
 const averageSans = Average_Sans({ weight: '400', subsets: ['latin'], variable: '--font-average' });
@@ -17,7 +19,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       lang="en"
       className={`${caveat.variable} ${averageSans.variable} ${syneMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full max-w-3xl flex flex-col p-0 mx-auto bg-background text-text-primary">
+        <Header />
+        <main className="px-2">{children}</main>
+        <PageFoot />
+      </body>
     </html>
   );
 }
