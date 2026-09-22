@@ -9,6 +9,21 @@ Varje avsnitt har tre delar: en miljöbild för fallet självt (`cases.image_url
 porträtt av personerna (`characters.image_url`) och föremål ur ledtrådarna
 (`case_clues.image_url`).
 
+## Vilka ledtrådar får en bild
+
+Alla ledtrådar har inte en egen bild, och det är med flit. `case_clues.image_url`
+rymmer en bild per ledtråd, så varje punkt under Föremål motsvarar exakt en rad i
+`case_clues`. Två bilder till samma ledtråd går inte, och behövs inte: hör två
+föremål ihop i samma ledtråd, lägg dem i samma bild.
+
+Ledtrådar som inte står under Föremål visas utan egen bild. Ett vittnesmål visas
+med personens porträtt, som redan finns under Personer. En polisrapport, en
+obduktionsrapport och andra rena dokument visas som text, eftersom genererad
+skrift sällan blir läsbar.
+
+Av de nittio ledtrådarna i fall 02 till 10 har fyrtioåtta en bild här. Resten är
+vittnesmål och rapporter.
+
 ## Gemensam stil
 
 Håll samma stil i hela uppsättningen, annars ser fallen ut att komma från olika
@@ -93,7 +108,7 @@ frostiga fönster, en enda lampa som lyser i andra änden.
   enkel mörk resdräkt, tunna skinnhandskar. Vacker på ett sätt som ingen minns
   efteråt. Långa fingrar.
 - **Stefan Novak** (läkare från Zagreb, ca 50): fyllig, vänlig, rufsigt grått
-  hår, kavaj med nötta armbågar, läkarväska i hattpyllan ovanför sätet.
+  hår, kavaj med nötta armbågar, läkarväska i hatthyllan ovanför sätet.
 - **Emil Brandt** (tysk ingenjör, ca 45): kortklippt, stram, rund glasögonbåge,
   ny Leica i rem runt halsen.
 - **Sofia Doukas** (änka från Thessaloniki, ca 70): svartklädd från topp till
@@ -104,9 +119,8 @@ frostiga fönster, en enda lampa som lyser i andra änden.
 ### Föremål
 
 - **Gardinsnöret** (Item, nyckel): mörkblått sidensnöre med tofs, avklippt i ena
-  änden, liggande på en mönstrad kupématta.
-- **Nagelsaxen i necessären** (samma ledtråd): liten förnicklad sax i en öppen
-  necessär av läder.
+  änden, och bredvid en liten förnicklad nagelsax i en öppen necessär av läder,
+  båda upplagda på en grå bevismatta.
 - **Den tomma medicinflaskan** (polisrapport): liten brun glasflaska med
   handskriven etikett, halvt nedsjunken i snö.
 - **Telegrafjournalen** (telefonlogg): linjerad journalsida på en
@@ -151,12 +165,11 @@ till knähöjd, en låst grind och en rad tomma solstolar.
 
 ### Föremål
 
-- **Badkaret i svit A-4** (badjournalen, nyckel): djupt emaljerat badkar med
-  två kranar märkta för salt och sött vatten, nyskurat, handdukar upplagda.
 - **Badjournalen** (Item, nyckel): linjerad bok på en hylla, en enda
   handskriven rad på nattens sida.
 - **Tjänstetrappan** (fingeravtrycksanalys, nyckel): smal stålstrappa med
-  räcke, nakna glödlampor, intorkade vattendroppar på stegen.
+  räcke, nakna glödlampor, intorkade vattendroppar på stegen och borstade
+  avtryck på räcket.
 - **Telegramjournalen** (telefonlogg, nyckel): bunt gula telegramblanketter och
   en journalsida med tider och namn.
 - **Journalfilmen** (övervakningsbilder): en filmrulle i plåtask bredvid en
@@ -195,17 +208,16 @@ fotogenlampa på ett trappsteg och mörker ovanför.
 ### Föremål
 
 - **Urverkets lod** (Item, nyckel): cylindriskt mässingslod, matt av ålder, med
-  krok och ögla upptill, liggande på ett granitgolv.
-- **Urverket i lanterninen** (samma ledtråd): kuggar, fjädrar och en vev i
-  mässing i ett trähus, med en slak lina som hänger tom.
+  krok och ögla upptill, liggande på ett granitgolv, och ovanför det en slak
+  lina som hänger tom ur schaktet.
 - **Riggade fotogenlampan** (brottsplatsrapport): fotogenlampa i mässing med
   helt glas, stående på ett trappsteg.
 - **Samtalslistan från lotsplatsen** (telefonlogg, nyckel): linjerad sida med
   tider och namn, en väggtelefon i trä ovanför.
 - **Ingrids negativ** (övervakningsbilder): en remsa svartvita negativ upphängd
-  på ett snöre i ett mörklagt skafferi, en lampa bakom.
-- **Dunkarna i sjöboden** (samma ledtråd): staplade träbackar med plomberade
-  plåtdunkar under ett segelduksskynke, dansk stämpel på locken.
+  på ett snöre i ett mörklagt skafferi, en lampa bakom, och på en av rutorna
+  syns sjöbodens öppna dörr med staplade träbackar och plomberade plåtdunkar
+  innanför.
 - **Hänglåset** (fingeravtrycksanalys, nyckel): tungt rostigt hänglås som hänger
   öppet i en hasp på en tjärad bodvägg.
 
@@ -242,8 +254,6 @@ på vagn, strålkastare i taket, tomma stolar i mörkret runtomkring.
   öppen med trumman utsvängd, fem lösa patroner och en tom hylsa.
 - **Den sjätte lösa patronen** (Item, nyckel): en enda patron på en putstrasa i
   en utdragen trälåda.
-- **Rekvisitavagnen** (kameratestet, nyckel): en hög vagn på hjul med lådor och
-  ett låst plåtskåp, märkt med ateljénummer.
 - **Filmrullen från kameratestet** (övervakningsbilder, nyckel): 35 mm-rulle i
   öppen plåtask bredvid en klippbänk och en lupp.
 - **Växelns samtalsbok** (telefonlogg, nyckel): uppslagen bok med tider och
@@ -267,7 +277,7 @@ säkerhetsnät i strålkastarljus, tomma läktarbänkar i mörkret.
   bakåtstruket hår, glittrande trikå, axlar som en gymnast, arrogant hållning.
 - **Vera Bassi** (hustru och fångare, mördaren, 33): stark och smal, mörkt hår
   hårt uppsatt, glitterdräkt med långa ärmar, magnesiumkrita på händerna,
-  stängt ansikte.
+  slutet uttryck.
 - **Poul Iversen** (tältmästare och riggare, 45): grov, rutig skjorta,
   arbetsbyxor, rep över axeln, händer fulla av valkar.
 - **Margit Falk** (cirkusdirektör, 56): röd frack och hög hatt i manegen,
@@ -284,9 +294,8 @@ säkerhetsnät i strålkastarljus, tomma läktarbänkar i mörkret.
 - **Hörnsurrningarna** (Item, nyckel): grovt rep knutet runt en järnring, två
   knopar bredvid varandra där den ena är slagen åt andra hållet.
 - **Spännskruvarna** (fingeravtrycksanalys, nyckel): mässingsskruvar med gängor
-  och vingmutter, vitt kritdamm i gängorna.
-- **Magnesiumkritan** (samma ledtråd): en öppen träask med vitt kritpulver och
-  handavtryck i kanten.
+  och vingmutter, vitt kritdamm i gängorna, och bredvid en öppen träask med
+  magnesiumkrita och handavtryck i kanten.
 - **Samtalslistan från kontorsvagnen** (telefonlogg, nyckel): en väggtelefon i
   en trång kontorsvagn och ett linjerat block med tider.
 - **Pressfotografens bilder** (övervakningsbilder): svartvita kort från
@@ -363,16 +372,16 @@ aluminiumstege lutad mot ett kar, dammigt ljus från ett litet fönster.
 
 - **Kar fyra** (brottsplatsrapport): stort jäskar med en rund manlucka i sidan,
   öppen lucka med regel, vinsten som vita kristaller på insidan.
-- **Fläkten** (samma ledtråd): en grov industrifläkt på golvet med slang upp
-  över karkanten, stickproppen liggande bredvid ett uttag.
+- **Fläkten** (fingeravtrycksanalys, nyckel): en grov industrifläkt på golvet
+  med slang upp över karkanten, stickproppen liggande bredvid ett uttag och
+  borstade avtryck på strömbrytaren.
 - **Aluminiumstegen** (Item, nyckel): lätt stege med breda fötter, två tydliga
   märken i kalkdammet på golvet där den stått.
-- **Leveransboken** (diabilderna): sliten bok med kolumner och kopiepapper,
-  liggande på en tunna.
 - **Samtalslistan från gårdskontoret** (telefonlogg, nyckel): linjerad sida med
   nummer och minuter, en gammal svart telefon bredvid.
 - **Den franske köparens diabilder** (övervakningsbilder): färgdiabilder i
-  pappramar upplagda på en ljusbord, en av dem visar en tankbil vid en port.
+  pappramar upplagda på ett ljusbord, en av dem visar en tankbil vid en port
+  och en man med en sliten leveransbok i handen.
 
 ---
 
@@ -405,10 +414,10 @@ flaggor som försvinner ut i drivsnön, becksvart himmel ovanför.
 
 ### Föremål
 
-- **Livlinan** (Item, nyckel): grov lina med små flaggor knutna med jämna
-  mellanrum, spänd genom drivsnö, ena änden surrad runt ett rostigt bränslefat.
-- **Isskruven** (samma ledtråd): lång skruv i stål med ögla, nedstucken i snön,
-  och en verktygstavla med en tom märkt plats.
+- **Livlinan och isskruven** (Item, nyckel): grov lina med små flaggor knutna
+  med jämna mellanrum, spänd genom drivsnö, ena änden surrad runt ett rostigt
+  bränslefat, och bredvid en lång isskruv i stål med ögla samt en verktygstavla
+  med en tom märkt plats.
 - **Allskykameran** (övervakningsbilder, nyckel): en kupolformad kamera på en
   mast, och bredvid en serie runda fisheye-bilder av stjärnhimlen med tid
   instämplad i kanten.
