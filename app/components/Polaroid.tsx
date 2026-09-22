@@ -33,7 +33,12 @@ export const Polaroid = ({ c }: IPolaroidParam) => {
           )}
           <section className="h-[50px] w-[50px]">
             {c.image_url !== null ? (
-              <Image src={c.image_url} alt={`image of ${c.first_name} ${c.last_name}`} fill />
+              <Image
+                src={c.image_url}
+                alt={`image of ${c.first_name} ${c.last_name}`}
+                height={50}
+                width={50}
+              />
             ) : (
               <div className="bg-muted h-[100%] w-[100%]"></div>
             )}
@@ -52,7 +57,12 @@ export const Polaroid = ({ c }: IPolaroidParam) => {
           )}
           <section className="h-[100px] w-[100px]">
             {c.image_url !== null ? (
-              <Image src={c.image_url} alt={`image of ${c.first_name} ${c.last_name}`} fill />
+              <Image
+                src={c.image_url}
+                alt={`image of ${c.first_name} ${c.last_name}`}
+                height={100}
+                width={100}
+              />
             ) : (
               <div className="bg-muted h-[100%] w-[100%]"></div>
             )}
