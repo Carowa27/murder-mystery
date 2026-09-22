@@ -6,45 +6,62 @@ export async function GET(
   { params }: { params: Promise<{ investigationId: string }> }
 ) {
   const { investigationId } = await params;
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const { data: investigation, error } = await supabase
-    .from('investigations')
-    .select(
-      `
+    if (!supabase) {
+      return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
+    }
+    const { data: investigation, error: invError } = await supabase
+      .from('investigations')
+      .select(
+        `
       *,
       cases (*),
       teams (*)
     `
-    )
-    .eq('id', investigationId)
-    .single();
+      )
+      .eq('id', investigationId)
+      .single();
+    const { data: characters, error: charError } = await supabase
+      .from('characters')
+      .select('*')
+      .eq('case_id', investigation.case_id);
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 404 });
-  }
-
-  const { data: characters } = await supabase
-    .from('characters')
-    .select('*')
-    .eq('case_id', investigation.case_id);
-
-  const { data: found_clues } = await supabase
-    .from('investigation_found_clues')
-    .select(
-      `found_at,
+    const { data: found_clues, error: cluesError } = await supabase
+      .from('investigation_found_clues')
+      .select(
+        `found_at,
         case_clues (
           *,
           clue_types (*)
         )
       `
-    )
-    .eq('investigation_id', investigationId);
+      )
+      .eq('investigation_id', investigationId);
 
-  return NextResponse.json({
-    investigation,
-    case: investigation.cases,
-    characters,
-    found_clues,
-  });
+    if (invError) {
+      return NextResponse.json({ error: invError.message }, { status: 404 });
+    }
+    if (charError) {
+      return NextResponse.json({ error: charError.message }, { status: 404 });
+    }
+    if (cluesError) {
+      return NextResponse.json({ error: cluesError.message }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      investigation,
+      case: investigation.cases,
+      characters,
+      found_clues,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : 'Internal server error',
+      },
+      { status: 500 }
+    );
+  }
 }
