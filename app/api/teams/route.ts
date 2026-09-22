@@ -15,11 +15,18 @@ export function generateInviteCode(): string {
   return code;
 }
 
-export async function POST() {
+export async function POST(request: Request) {
   const user = await getCurrentUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const body = await request.json();
+  const { name: teamName } = body; // Rename the `name` key in the body to `teamName` for clarity
+
+  if (!teamName) {
+    return NextResponse.json({ error: 'Teamnamn krävs' }, { status: 400 });
   }
 
   const inviteCode = generateInviteCode();
