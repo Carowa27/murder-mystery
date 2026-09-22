@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "ba7f94bd-2ae5-4476-a3bd-d863ddb1e960",
-    "name": "Murder Mystery API",
+    "name": "Nocturne API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "55400219",
     "_collection_link": "https://go.postman.co/collection/55400219-ba7f94bd-2ae5-4476-a3bd-d863ddb1e960?source=collection_link"
@@ -54,6 +54,36 @@
             "body": {
               "mode": "raw",
               "raw": "{ \"product\": \"case\", \"caseId\": \"a0000000-0000-4000-8000-000000000004\" }\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Free case (400)",
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"product\": \"case\", \"caseId\": \"a0000000-0000-4000-8000-000000000001\" }\r\n",
               "options": {
                 "raw": {
                   "language": "json"
