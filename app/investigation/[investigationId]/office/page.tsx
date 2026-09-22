@@ -1,5 +1,4 @@
 import { Polaroid } from '../../../components/Polaroid';
-
 const OfficePage = () => {
   const involvedPeople = [
     {
@@ -41,11 +40,14 @@ const OfficePage = () => {
   ];
 
   return (
-    <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-bg.png)] bg-center bg-no-repeat bg-cover">
-      <section className="grid grid-cols-1 gap-2 justify-items-center justify-self-center mx-2 pt-20 grid-cols-4 w-[60%]">
+    <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/empty-desk-bg.png)] bg-center bg-no-repeat bg-cover">
+      <section className="grid grid-cols-1 gap-2 justify-items-center justify-self-center mx-2 pt-20 grid-cols-4 w-[70%] -rotate-3">
         {involvedPeople.map((p, i) => (
           <Polaroid c={p} key={i} />
         ))}
+      </section>
+      <section className="absolute bottom-61 flex flex-col ml-4 -rotate-8">
+        <p className="!text-xl text-surface !font-bold">case notes</p>
       </section>
     </div>
   );

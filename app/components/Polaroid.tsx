@@ -21,7 +21,7 @@ export const Polaroid = ({ c }: IPolaroidParam) => {
   return (
     <>
       {pathname.includes('/office') ? (
-        <div className="shadow-sm relative bg-paper p-1 rounded-xs flex flex-col items-center aspect-[1/1.215]">
+        <div className="shadow-sm relative bg-paper p-1 rounded-xs flex flex-col items-center aspect-[1/1.215] brightness-70">
           <PushPinIcon size={17} color="#ca220c" weight="fill" className="z-1000 absolute -top-1" />
           {c.is_victim && (
             <CrossIcon
