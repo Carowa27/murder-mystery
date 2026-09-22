@@ -6,24 +6,37 @@ export async function GET(
   { params }: { params: Promise<{ investigationId: string }> }
 ) {
   const { investigationId } = await params;
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .from('investigation_found_clues')
-    .select(
-      `
+    if (!supabase) {
+      return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
+    }
+
+    const { data, error } = await supabase
+      .from('investigation_found_clues')
+      .select(
+        `
     found_at,
     case_clues (
       *,
       clue_types (*)
     )
   `
-    )
-    .eq('investigation_id', investigationId);
+      )
+      .eq('investigation_id', investigationId);
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 404 });
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 404 });
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : 'Internal server error',
+      },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json(data);
 }
