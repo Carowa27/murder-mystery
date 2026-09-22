@@ -125,7 +125,7 @@ Table teams {
   name text [not null]
   invite_code text [not null, unique]
   owner_id uuid [not null]
-  max_members int [not null, default: 4, note: 'beslut 2026-09-17, tidigare 5']
+  max_members int [not null, default: 4, note: 'CHECK 1-4, beslut 2026-09-17, tidigare 5']
   created_at timestamptz [not null, default: `now()`]
 
   Note: 'Ägaren ligger också i team_members. Övriga medlemmar är gäster och spelar ägarens mysterier.'
