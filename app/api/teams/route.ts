@@ -30,7 +30,24 @@ export async function POST(request: Request) {
   }
 
   const inviteCode = generateInviteCode();
+  const supabase = await createClient();
 
   // Insert into teams with the user as owner_id
+  const { data: team, error } = await supabase
+    .from('teams')
+    .insert({
+      name: teamName,
+      invite_code: inviteCode,
+      owner_id: user.sub,
+    })
+    .select()
+    .single();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
   // Also insert into team_members
+
+  return NextResponse.json({ team }, { status: 201 });
 }
