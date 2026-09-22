@@ -3,13 +3,29 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function GET(request: Request, { params }: { params: Promise<{ caseId: string }> }) {
   const { caseId } = await params;
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const { data, error } = await supabase.from('cases').select('*').eq('id', caseId).single();
+    if (!supabase) {
+      return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
+    }
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 404 });
+    const { data, error } = await supabase.from('cases').select('*').eq('id', caseId).single();
+
+    if (error || !data) {
+      return NextResponse.json(
+        { error: 'Case not found, error msg:' + error?.message },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : 'Internal server error',
+      },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json(data);
 }
