@@ -10,5 +10,6 @@ export async function GET() {
     return NextResponse.json({ error: 'Ej inloggad' }, { status: 401 });
   }
 
-  return NextResponse.json({ user }, { status: 200 });
+  // Now only id (the `sub` property) and email
+  return NextResponse.json({ user: { id: user.sub, email: user.email } }, { status: 200 });
 }
