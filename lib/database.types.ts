@@ -109,7 +109,6 @@ export type Database = {
           difficulty_id: number;
           id: string;
           image_url: string | null;
-          is_free: boolean;
           location: string | null;
           price: number;
           stage: string;
@@ -122,7 +121,6 @@ export type Database = {
           difficulty_id: number;
           id?: string;
           image_url?: string | null;
-          is_free?: boolean;
           location?: string | null;
           price?: number;
           stage?: string;
@@ -135,7 +133,6 @@ export type Database = {
           difficulty_id?: number;
           id?: string;
           image_url?: string | null;
-          is_free?: boolean;
           location?: string | null;
           price?: number;
           stage?: string;
@@ -552,7 +549,7 @@ export type Database = {
           created_at?: string;
           id?: string;
           payment_id: string;
-          receipt_number: string;
+          receipt_number?: string;
         };
         Update: {
           created_at?: string;
