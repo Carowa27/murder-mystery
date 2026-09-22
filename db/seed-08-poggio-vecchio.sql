@@ -19,7 +19,7 @@
 -- Fallet
 -- ============================================================
 
-INSERT INTO cases (id, title, description, location, story_date, difficulty_id, is_free, price, stage)
+INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000008',
   'Mordet i jäskaret',
@@ -27,7 +27,6 @@ VALUES (
   'Vingården Poggio Vecchio, Chianti',
   '1971-09-14',
   (SELECT id FROM difficulties WHERE name = 'beginner'),
-  false,
   49,
   'active'
 );
