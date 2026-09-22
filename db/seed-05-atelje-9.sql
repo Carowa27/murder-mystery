@@ -19,7 +19,7 @@
 -- Fallet
 -- ============================================================
 
-INSERT INTO cases (id, title, description, location, story_date, difficulty_id, is_free, price, stage)
+INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000005',
   'Mordet i ateljé 9',
@@ -27,7 +27,6 @@ VALUES (
   'Monarch Pictures, ateljé 9, Hollywood',
   '1957-08-09',
   (SELECT id FROM difficulties WHERE name = 'intermediate'),
-  false,
   49,
   'active'
 );

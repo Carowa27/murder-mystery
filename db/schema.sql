@@ -61,8 +61,7 @@ CREATE TABLE cases (
   location text, -- till exempel St. Orison Island
   story_date date, -- datum i berättelsen, till exempel 1926-09-12
   difficulty_id int NOT NULL REFERENCES difficulties (id),
-  is_free boolean NOT NULL DEFAULT false, -- admin väljer om fallet ingår i gratisnivån
-  price int NOT NULL DEFAULT 0 CHECK (price >= 0), -- i kronor
+  price int NOT NULL DEFAULT 0 CHECK (price >= 0), -- i kronor, 0 betyder att fallet ingår i gratisnivån
   stage text NOT NULL DEFAULT 'dev' CHECK (stage IN ('dev', 'active', 'inactive')),
   created_at timestamptz NOT NULL DEFAULT now()
 );
@@ -226,11 +225,18 @@ CREATE TABLE purchases (
   PRIMARY KEY (user_id, case_id)
 );
 
--- Användare och belopp hämtas via payments.
+-- Löpnumret i kvittonumret. En sekvens ger aldrig samma nummer två gånger, inte
+-- ens om två köp sker i samma ögonblick. Ett avbrutet köp förbrukar ett nummer,
+-- så serien kan få luckor. Medvetet val.
+CREATE SEQUENCE receipt_number_seq;
+
+-- Användare och belopp hämtas via payments. Numret sätts av databasen, servern
+-- skriver bara payment_id.
 CREATE TABLE receipts (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   payment_id uuid NOT NULL UNIQUE REFERENCES payments (id) ON DELETE CASCADE,
-  receipt_number text NOT NULL UNIQUE,
+  receipt_number text NOT NULL UNIQUE
+    DEFAULT ('nocturne-' || lpad(nextval('public.receipt_number_seq')::text, 6, '0')),
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
@@ -365,7 +371,7 @@ SECURITY DEFINER
 SET search_path = ''
 AS $$
   SELECT
-    EXISTS (SELECT 1 FROM public.cases c WHERE c.id = p_case_id AND c.is_free)
+    EXISTS (SELECT 1 FROM public.cases c WHERE c.id = p_case_id AND c.price = 0)
     OR EXISTS (
       SELECT 1 FROM public.purchases pu
       WHERE pu.user_id = p_user_id AND pu.case_id = p_case_id

@@ -20,7 +20,7 @@
 -- Fallet
 -- ============================================================
 
-INSERT INTO cases (id, title, description, location, story_date, difficulty_id, is_free, price, stage)
+INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000003',
   'Mordet ombord på Corinthia',
@@ -28,7 +28,6 @@ VALUES (
   'Atlantångaren Corinthia, Nordatlanten',
   '1934-03-08',
   (SELECT id FROM difficulties WHERE name = 'hard'),
-  true,
   0,
   'active'
 );
