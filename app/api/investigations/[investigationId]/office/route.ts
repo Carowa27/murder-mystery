@@ -23,6 +23,14 @@ export async function GET(
       )
       .eq('id', investigationId)
       .single();
+
+    if (invError || !investigation) {
+      return NextResponse.json(
+        { error: 'Investigation not found, error msg:' + invError?.message },
+        { status: 404 }
+      );
+    }
+
     const { data: characters, error: charError } = await supabase
       .from('characters')
       .select('*')
@@ -40,9 +48,6 @@ export async function GET(
       )
       .eq('investigation_id', investigationId);
 
-    if (invError) {
-      return NextResponse.json({ error: invError.message }, { status: 404 });
-    }
     if (charError) {
       return NextResponse.json({ error: charError.message }, { status: 404 });
     }
