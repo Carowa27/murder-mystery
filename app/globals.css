@@ -1,5 +1,7 @@
 @import 'tailwindcss';
-
+html {
+  font-size: 16px;
+}
 :root {
   -webkit-tap-highlight-color: transparent;
 
