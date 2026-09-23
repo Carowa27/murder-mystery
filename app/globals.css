@@ -86,6 +86,7 @@ span {
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-muted: var(--muted-primary);
+  --color-muted-secondary: var(--muted-secondary);
 
   --color-surface: var(--surface);
 
