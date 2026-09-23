@@ -25,7 +25,7 @@
 -- Fallet
 -- ============================================================
 
-INSERT INTO cases (id, title, description, location, story_date, difficulty_id, is_free, price, stage)
+INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000010',
   'Mordet på tjugotredje våningen',
@@ -33,7 +33,6 @@ VALUES (
   'Lau Cheong Shipping, Sheung Wan, Hongkong',
   '1986-09-09',
   (SELECT id FROM difficulties WHERE name = 'hard'),
-  false,
   49,
   'active'
 );

@@ -61,8 +61,7 @@ CREATE TABLE cases (
   location text, -- till exempel St. Orison Island
   story_date date, -- datum i berättelsen, till exempel 1926-09-12
   difficulty_id int NOT NULL REFERENCES difficulties (id),
-  is_free boolean NOT NULL DEFAULT false, -- admin väljer om fallet ingår i gratisnivån
-  price int NOT NULL DEFAULT 0 CHECK (price >= 0), -- i kronor
+  price int NOT NULL DEFAULT 0 CHECK (price >= 0), -- i kronor, 0 betyder att fallet ingår i gratisnivån
   stage text NOT NULL DEFAULT 'dev' CHECK (stage IN ('dev', 'active', 'inactive')),
   created_at timestamptz NOT NULL DEFAULT now()
 );
@@ -200,6 +199,17 @@ CREATE INDEX accusations_investigation_id_idx ON accusations (investigation_id);
 -- 6. Betalningar
 -- ============================================================
 
+-- Vad ett abonnemang kostar och hur länge det gäller. En rad i dag, men
+-- priset ska gå att ändra utan att röra koden.
+CREATE TABLE subscription_plans (
+  id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  code text NOT NULL UNIQUE, -- samma sträng som payments.product, alltså unlimited_month
+  name text NOT NULL, -- visningsnamn på prenumerationssidan
+  price int NOT NULL CHECK (price >= 0), -- i kronor
+  duration_days int NOT NULL CHECK (duration_days > 0),
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
 -- product är antingen ett enstaka mysterium eller en månad Unlimited.
 CREATE TABLE payments (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -226,11 +236,18 @@ CREATE TABLE purchases (
   PRIMARY KEY (user_id, case_id)
 );
 
--- Användare och belopp hämtas via payments.
+-- Löpnumret i kvittonumret. En sekvens ger aldrig samma nummer två gånger, inte
+-- ens om två köp sker i samma ögonblick. Ett avbrutet köp förbrukar ett nummer,
+-- så serien kan få luckor. Medvetet val.
+CREATE SEQUENCE receipt_number_seq;
+
+-- Användare och belopp hämtas via payments. Numret sätts av databasen, servern
+-- skriver bara payment_id.
 CREATE TABLE receipts (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   payment_id uuid NOT NULL UNIQUE REFERENCES payments (id) ON DELETE CASCADE,
-  receipt_number text NOT NULL UNIQUE,
+  receipt_number text NOT NULL UNIQUE
+    DEFAULT ('nocturne-' || lpad(nextval('public.receipt_number_seq')::text, 6, '0')),
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
@@ -365,7 +382,7 @@ SECURITY DEFINER
 SET search_path = ''
 AS $$
   SELECT
-    EXISTS (SELECT 1 FROM public.cases c WHERE c.id = p_case_id AND c.is_free)
+    EXISTS (SELECT 1 FROM public.cases c WHERE c.id = p_case_id AND c.price = 0)
     OR EXISTS (
       SELECT 1 FROM public.purchases pu
       WHERE pu.user_id = p_user_id AND pu.case_id = p_case_id
@@ -634,6 +651,7 @@ ALTER TABLE investigations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE investigation_found_clues ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE accusations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE subscription_plans ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE purchases ENABLE ROW LEVEL SECURITY;
 ALTER TABLE receipts ENABLE ROW LEVEL SECURITY;
@@ -651,6 +669,14 @@ CREATE POLICY clue_types_select ON clue_types
   FOR SELECT TO anon, authenticated USING (true);
 
 CREATE POLICY clue_types_admin ON clue_types
+  FOR ALL TO authenticated USING (public.is_admin()) WITH CHECK (public.is_admin());
+
+-- Priset måste synas för alla, även utloggade, eftersom det står på
+-- prenumerationssidan. Bara admin får ändra det.
+CREATE POLICY subscription_plans_select ON subscription_plans
+  FOR SELECT TO anon, authenticated USING (true);
+
+CREATE POLICY subscription_plans_admin ON subscription_plans
   FOR ALL TO authenticated USING (public.is_admin()) WITH CHECK (public.is_admin());
 
 
@@ -871,3 +897,8 @@ INSERT INTO clue_types (name) VALUES
   ('Övervakningsbilder'),
   ('Fingeravtrycksanalys'),
   ('Item');
+
+-- Priset är satt av gruppen och ändras här, inte i koden. code måste vara
+-- exakt samma sträng som payments.product tillåter.
+INSERT INTO subscription_plans (code, name, price, duration_days) VALUES
+  ('unlimited_month', 'Unlimited', 99, 30);

@@ -61,8 +61,7 @@ Table cases {
   location text
   story_date date [note: 'datum i berättelsen, till exempel 1926-09-12']
   difficulty_id int [not null]
-  is_free boolean [not null, default: false, note: 'ingår i gratisnivån']
-  price int [not null, default: 0, note: 'i kronor']
+  price int [not null, default: 0, note: 'i kronor, 0 betyder att fallet ingår i gratisnivån']
   stage text [not null, default: 'dev', note: 'dev, active eller inactive. inactive är soft delete']
   created_at timestamptz [not null, default: `now()`]
 }
@@ -194,6 +193,17 @@ Table accusations {
 // 6. Betalningar
 // ============================================================
 
+Table subscription_plans {
+  id int [pk, increment]
+  code text [not null, unique, note: 'unlimited_month, samma sträng som payments.product']
+  name text [not null, note: 'visningsnamn på prenumerationssidan']
+  price int [not null, note: 'i kronor']
+  duration_days int [not null]
+  created_at timestamptz [not null, default: `now()`]
+
+  Note: 'Vad ett abonnemang kostar och hur länge det gäller. En rad i dag, unlimited_month.'
+}
+
 Table payments {
   id uuid [pk, default: `gen_random_uuid()`]
   user_id uuid [not null]
@@ -220,7 +230,7 @@ Table purchases {
 Table receipts {
   id uuid [pk, default: `gen_random_uuid()`]
   payment_id uuid [not null, unique]
-  receipt_number text [not null, unique]
+  receipt_number text [not null, unique, note: 'nocturne-000001, sätts av sekvensen receipt_number_seq']
   created_at timestamptz [not null, default: `now()`]
 
   Note: 'Ett kvitto per betalning. Användare och belopp hämtas via payments.'
