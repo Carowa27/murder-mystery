@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/supabase/auth';
 
 export async function GET() {
-  const { userId } = getCurrentUser();
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return NextResponse.json({ error: 'Ej inloggad' }, { status: 401 });
+  }
 
   try {
     const supabase = await createClient();
@@ -33,7 +38,7 @@ export async function GET() {
         return;
       }
       const { data: owns, error: ownsError } = await supabase.rpc('owns_case', {
-        p_user_id: userId,
+        p_user_id: user?.sub,
         p_case_id: caseItem.id,
       });
 
