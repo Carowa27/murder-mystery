@@ -17,13 +17,13 @@ export const Polaroid = ({ c }: IPolaroidParam) => {
     <>
       {pathname.includes('/office') ? (
         <div className="shadow-sm relative bg-paper p-1 rounded-xs flex flex-col items-center aspect-[1/1.215] brightness-70">
-          <PushPinIcon size={17} color="#ca220c" weight="fill" className="z-1000 absolute -top-1" />
+          <PushPinIcon size={15} color="#ca220c" weight="fill" className="z-1000 absolute -top-2" />
           {c.is_victim && (
             <CrossIcon
-              size={25}
+              size={20}
               color="#000000"
               weight="duotone"
-              className="z-1000 absolute bottom-0 right-0"
+              className="z-1000 absolute bottom-2 right-0"
             />
           )}
           <section className="h-[50px] w-[50px]">

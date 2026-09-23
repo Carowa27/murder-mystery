@@ -48,11 +48,30 @@ const OfficePage = async ({ params }: { params: Promise<{ investigationId: strin
       is_guilty: true,
       is_victim: false,
     },
+    {
+      first_name: 'Jack',
+      last_name: 'Gaston',
+      relationship: 'Tjuvjägare',
+      description: 'Kvinnokarl',
+      image_url: null,
+      is_guilty: true,
+      is_victim: false,
+    },
+    {
+      first_name: 'Jack',
+      last_name: 'Gaston',
+      relationship: 'Tjuvjägare',
+      description: 'Kvinnokarl',
+      image_url: null,
+      is_guilty: true,
+      is_victim: false,
+    },
   ];
 
   return (
     <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-bg.png)] bg-top-right bg-no-repeat bg-cover">
-      <section className="grid grid-flow-col auto-cols-max gap-2 justify-center mx-2 pt-[16%] -rotate-3">
+      <section className="w-[75%] flex flex-wrap justify-center gap-2 mx-auto pt-[16%] -rotate-3">
+        {/* <section className="grid grid-flow-col auto-cols-max gap-2 justify-center mx-2 pt-[16%] -rotate-3"> */}
         {characters.map((p: IGameCharacter, i: number) => (
           <Polaroid c={p} key={i} />
         ))}
