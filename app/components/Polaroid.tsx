@@ -1,19 +1,11 @@
 'use client';
+import { IGameCharacter } from '@/lib/interfaces/characters';
 import { CrossIcon, PushPinIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 interface IPolaroidParam {
-  c: IUser;
-}
-interface IUser {
-  first_name: string;
-  last_name: string;
-  relationship: string;
-  description: string;
-  image_url: string | null;
-  is_guilty: boolean;
-  is_victim: boolean;
+  c: IGameCharacter;
 }
 
 export const Polaroid = ({ c }: IPolaroidParam) => {
