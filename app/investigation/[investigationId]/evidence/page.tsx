@@ -11,9 +11,9 @@ const EvidencePage = () => {
   return (
     <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/evidence-bg.png)] bg-center bg-no-repeat bg-cover flex flex-col justify-center items-center">
       <div
-        className={`mt-10 w-[calc(0.95*100%)] h-screen bg-[url(/images/item-backgrounds/open-case-v2.png)] bg-contain bg-top-center bg-no-repeat`}
+        className={`w-[95%] h-[65vh] bg-[url(/images/item-backgrounds/open-case-v2.png)] bg-contain bg-top-center bg-no-repeat`}
       >
-        <nav className="text-surface flex flex-col ps-10 pt-12 rotate-1 leading-5.5">
+        <nav className="text-surface flex flex-col ps-[12%] pt-12 rotate-1 leading-5.5">
           {clueTypes.map((type, i) => (
             <section key={i}>
               <h5>{type}</h5>
