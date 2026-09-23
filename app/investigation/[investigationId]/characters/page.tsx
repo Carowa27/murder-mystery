@@ -1,4 +1,4 @@
-import { Polaroid } from '../../../components/Polaroid';
+import { Polaroid } from '@/app/components/Polaroid';
 
 const CharacterPage = () => {
   const involvedPeople = [
@@ -41,7 +41,8 @@ const CharacterPage = () => {
   ];
   return (
     <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/character-overview-bg.png)] bg-center bg-no-repeat bg-cover">
-      <section className="grid grid-cols-1 gap-2 mx-2 grid-cols-3">
+      <section className="flex flex-wrap justify-center gap-2 mx-2 pt-[16%]">
+        {/* <section className="grid grid-flow-col auto-cols-max gap-2 justify-center mx-2 pt-[16%]"> */}
         {involvedPeople.map((p, i) => (
           <Polaroid c={p} key={i} />
         ))}
