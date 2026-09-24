@@ -23,7 +23,8 @@ export async function GET(
           avatar_url
         )
       )
-    )
+    ),
+    cases(*)
   `
     )
     .eq('id', investigationId)
