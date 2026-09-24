@@ -15,7 +15,20 @@ export async function POST(request: Request) {
   if (!inviteCode) {
     return NextResponse.json({ error: 'Inbjudningskod krävs' }, { status: 400 });
   }
+
+  const supabase = await createClient();
+  
   // Hitta team via invite code
+  const { data: team, error: teamError } = await supabase
+    .from('teams')
+    .select('id, name')
+    .eq('invite_code', inviteCode)
+    .single();
+
+  if (teamError || !team) {
+    return NextResponse.json({ error: 'Ogiltig inbjudningskod'}, { status: 404 });
+  }
+
   // Lägg in användaren i team_members
   // Error hantering
 }
