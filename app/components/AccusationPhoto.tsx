@@ -1,6 +1,6 @@
 'use client';
 
-import { IGameCharacter } from '@/lib/interfaces/characters';
+import { IGameCharacter } from '@/lib/interfaces/gameRelated';
 import Image from 'next/image';
 
 interface IAccusationPhotoParams {

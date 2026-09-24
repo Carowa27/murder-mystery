@@ -1,5 +1,5 @@
 'use client';
-import { IGameCharacter } from '@/lib/interfaces/characters';
+import { IGameCharacter } from '@/lib/interfaces/gameRelated';
 import { CrossIcon, PushPinIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
