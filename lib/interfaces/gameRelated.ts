@@ -30,3 +30,20 @@ export interface INotes {
     title: string;
   };
 }
+export interface IFoundClues {
+  case_clues: {
+    case_id: string;
+    clue_type_id: number;
+    clue_types: {
+      id: number;
+      name: string;
+    };
+    content: string;
+    created_at: string;
+    id: string;
+    image_url: string | null;
+    is_key: boolean;
+    title: string;
+  };
+  found_at: string;
+}
