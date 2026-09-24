@@ -18,4 +18,14 @@ export interface INotes {
     display_name: string;
     id: string;
   } | null;
+  case_clues: {
+    case_id: string;
+    clue_type_id: number;
+    content: string;
+    created_at: string;
+    id: string;
+    image_url: string | null;
+    is_key: boolean;
+    title: string;
+  };
 }

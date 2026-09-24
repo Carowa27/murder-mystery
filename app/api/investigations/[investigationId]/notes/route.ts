@@ -15,12 +15,13 @@ export async function GET(
 
     const { data, error } = await supabase
       .from('notes')
-      .select('*,profiles(*)')
+      .select('*,profiles(*),case_clues(*)')
       .eq('investigation_id', investigationId);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 404 });
     }
+    console.log(data);
 
     return NextResponse.json(data);
   } catch (error) {
