@@ -1,10 +1,8 @@
 import { cookies } from 'next/headers';
 
 import { Notebook } from '@/app/components/Notebook';
-import { Polaroid } from '@/app/components/Polaroid';
 import { IGameCharacter } from '@/lib/interfaces/gameRelated';
 import { Corkboard } from '@/app/components/Corkboard';
-import Link from 'next/link';
 
 const OfficePage = async ({ params }: { params: Promise<{ investigationId: string }> }) => {
   const { investigationId } = await params;
