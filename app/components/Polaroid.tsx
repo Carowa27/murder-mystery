@@ -3,14 +3,19 @@ import { IGameCharacter } from '@/lib/interfaces/gameRelated';
 import { CrossIcon, PushPinIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface IPolaroidParam {
   c: IGameCharacter;
 }
 
-const randomNr = (): number => Math.floor(Math.random() * 6 - 3);
-
 export const Polaroid = ({ c }: IPolaroidParam) => {
+  const [rotation, setRotation] = useState(0);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRotation(Math.floor(Math.random() * 6 - 3));
+  }, []);
   const pathname = usePathname();
 
   return (
@@ -63,7 +68,7 @@ export const Polaroid = ({ c }: IPolaroidParam) => {
             )}
           </section>
           <section
-            style={{ transform: `rotate(${randomNr()}deg)` }}
+            style={{ transform: `rotate(${rotation}deg)` }}
             className="absolute z-500 bottom-0 px-2 pb-2"
           >
             <p className="text-center !text-sm leading-4.5 text-surface !font-label bg-muted-secondary">
