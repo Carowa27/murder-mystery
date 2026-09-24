@@ -1,7 +1,6 @@
 import { EvidenceLink } from '@/app/components/EvidenceLink';
 import { IFoundClues } from '@/lib/interfaces/gameRelated';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
 
 const EvidencePage = async ({ params }: { params: Promise<{ investigationId: string }> }) => {
   const { investigationId } = await params;
