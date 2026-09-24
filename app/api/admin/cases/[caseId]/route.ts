@@ -10,7 +10,20 @@ export async function GET(request: Request, { params }: { params: Promise<{ case
       return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
     }
 
-    const { data, error } = await supabase.from('cases').select('*').eq('id', caseId).single();
+    const { data, error } = await supabase
+      .from('cases')
+      .select(
+        `
+      *,
+      difficulties (*),
+      characters (*),
+      case_clues (
+        *,
+        clue_types (*)
+    )`
+      )
+      .eq('id', caseId)
+      .single();
 
     if (error || !data) {
       return NextResponse.json(

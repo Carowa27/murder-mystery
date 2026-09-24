@@ -567,6 +567,33 @@ export type Database = {
           },
         ];
       };
+      subscription_plans: {
+        Row: {
+          code: string;
+          created_at: string;
+          duration_days: number;
+          id: number;
+          name: string;
+          price: number;
+        };
+        Insert: {
+          code: string;
+          created_at?: string;
+          duration_days: number;
+          id?: never;
+          name: string;
+          price: number;
+        };
+        Update: {
+          code?: string;
+          created_at?: string;
+          duration_days?: number;
+          id?: never;
+          name?: string;
+          price?: number;
+        };
+        Relationships: [];
+      };
       team_members: {
         Row: {
           joined_at: string;
