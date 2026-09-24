@@ -17,7 +17,7 @@ const EvidencePage = async ({ params }: { params: Promise<{ investigationId: str
   );
 
   const data: IFoundClues[] = await res.json();
-  console.log(data[0]);
+
   type CluesByType = Record<string, IFoundClues[]>;
 
   const cluesByType = data.reduce<CluesByType>((groups, clue) => {
@@ -28,7 +28,7 @@ const EvidencePage = async ({ params }: { params: Promise<{ investigationId: str
 
     return groups;
   }, {});
-  console.log(cluesByType);
+
   return (
     <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/evidence-bg.png)] bg-center bg-no-repeat bg-cover flex flex-col justify-center items-center">
       <div
