@@ -46,6 +46,7 @@ export async function updateSession(request: NextRequest) {
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
+    !request.nextUrl.pathname.startsWith('/register') && // Utan denna går det inte att komma till /register!
     !request.nextUrl.pathname.startsWith('/auth') && // Sparar denna för säkerhets skull. Skadar inte
     !request.nextUrl.pathname.startsWith('/api') // API-routes hanterar auth själva via getCurrentUser() och returnerar 401 JSON
   ) {
