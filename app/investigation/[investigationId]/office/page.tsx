@@ -1,73 +1,25 @@
+import { cookies } from 'next/headers';
+
 import { Notebook } from '@/app/components/Notebook';
 import { Polaroid } from '@/app/components/Polaroid';
 import { IGameCharacter } from '@/lib/interfaces/characters';
 
 const OfficePage = async ({ params }: { params: Promise<{ investigationId: string }> }) => {
   const { investigationId } = await params;
+  const cookieStore = await cookies();
 
-  // const res = await fetch(`/api/investigations/${investigationId}/office`, {
-  //   cache: 'no-store',
-  // });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/investigations/${investigationId}/office`,
+    {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+      cache: 'no-store',
+    }
+  );
 
-  // const data = await res.json();
-  // const characters: IGameCharacter[] = data.investigation.characters;
-  const characters = [
-    {
-      first_name: 'Rosa',
-      last_name: 'Pantern',
-      relationship: 'panter hallucination',
-      description: 'tydlig hallucination som borde lämnat Clouseau för länge sedan',
-      image_url: null,
-      is_guilty: false,
-      is_victim: false,
-    },
-    {
-      first_name: 'Hercule',
-      last_name: 'Poirot',
-      relationship: 'detektiv',
-      description: 'ser allt, glömmer inget',
-      image_url: null,
-      is_guilty: false,
-      is_victim: false,
-    },
-    {
-      first_name: 'Jacques',
-      last_name: 'Clouseau',
-      relationship: 'polis',
-      description: 'klumpig och naiv fransk polis',
-      image_url: null,
-      is_guilty: false,
-      is_victim: true,
-    },
-    {
-      first_name: 'Jack',
-      last_name: 'Gaston',
-      relationship: 'Tjuvjägare',
-      description: 'Kvinnokarl',
-      image_url: null,
-      is_guilty: true,
-      is_victim: false,
-    },
-    {
-      first_name: 'Jack',
-      last_name: 'Gaston',
-      relationship: 'Tjuvjägare',
-      description: 'Kvinnokarl',
-      image_url: null,
-      is_guilty: true,
-      is_victim: false,
-    },
-    {
-      first_name: 'Jack',
-      last_name: 'Gaston',
-      relationship: 'Tjuvjägare',
-      description: 'Kvinnokarl',
-      image_url: null,
-      is_guilty: true,
-      is_victim: false,
-    },
-  ];
-
+  const data = await res.json();
+  const characters: IGameCharacter[] = data.characters;
   return (
     <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-bg.png)] bg-top-right bg-no-repeat bg-cover">
       <section className="w-[75%] flex flex-wrap justify-center gap-2 mx-auto pt-[16%] -rotate-3">
