@@ -13,4 +13,9 @@ export interface INotes {
   id: string;
   investigation_id: string;
   user_id: string;
+  profiles: {
+    avatar_url: string | null;
+    display_name: string;
+    id: string;
+  } | null;
 }
