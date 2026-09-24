@@ -29,7 +29,7 @@ const OfficePage = async ({ params }: { params: Promise<{ investigationId: strin
         ))}
       </section>
       <section
-        className={`flex items-end justify-center w-screen aspect-[1261/1247] absolute bottom-0 bg-[url(/images/item-backgrounds/desk.png)] bg-bottom bg-no-repeat bg-cover`}
+        className={`flex items-end justify-center w-[100%] aspect-[1261/1247] absolute bottom-0 bg-[url(/images/item-backgrounds/desk.png)] bg-bottom bg-no-repeat bg-cover`}
       >
         <Notebook />
       </section>
