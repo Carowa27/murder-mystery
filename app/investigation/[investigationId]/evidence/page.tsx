@@ -1,5 +1,7 @@
+import { EvidenceLink } from '@/app/components/EvidenceLink';
 import { IFoundClues } from '@/lib/interfaces/gameRelated';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 
 const EvidencePage = async ({ params }: { params: Promise<{ investigationId: string }> }) => {
   const { investigationId } = await params;
@@ -39,11 +41,9 @@ const EvidencePage = async ({ params }: { params: Promise<{ investigationId: str
             <section key={type} className="rotate-1 ms-4">
               <h3 className="my-2 !font-printed">{type}</h3>
 
-              <ul className="flex flex-col gap-3 !font-printed last:pb-3 ">
+              <ul className="flex flex-col gap-3 last:pb-3 ">
                 {clues.map((clue) => (
-                  <li key={clue.case_clues.id} className="ps-5">
-                    {clue.case_clues.title}
-                  </li>
+                  <EvidenceLink key={clue.case_clues.id} clue={clue} />
                 ))}
               </ul>
             </section>
