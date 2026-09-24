@@ -19,9 +19,18 @@ export const Corkboard = ({ characters }: IParams) => {
       <section className="w-[100%] aspect-[1536/1024] pt-[10%] bg-[url(/images/item-backgrounds/corkboard.png)] bg-top-right bg-no-repeat bg-cover">
         {/* <section className="grid grid-flow-col auto-cols-max gap-2 justify-center mx-2 pt-[16%] -rotate-3"> */}
         <div className="w-[75%] flex flex-wrap justify-center gap-2 mx-auto">
-          {characters.map((p: IGameCharacter, i: number) => (
-            <Polaroid c={p} key={i} />
-          ))}
+          {characters &&
+            characters.map((p: IGameCharacter, i: number) => (
+              <Polaroid
+                key={i}
+                c={p}
+                showName={false}
+                showVictim={true}
+                onWall={true}
+                width={50}
+                crossSize={'small'}
+              />
+            ))}
         </div>
       </section>
     </Link>
