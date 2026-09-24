@@ -135,7 +135,7 @@ export async function POST(request: Request) {
 
   await service.from('payments').update({ status: 'paid' }).eq('id', payment.id);
 
-  // Kvittot. Numret sätts av databasen, till exempel nocturne-000001.
+  // Kvittot. Numret sätts av databasen i formatet "nocturne-000001".
   const { data: receipt, error: receiptError } = await service
     .from('receipts')
     .insert({ payment_id: payment.id })
