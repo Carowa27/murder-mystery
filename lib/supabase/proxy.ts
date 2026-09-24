@@ -47,7 +47,7 @@ export async function updateSession(request: NextRequest) {
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
     !request.nextUrl.pathname.startsWith('/auth') && // Sparar denna för säkerhets skull. Skadar inte
-    !request.nextUrl.pathname.startsWith('/api/auth')
+    !request.nextUrl.pathname.startsWith('/api') // API-routes hanterar auth själva via getCurrentUser() och returnerar 401 JSON
   ) {
     // Ingen giltig användare. Redirect till /login
     const url = request.nextUrl.clone();
