@@ -9,7 +9,14 @@ export async function GET() {
       return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
     }
 
-    const { data, error } = await supabase.from('cases').select('*');
+    const { data, error } = await supabase.from('cases').select(`
+        *,
+        difficulties (*),
+        characters (*),
+        case_clues (
+          *,
+          clue_types (*)
+        )`);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 404 });
