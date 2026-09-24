@@ -4,7 +4,6 @@ import { cookies } from 'next/headers';
 
 const EvidencePage = async ({ params }: { params: Promise<{ investigationId: string }> }) => {
   const { investigationId } = await params;
-  // const baseUrl = `/investigation/${investigationId}`;
   const cookieStore = await cookies();
 
   const res = await fetch(
