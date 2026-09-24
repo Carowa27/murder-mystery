@@ -36,8 +36,8 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-128px)] px-4">
       <div className="w-full max-w-sm border border-gold/30 rounded-lg bg-surface p-8">
-        <h1 className="text-center text-gold mb-2">Log in</h1>
-        <p className="text-center text-text-secondary text-sm mb-8">Welcome back, detective</p>
+        <h1 className="text-center text-gold mb-2">Logga in</h1>
+        <p className="text-center text-text-secondary text-sm mb-8">Välkommen tillbaka, detektiv</p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <div className="flex flex-col gap-1.5">
@@ -45,7 +45,7 @@ export default function LoginPage() {
               htmlFor="email"
               className="font-label text-xs uppercase tracking-widest text-muted"
             >
-              Email address
+              E-postadress
             </label>
             <input
               id="email"
@@ -54,7 +54,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full rounded border border-gold/20 bg-background px-3 py-2.5 text-text-primary placeholder:text-muted focus:border-gold focus:outline-none transition-colors"
-              placeholder="your@email.com"
+              placeholder="din@epost.se"
             />
           </div>
 
@@ -63,7 +63,7 @@ export default function LoginPage() {
               htmlFor="password"
               className="font-label text-xs uppercase tracking-widest text-muted"
             >
-              Password
+              Lösenord
             </label>
             <input
               id="password"
@@ -84,14 +84,14 @@ export default function LoginPage() {
             className="w-full rounded py-2.5 font-label text-sm uppercase tracking-widest text-background bg-btn-primary disabled:bg-btn-disabled disabled:text-btn-disabled-text transition-opacity hover:opacity-90 cursor-pointer disabled:cursor-not-allowed"
             style={{ backgroundImage: loading ? 'none' : 'var(--btn-primary)' }}
           >
-            {loading ? 'Logging in...' : 'Log in'}
+            {loading ? 'Loggar in...' : 'Logga in'}
           </button>
         </form>
 
         <p className="text-center text-sm text-text-secondary mt-6">
-          No account?{' '}
+          Inget konto?{' '}
           <Link href="/register" className="text-gold hover:text-gold-light transition-colors">
-            Register
+            Registrera dig
           </Link>
         </p>
       </div>
