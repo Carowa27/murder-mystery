@@ -16,7 +16,10 @@ export async function GET() {
       return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
     }
 
-    const { data: cases, error } = await supabase.from('cases').select(`
+    const { data: cases, error } = await supabase
+      .from('cases')
+      .select(
+        `
         id,
         title,
         description,
@@ -24,7 +27,9 @@ export async function GET() {
         price,
         stage,
         difficulties (*) 
-      `);
+      `
+      )
+      .eq('stage', 'active');
 
     if (error || !cases) {
       return NextResponse.json({ error: error?.message || 'Cases not found' }, { status: 404 });
@@ -34,9 +39,6 @@ export async function GET() {
     const availableCases = [];
 
     for (const caseItem of cases) {
-      if (caseItem.stage !== 'active') {
-        return;
-      }
       const { data: owns, error: ownsError } = await supabase.rpc('owns_case', {
         p_user_id: user?.sub,
         p_case_id: caseItem.id,
