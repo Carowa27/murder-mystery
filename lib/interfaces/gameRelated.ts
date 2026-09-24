@@ -1,4 +1,5 @@
 export interface IGameCharacter {
+  id: string;
   first_name: string;
   last_name: string;
   relationship: string;
