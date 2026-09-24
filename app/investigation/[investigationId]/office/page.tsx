@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import { Notebook } from '@/app/components/Notebook';
 import { Polaroid } from '@/app/components/Polaroid';
 import { IGameCharacter } from '@/lib/interfaces/gameRelated';
+import { Corkboard } from '@/app/components/Corkboard';
+import Link from 'next/link';
 
 const OfficePage = async ({ params }: { params: Promise<{ investigationId: string }> }) => {
   const { investigationId } = await params;
@@ -20,14 +22,10 @@ const OfficePage = async ({ params }: { params: Promise<{ investigationId: strin
 
   const data = await res.json();
   const characters: IGameCharacter[] = data.characters;
+
   return (
     <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-bg.png)] bg-top-right bg-no-repeat bg-cover">
-      <section className="w-[75%] flex flex-wrap justify-center gap-2 mx-auto pt-[16%] -rotate-3">
-        {/* <section className="grid grid-flow-col auto-cols-max gap-2 justify-center mx-2 pt-[16%] -rotate-3"> */}
-        {characters.map((p: IGameCharacter, i: number) => (
-          <Polaroid c={p} key={i} />
-        ))}
-      </section>
+      <Corkboard characters={characters} />
       <section
         className={`flex items-end justify-center w-[100%] aspect-[1261/1247] absolute bottom-0 bg-[url(/images/item-backgrounds/desk.png)] bg-bottom bg-no-repeat bg-cover`}
       >
