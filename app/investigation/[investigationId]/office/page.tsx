@@ -1,51 +1,33 @@
-import { Polaroid } from '../../../components/Polaroid';
+import { cookies } from 'next/headers';
 
-const OfficePage = () => {
-  const involvedPeople = [
+import { Notebook } from '@/app/components/Notebook';
+import { IGameCharacter } from '@/lib/interfaces/gameRelated';
+import { Corkboard } from '@/app/components/Corkboard';
+
+const OfficePage = async ({ params }: { params: Promise<{ investigationId: string }> }) => {
+  const { investigationId } = await params;
+  const cookieStore = await cookies();
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/investigations/${investigationId}/office`,
     {
-      first_name: 'Rosa',
-      last_name: 'Pantern',
-      relationship: 'panter hallucination',
-      description: 'tydlig hallucination som borde lämnat Clouseau för länge sedan',
-      image_url: null,
-      is_guilty: false,
-      is_victim: false,
-    },
-    {
-      first_name: 'Hercule',
-      last_name: 'Poirot',
-      relationship: 'detektiv',
-      description: 'ser allt, glömmer inget',
-      image_url: null,
-      is_guilty: false,
-      is_victim: false,
-    },
-    {
-      first_name: 'Jacques',
-      last_name: 'Clouseau',
-      relationship: 'polis',
-      description: 'klumpig och naiv fransk polis',
-      image_url: null,
-      is_guilty: false,
-      is_victim: true,
-    },
-    {
-      first_name: 'Jack',
-      last_name: 'Gaston',
-      relationship: 'Tjuvjägare',
-      description: 'Kvinnokarl',
-      image_url: null,
-      is_guilty: true,
-      is_victim: false,
-    },
-  ];
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+      cache: 'no-store',
+    }
+  );
+
+  const data = await res.json();
+  const characters: IGameCharacter[] = data.characters;
 
   return (
-    <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-bg.png)] bg-center bg-no-repeat bg-cover">
-      <section className="grid grid-cols-1 gap-2 mx-2 grid-cols-3">
-        {involvedPeople.map((p, i) => (
-          <Polaroid c={p} key={i} />
-        ))}
+    <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-bg.png)] bg-top-right bg-no-repeat bg-cover">
+      <Corkboard characters={characters} />
+      <section
+        className={`flex items-end justify-center w-[100%] aspect-[1261/1247] absolute bottom-0 bg-[url(/images/item-backgrounds/desk.png)] bg-bottom bg-no-repeat bg-cover`}
+      >
+        <Notebook />
       </section>
     </div>
   );

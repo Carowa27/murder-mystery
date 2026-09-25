@@ -15,7 +15,7 @@ export async function GET(
 
     const { data, error } = await supabase
       .from('notes')
-      .select('*')
+      .select('*,profiles(*),case_clues(*)')
       .eq('investigation_id', investigationId);
 
     if (error) {
