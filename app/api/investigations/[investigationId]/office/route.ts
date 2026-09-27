@@ -33,7 +33,7 @@ export async function GET(
 
     const { data: characters, error: charError } = await supabase
       .from('characters')
-      .select('*')
+      .select('id, first_name, last_name, relationship, description, image_url, is_victim')
       .eq('case_id', investigation.case_id);
 
     const { data: found_clues, error: cluesError } = await supabase
