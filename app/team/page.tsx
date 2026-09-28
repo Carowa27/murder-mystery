@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import type { ITeam } from '@/lib/interfaces/gameRelated';
+import CreateTeamForm from '@/app/components/CreateTeamForm';
 
 export default async function TeamPage() {
   const supabase = await createClient();
@@ -23,7 +24,7 @@ export default async function TeamPage() {
 
   return (
     <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/team-bg.png)] bg-center bg-no-repeat bg-cover">
-      <div className="flex flex-col items-center pt-12 px-4">
+      <div className="flex flex-col items-center pt-12 px-4 min-h-[calc(100vh-64px-80px)]">
         <h1 className="text-gold mb-6 text-2xl font-bold bg-background/80 px-6 py-2 rounded-lg border border-gold/30">Dina team</h1>
 
         {teams.length === 0 ? (
@@ -44,6 +45,10 @@ export default async function TeamPage() {
             ))}
           </ul>
         )}
+
+        <div className="mt-auto pt-8 mb-16 w-full max-w-sm">
+          <CreateTeamForm />
+        </div>
       </div>
     </div>
   );
