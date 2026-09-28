@@ -2,11 +2,8 @@ import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/supabase/auth';
-import type { Database } from '@/lib/database.types';
 
-type CaseUpdate = Database['public']['Tables']['cases']['Update'];
-
-export async function PATCH(request: Request, { params }: { params: Promise<{ caseId: string }> }) {
+export async function PATCH({ params }: { params: Promise<{ caseId: string }> }) {
   const { caseId } = await params;
   try {
     if (!caseId) {
