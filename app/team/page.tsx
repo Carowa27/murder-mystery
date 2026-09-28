@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import type { ITeam } from '@/lib/interfaces/gameRelated';
 
 export default async function TeamPage() {
   const supabase = await createClient();
@@ -18,7 +19,7 @@ export default async function TeamPage() {
     .select('team_id, joined_at, teams(id, name, invite_code, owner_id, max_members, created_at)')
     .eq('user_id', user.id);
 
-  const teams = memberships?.map((m) => m.teams) ?? [];
+  const teams = (memberships?.map((m) => m.teams) ?? []) as ITeam[];
 
   return (
     <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/team-bg.png)] bg-center bg-no-repeat bg-cover">
@@ -30,13 +31,13 @@ export default async function TeamPage() {
         ) : (
           <ul className="w-full max-w-sm flex flex-col gap-3">
             {teams.map((team) => (
-              <li key={team!.id}>
+              <li key={team.id}>
                 <Link
-                  href={`/team/${team!.id}`}
+                  href={`/team/${team.id}`}
                   className="block w-full border border-gold/30 rounded-lg bg-surface/80 p-4 hover:border-gold transition-colors"
                 >
                   <span className="text-text-primary font-label uppercase tracking-widest text-sm">
-                    {team!.name}
+                    {team.name}
                   </span>
                 </Link>
               </li>
