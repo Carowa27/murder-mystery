@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       *
     `
       )
-      .eq('title', 'title')
+      .eq('title', title)
       .maybeSingle();
 
     if (casesError) {
