@@ -18,11 +18,7 @@ export async function POST(request: Request) {
     }
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select(
-        `
-      *
-    `
-      )
+      .select('role')
       .eq('id', user.sub)
       .single();
 

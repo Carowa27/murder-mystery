@@ -23,10 +23,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ ca
 
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('*')
+      .select('role')
       .eq('id', user.sub)
       .single();
-
+    console.log(profile);
     if (profileError) {
       return NextResponse.json({ error: profileError.message }, { status: 404 });
     }
