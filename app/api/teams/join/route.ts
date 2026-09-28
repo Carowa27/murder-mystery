@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/service';
 import { getCurrentUser } from '@/lib/supabase/auth';
 
 export async function POST(request: Request) {
@@ -16,10 +17,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Inbjudningskod krävs' }, { status: 400 });
   }
 
-  const supabase = await createClient();
+  // Hitta team via invite code. 
+  // För att göra detta behöver vi gå förbi RLS! Därav klienten från service.ts som använder SUPABASE_SECRET_KEY
+  const supabasePrivileged = createServiceClient();
   
-  // Hitta team via invite code
-  const { data: team, error: teamError } = await supabase
+  const { data: team, error: teamError } = await supabasePrivileged
     .from('teams')
     .select('id, name')
     .eq('invite_code', inviteCode)
@@ -28,6 +30,8 @@ export async function POST(request: Request) {
   if (teamError || !team) {
     return NextResponse.json({ error: 'Ogiltig inbjudningskod'}, { status: 404 });
   }
+
+  const supabase = await createClient();
 
   // Lägg in användaren i team_members
   // * check_team_size triggern ser till att ett team inte blir mer än 4 medlemmar
