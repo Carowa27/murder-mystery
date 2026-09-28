@@ -17,10 +17,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Inbjudningskod krävs' }, { status: 400 });
   }
 
-  // Hitta team via invite code. 
+  // Hitta team via invite code.
   // För att göra detta behöver vi gå förbi RLS! Därav klienten från service.ts som använder SUPABASE_SECRET_KEY
   const supabasePrivileged = createServiceClient();
-  
+
   const { data: team, error: teamError } = await supabasePrivileged
     .from('teams')
     .select('id, name')
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     .single();
 
   if (teamError || !team) {
-    return NextResponse.json({ error: 'Ogiltig inbjudningskod'}, { status: 404 });
+    return NextResponse.json({ error: 'Ogiltig inbjudningskod' }, { status: 404 });
   }
 
   const supabase = await createClient();
