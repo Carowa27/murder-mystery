@@ -6,10 +6,21 @@ export default function CopyInviteLink({ inviteCode }: { inviteCode: string }) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
-    // We use window.location.origin instead of NEXT_PUBLIC_SITE_URL to avoid another env variable
-    // windows is only available on the client and this runs only on the client for now anyway
     const url = `${window.location.origin}/join/${inviteCode}`;
-    await navigator.clipboard.writeText(url);
+
+    // Clipboard API kräver tydligen HTTPS! På LAN (http://192.168...) blir navigator.clipboard undefined.
+    // Lösning: fallback med execCommand! Vilket fungerar även utan HTTPS. Även med deprecated varningar!
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(url);
+    } else {
+      const input = document.createElement('input');
+      input.value = url;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+    }
+
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
