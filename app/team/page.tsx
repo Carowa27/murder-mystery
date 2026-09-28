@@ -24,7 +24,7 @@ export default async function TeamPage() {
   return (
     <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/team-bg.png)] bg-center bg-no-repeat bg-cover">
       <div className="flex flex-col items-center pt-12 px-4">
-        <h1 className="text-gold mb-6">Dina team</h1>
+        <h1 className="text-gold mb-6 text-2xl font-bold bg-background/80 px-6 py-2 rounded-lg border border-gold/30">Dina team</h1>
 
         {teams.length === 0 ? (
           <p className="text-text-secondary">Du är inte med i något team ännu.</p>
