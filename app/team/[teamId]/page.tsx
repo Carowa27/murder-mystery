@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect, notFound } from 'next/navigation';
 import type { ITeam } from '@/lib/interfaces/gameRelated';
@@ -45,7 +46,7 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
           ))}
         </section>
 
-        <section>
+        <section className="relative">
           <div className="flex justify-center">
             <Image
               src={'/images/item-backgrounds/casefiles-w-lightsource.png'}
@@ -54,6 +55,15 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
               height={100}
               className="w-[80%] h-auto pe-4 pb-8 -rotate-10"
             />
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Link
+              href={`/team/${typedTeam.id}/cases`}
+              className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity hover:opacity-90"
+              style={{ backgroundImage: 'var(--btn-primary)' }}
+            >
+              Välj fall
+            </Link>
           </div>
         </section>
 
