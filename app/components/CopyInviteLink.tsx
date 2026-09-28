@@ -28,7 +28,7 @@ export default function CopyInviteLink({ inviteCode }: { inviteCode: string }) {
   return (
     <div className="flex flex-col items-center gap-2 bg-background/80 px-6 py-3 rounded-lg border border-gold/30">
       <span className="font-label text-sm uppercase tracking-widest text-gold font-bold">
-        Room Code: {inviteCode}
+        Team Kod: {inviteCode}
       </span>
       <button
         onClick={handleCopy}
