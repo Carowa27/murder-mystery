@@ -14,5 +14,18 @@ export default function CopyInviteLink({ inviteCode }: { inviteCode: string }) {
     setTimeout(() => setCopied(false), 2000);
   }
 
-  return <button onClick={handleCopy}>{copied ? 'Kopierad!' : 'Kopiera inbjudningslänk'}</button>;
+  return (
+    <div className="flex flex-col items-center gap-2 bg-background/80 px-6 py-3 rounded-lg border border-gold/30">
+      <span className="font-label text-sm uppercase tracking-widest text-gold font-bold">
+        Room Code: {inviteCode}
+      </span>
+      <button
+        onClick={handleCopy}
+        className="rounded px-4 py-2 font-label text-xs uppercase tracking-widest text-background bg-btn-primary transition-opacity hover:opacity-90 cursor-pointer"
+        style={{ backgroundImage: 'var(--btn-primary)' }}
+      >
+        {copied ? 'Kopierad!' : 'Kopiera inbjudningslänk'}
+      </button>
+    </div>
+  );
 }
