@@ -10,7 +10,7 @@ export async function POST(
   const { suspectId, userId } = body;
   try {
     const supabase = await createClient();
-
+    console.log(suspectId, userId);
     if (!supabase) {
       return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
     }
@@ -47,7 +47,7 @@ export async function POST(
       return NextResponse.json({ error: accusationPostError.message }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, isGuilty });
+    return NextResponse.json({ success: true, is_guilty: isGuilty });
   } catch (error) {
     return NextResponse.json(
       {
