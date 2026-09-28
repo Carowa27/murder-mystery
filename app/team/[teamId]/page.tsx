@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import { redirect, notFound } from 'next/navigation';
 import type { ITeam } from '@/lib/interfaces/gameRelated';
+import CopyInviteLink from '@/app/components/CopyInviteLink';
 
 export default async function TeamDetailPage({ params }: { params: Promise<{ teamId: string }> }) {
   const { teamId } = await params;
@@ -29,7 +30,11 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
   const members = typedTeam.team_members ?? [];
 
   return (
-    <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/team-bg.png)] bg-center bg-no-repeat bg-cover">
+    <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/team-bg.png)] bg-center bg-no-repeat bg-cover">
+      <div className="absolute top-2 left-0 right-0 flex justify-center z-10">
+        <CopyInviteLink inviteCode={typedTeam.invite_code} />
+      </div>
+
       <div className="flex flex-col justify-between pt-20 px-2 min-h-[calc(100vh-64px-80px)]">
         <section className="flex justify-between pt-8">
           {[0, 1].map((i) => (
