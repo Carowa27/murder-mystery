@@ -29,6 +29,23 @@ export async function POST(request: Request) {
     if (profileError) {
       return NextResponse.json({ error: profileError.message }, { status: 404 });
     }
+    const { data: cases, error: casesError } = await supabase
+      .from('cases')
+      .select(
+        `
+      *
+    `
+      )
+      .eq('title', 'title')
+      .maybeSingle();
+
+    if (casesError) {
+      return NextResponse.json({ error: casesError.message }, { status: 404 });
+    }
+    if (cases !== null) {
+      return NextResponse.json({ error: 'case with this title already exist' }, { status: 404 });
+    }
+
     let error = null;
 
     if (profile.role === 'admin') {
