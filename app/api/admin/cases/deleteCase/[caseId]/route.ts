@@ -23,7 +23,7 @@ export async function PATCH({ params }: { params: Promise<{ caseId: string }> })
       .select('role')
       .eq('id', user.sub)
       .single();
-    console.log(profile);
+
     if (profileError) {
       return NextResponse.json({ error: profileError.message }, { status: 404 });
     }
