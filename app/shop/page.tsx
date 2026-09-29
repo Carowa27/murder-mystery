@@ -15,13 +15,13 @@ interface IShopCase {
   difficulties: { name: string } | null;
 }
 
+// API:t skickar även ownedCases, men de visas på profilsidan och inte här.
 interface IShop {
-  ownedCases: IShopCase[];
   availableCases: IShopCase[];
 }
 
-// Ett kort per fall. Bara fall man inte redan har får pris och köplänk.
-function CaseCard({ shopCase, buyable }: { shopCase: IShopCase; buyable: boolean }) {
+// Ett kort per fall som går att köpa.
+function CaseCard({ shopCase }: { shopCase: IShopCase }) {
   return (
     <li className="flex flex-col gap-2 rounded-lg border border-gold/30 bg-surface p-3">
       {shopCase.image_url ? (
@@ -40,25 +40,23 @@ function CaseCard({ shopCase, buyable }: { shopCase: IShopCase; buyable: boolean
         {shopCase.story_date && ` (${shopCase.story_date.slice(0, 4)})`}
       </div>
       {shopCase.difficulties && (
-        <div className="text-xs text-muted">{difficultyName(shopCase.difficulties.name)}</div>
+        <div className="text-xs text-gold">{difficultyName(shopCase.difficulties.name)}</div>
       )}
       {shopCase.description && (
         <div className="line-clamp-2 text-sm text-text-secondary">{shopCase.description}</div>
       )}
 
-      {buyable && (
-        <div className="mt-auto flex items-center justify-between gap-2">
-          <div className="text-sm">{shopCase.price} kr</div>
-          <Link
-            href={`/checkout?product=case&caseId=${shopCase.id}`}
-            className="rounded bg-btn-primary px-4 py-2 hover:opacity-90 transition-opacity"
-          >
-            <div className="font-label font-bold text-xs uppercase tracking-widest text-background">
-              Köp
-            </div>
-          </Link>
-        </div>
-      )}
+      <div className="mt-auto flex items-center justify-between gap-2">
+        <div className="text-sm">{shopCase.price} kr</div>
+        <Link
+          href={`/checkout?product=case&caseId=${shopCase.id}`}
+          className="rounded bg-btn-primary px-4 py-2 hover:opacity-90 transition-opacity"
+        >
+          <div className="font-label font-bold text-xs uppercase tracking-widest text-background">
+            Köp
+          </div>
+        </Link>
+      </div>
     </li>
   );
 }
@@ -106,7 +104,7 @@ export default function ShopPage() {
 
       <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-gold/30 bg-surface p-6">
         <div className="flex flex-col gap-1">
-          <div className="font-label text-xs uppercase tracking-widest text-muted">Unlimited</div>
+          <div className="font-label text-xs uppercase tracking-widest text-gold">Unlimited</div>
           <div className="text-lg">Tillgång till alla fall, även de som kommer</div>
         </div>
         <Link
@@ -120,27 +118,17 @@ export default function ShopPage() {
       </div>
 
       <div className="flex flex-col gap-3">
-        <div className="font-label text-xs uppercase tracking-widest text-muted">Att köpa</div>
+        <div className="font-label text-xs uppercase tracking-widest text-gold">Att köpa</div>
 
         {shop.availableCases.length === 0 ? (
           <div className="text-sm text-text-secondary">Du har redan tillgång till alla fall.</div>
         ) : (
           <ul className="grid grid-cols-2 gap-4">
             {shop.availableCases.map((shopCase) => (
-              <CaseCard key={shopCase.id} shopCase={shopCase} buyable={true} />
+              <CaseCard key={shopCase.id} shopCase={shopCase} />
             ))}
           </ul>
         )}
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <div className="font-label text-xs uppercase tracking-widest text-muted">Dina fall</div>
-
-        <ul className="grid grid-cols-2 gap-4">
-          {shop.ownedCases.map((shopCase) => (
-            <CaseCard key={shopCase.id} shopCase={shopCase} buyable={false} />
-          ))}
-        </ul>
       </div>
     </div>
   );
