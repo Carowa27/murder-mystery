@@ -23,7 +23,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000009',
-  'Mordet i polarnatten',
+  'Halvorsen',
   'Coats Land, midvinternatten 1979. Åtta personer övervintrar på stationen Halvorsen och nästa flygplan kommer i oktober. Mitt under snöstormen larmar generatorhuset, och Gordon Slade går ut längs livlinan för att se efter. Han hittas fyra timmar senare fyrahundra meter ut på isen, ihjälfrusen och fullt påklädd. Livlinans bortre ände satt inte där den ska sitta.',
   'Stationen Halvorsen, Coats Land, Antarktis',
   '1979-06-21',

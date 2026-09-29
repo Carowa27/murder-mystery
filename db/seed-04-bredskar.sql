@@ -22,7 +22,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000004',
-  'Mordet på Bredskär',
+  'Bredskär',
   'Bohuslän, november 1949. Stormen har hållit Bredskärs fyrplats avskuren från land i tre dygn. Natten mot den trettonde slutar fyren att blinka i tjugo minuter, och när fyrvaktaren kommer upp i tornet ligger fyrmästaren Ragnar Stenberg död vid foten av trappan. Det ser ut som ett fall i mörkret, ända tills någon frågar sig varför linsen stannade.',
   'Bredskärs fyrplats, Bohuslän',
   '1949-11-13',
