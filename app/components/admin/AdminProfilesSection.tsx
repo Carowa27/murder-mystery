@@ -1,5 +1,6 @@
 'use client';
 import type { Database } from '@/lib/database.types';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -45,13 +46,14 @@ export const AdminProfilesSection = () => {
               profiles.length !== 0 &&
               profiles.map((p: IProfile) => (
                 <tr key={p.id} className="border-b">
-                  <td className="p-2">{p.display_name}</td>
+                  <td className="p-2">
+                    <Link href={`/admin/profiles/${p.id}`}>{p.display_name} </Link>
+                  </td>
                   <td
                     className={`p-2 text-center ${p.role === 'user' ? 'text-success font-bold' : 'text-warning font-bold'}`}
                   >
                     {p.role}
                   </td>
-
                   <td className="p-2 text-center">
                     <button
                       onClick={() => handleEdit(p.id)}
@@ -60,7 +62,6 @@ export const AdminProfilesSection = () => {
                       Edit
                     </button>
                   </td>
-
                   <td className="p-2 text-center">
                     <button
                       // onClick={() => handleDelete(c.id)}
