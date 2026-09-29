@@ -5,6 +5,7 @@ import { Database } from '@/lib/database.types';
 import { redirect, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 type IProfile = Database['public']['Tables']['profiles']['Row'];
 
@@ -62,6 +63,15 @@ const AdminEditProfilePage = () => {
   return (
     <div>
       <BackLink linkUrl={'/admin?tab=profiles'} linkText={'Back'} />
+      <div className="w-50 h-50 overflow-hidden rounded-[50%] mx-auto my-4">
+        <Image
+          src={avatarUrl || ''}
+          alt={'avatar image'}
+          height={100}
+          width={100}
+          className="w-[100%] h-auto"
+        />
+      </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label>
           Display name
