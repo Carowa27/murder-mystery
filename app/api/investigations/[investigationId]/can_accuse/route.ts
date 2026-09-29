@@ -1,0 +1,75 @@
+import { NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
+
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ investigationId: string }> }
+) {
+  const { investigationId } = await params;
+  try {
+    const supabase = await createClient();
+
+    if (!supabase) {
+      return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
+    }
+    const { data: investigation } = await supabase
+      .from('investigations')
+      .select(
+        `id,
+      case_id
+    `
+      )
+      .eq('id', investigationId)
+      .single();
+    if (!investigation) {
+      throw new Error('Investigation not found');
+    }
+
+    const { count: caseAmountOfKeyClues, error: caseKeyCluesError } = await supabase
+      .from('case_clues')
+      .select('*', { count: 'exact', head: true })
+      .eq('case_id', investigation.case_id)
+      .eq('is_key', true);
+
+    const { count: amountOfFoundKeyClues, error: foundKeyCluesError } = await supabase
+      .from('investigation_found_clues')
+      .select(
+        `
+        clue_id,
+        case_clues!inner (
+          is_key
+        )
+      `,
+        { count: 'exact', head: true }
+      )
+      .eq('investigation_id', investigationId)
+      .eq('case_clues.is_key', true);
+
+    if (caseKeyCluesError || foundKeyCluesError) {
+      return NextResponse.json(
+        {
+          error: caseKeyCluesError
+            ? caseKeyCluesError.message
+            : foundKeyCluesError && foundKeyCluesError.message,
+        },
+        { status: 404 }
+      );
+    }
+    let canAccuse = false;
+    if (caseAmountOfKeyClues === amountOfFoundKeyClues) {
+      canAccuse = true;
+    }
+
+    return NextResponse.json({
+      keys_found: `${amountOfFoundKeyClues}/${caseAmountOfKeyClues}`,
+      can_accuse: canAccuse,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : 'Internal server error',
+      },
+      { status: 500 }
+    );
+  }
+}

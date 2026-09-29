@@ -31,6 +31,8 @@ export default function LoginForm() {
     }
 
     router.push('/');
+    // Utan refresh ritas layouten inte om, och headern visar utloggat läge.
+    router.refresh();
   }
 
   return (
