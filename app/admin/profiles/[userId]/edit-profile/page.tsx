@@ -2,7 +2,7 @@
 
 import { BackLink } from '@/app/components/BackLink';
 import { Database } from '@/lib/database.types';
-import { redirect, usePathname } from 'next/navigation';
+import { redirect, useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -10,16 +10,14 @@ import Image from 'next/image';
 type IProfile = Database['public']['Tables']['profiles']['Row'];
 
 const AdminEditProfilePage = () => {
-  const path = usePathname();
   const router = useRouter();
-  const urlParts = path.split('/');
-  const userId = urlParts[urlParts.length - 1];
+  const params = useParams();
+  const userId = params.userId as string;
   const [profile, setProfile] = useState<IProfile>();
   const [displayName, setDisplayName] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | null>('');
   const [role, setRole] = useState('');
   const [loading, setLoading] = useState(false);
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -38,7 +36,7 @@ const AdminEditProfilePage = () => {
 
     if (res.ok || res.status === 200) {
       alert('Profile updated');
-      redirect('/admin?tab=profiles');
+      redirect(`/admin?tab=profiles/${userId}`);
     } else {
       const data = await res.json();
       alert(data.error ?? 'Profile has not been updated, something went wrong');
@@ -68,7 +66,7 @@ const AdminEditProfilePage = () => {
           <div className="w-[100%] h-auto aspect-[1/1] bg-muted"></div>
         ) : (
           <Image
-            src={avatarUrl || ''}
+            src={avatarUrl}
             alt={'avatar image'}
             height={100}
             width={100}

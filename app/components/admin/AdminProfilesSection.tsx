@@ -17,7 +17,7 @@ export const AdminProfilesSection = () => {
     return () => clearTimeout(timeout);
   }, [searchParam]);
   const handleEdit = (pId: string) => {
-    router.push(`/admin/profiles/edit-profile/${pId}`);
+    router.push(`/admin/profiles/${pId}/edit-profile/`);
   };
 
   return (
