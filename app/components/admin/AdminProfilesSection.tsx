@@ -1,9 +1,11 @@
 'use client';
 import type { Database } from '@/lib/database.types';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 type IProfile = Database['public']['Tables']['profiles']['Row'];
 export const AdminProfilesSection = () => {
+  const router = useRouter();
   const [profiles, setProfiles] = useState<IProfile[]>();
   const [searchParam, setSearchParam] = useState('');
   useEffect(() => {
@@ -14,6 +16,9 @@ export const AdminProfilesSection = () => {
     }, 300);
     return () => clearTimeout(timeout);
   }, [searchParam]);
+  const handleEdit = (pId: string) => {
+    router.push(`/admin/edit-profile/${pId}`);
+  };
 
   return (
     <div>
@@ -49,7 +54,7 @@ export const AdminProfilesSection = () => {
 
                   <td className="p-2 text-center">
                     <button
-                      // onClick={() => handleEdit(c)}
+                      onClick={() => handleEdit(p.id)}
                       className="px-2 py-1 rounded bg-gold text-background"
                     >
                       Edit
