@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { StorefrontIcon, UserCircleIcon } from '@phosphor-icons/react/ssr';
 import { getCurrentUser } from '@/lib/supabase/auth';
 import { LogoutButton } from '@/app/components/LogoutButton';
 
-// async eftersom headern frågar servern om någon är inloggad. Profil och
-// Logga ut visas bara för inloggade.
+// async eftersom headern frågar servern om någon är inloggad. Butiken, Profil
+// och Logga ut visas bara för inloggade. Ikonen hämtas från /ssr eftersom
+// headern är en serverkomponent.
 export const Header = async () => {
   const user = await getCurrentUser();
 
@@ -24,8 +26,19 @@ export const Header = async () => {
       <section className="flex items-center gap-4 px-4 py-2">
         {user && (
           <>
-            <Link href="/profile" className="text-gold hover:text-gold-light transition-colors">
-              Profil
+            <Link
+              href="/shop"
+              aria-label="Butik"
+              className="text-gold hover:text-gold-light transition-colors"
+            >
+              <StorefrontIcon size={24} />
+            </Link>
+            <Link
+              href="/profile"
+              aria-label="Profil"
+              className="text-gold hover:text-gold-light transition-colors"
+            >
+              <UserCircleIcon size={24} />
             </Link>
             <LogoutButton />
           </>
