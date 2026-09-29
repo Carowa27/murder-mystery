@@ -1,7 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/supabase/auth';
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrentUser();
+  const supabase = await createClient();
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('display_name')
+    .eq('id', user?.sub ?? '')
+    .maybeSingle();
+
+  const name = profile?.display_name ?? 'detektiv';
+
   return (
     <div className="flex flex-col items-center gap-6 py-16 text-center">
       <Image
@@ -14,7 +27,7 @@ export default function Home() {
         className="w-64 h-auto"
       />
 
-      <h1 className="text-gold">Välkommen, detektiv</h1>
+      <h1 className="text-gold">Välkommen, {name}</h1>
       <div className="max-w-sm text-text-secondary">
         Nya fall väntar på byrån. Samla ditt team och sätt mördaren bakom lås och bom.
       </div>
