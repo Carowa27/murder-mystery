@@ -74,10 +74,6 @@ export const AdminProfilesSection = () => {
           </tbody>
         </table>
       )}
-      <p>Profiles</p>
-      <p> Hantera profiler </p>
-      <p>X Read profile</p>
-      <p>Update profile</p>
     </div>
   );
 };
