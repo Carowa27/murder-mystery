@@ -41,6 +41,28 @@ const AdminInvestigationInfoPage = () => {
         Investigation status
         <p className="ps-3 text-gold-light">{investigation?.status}</p>
       </label>
+      <h4>Team</h4>
+      <label>
+        Team name <p className="ps-3 text-gold-light">{investigation?.teams.name}</p>
+      </label>
+      <label>
+        Team code <p className="ps-3 text-gold-light">{investigation?.teams.invite_code}</p>
+      </label>
+      <h5>Team members</h5>
+      {investigation?.teams.team_members.map((m, i) => (
+        <div key={m.joined_at + i} className="border my-1 py-1">
+          <p className="ps-3 text-gold-light">{m.profiles.display_name}</p>
+          <p className="ps-3 text-gold-light">
+            {new Date(m.joined_at).toLocaleString('sv-SE', {
+              day: '2-digit',
+              month: '2-digit',
+              year: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </p>
+        </div>
+      ))}
       <h4>Case</h4>
       <label>
         title <p className="ps-3 text-gold-light">{investigation?.cases.title}</p>
@@ -77,30 +99,6 @@ const AdminInvestigationInfoPage = () => {
           </p>
         </div>
       ))}
-      <h4>Team</h4>
-      <label>
-        Team name <p className="ps-3 text-gold-light">{investigation?.teams.name}</p>
-      </label>
-      <label>
-        Team code <p className="ps-3 text-gold-light">{investigation?.teams.invite_code}</p>
-      </label>
-
-      <h5>Team members</h5>
-      {investigation?.teams.team_members.map((m, i) => (
-        <div key={m.joined_at + i} className="border my-1 py-1">
-          <p className="ps-3 text-gold-light">{m.profiles.display_name}</p>
-          <p className="ps-3 text-gold-light">
-            {new Date(m.joined_at).toLocaleString('sv-SE', {
-              day: '2-digit',
-              month: '2-digit',
-              year: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
-          </p>
-        </div>
-      ))}
-
       {/* <div className="w-50 h-50 overflow-hidden rounded-[50%] mx-auto my-4 border-3 border-gold">
         {profile?.avatar_url === '' || profile?.avatar_url === null ? (
           <div className="w-[100%] h-auto aspect-[1/1] bg-muted"></div>
