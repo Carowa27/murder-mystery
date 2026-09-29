@@ -34,7 +34,7 @@ function CaseCard({ shopCase, buyable }: { shopCase: IShopCase; buyable: boolean
       ) : (
         <div className="w-full aspect-square rounded bg-muted"></div>
       )}
-      <div className="text-sm">
+      <div className="text-lg font-semibold">
         {shopCase.title}
         {shopCase.story_date && ` (${shopCase.story_date.slice(0, 4)})`}
       </div>
@@ -49,7 +49,9 @@ function CaseCard({ shopCase, buyable }: { shopCase: IShopCase; buyable: boolean
             href={`/checkout?product=case&caseId=${shopCase.id}`}
             className="rounded bg-btn-primary px-4 py-2 hover:opacity-90 transition-opacity"
           >
-            <div className="font-label text-xs uppercase tracking-widest text-background">Köp</div>
+            <div className="font-label font-bold text-xs uppercase tracking-widest text-background">
+              Köp
+            </div>
           </Link>
         </div>
       )}
@@ -107,7 +109,7 @@ export default function ShopPage() {
           href="/checkout?product=unlimited_month"
           className="rounded bg-btn-primary px-4 py-2 hover:opacity-90 transition-opacity"
         >
-          <div className="font-label text-xs uppercase tracking-widest text-background">
+          <div className="font-label font-bold text-xs uppercase tracking-widest text-background">
             Till kassan
           </div>
         </Link>
