@@ -4,6 +4,7 @@ import { BackLink } from '@/app/components/BackLink';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IInvestigationDetails } from '@/lib/interfaces/adminRelated';
+import Image from 'next/image';
 
 const AdminInvestigationInfoPage = () => {
   const params = useParams();
@@ -19,86 +20,109 @@ const AdminInvestigationInfoPage = () => {
   return (
     <div>
       <BackLink linkUrl={'/admin?tab=investigations'} linkText={'Back'} />
-      <h4>Investigation</h4>
-      <label>
-        Investigation Id
-        <p className="ps-3 text-gold-light">{investigation?.id}</p>
-      </label>
-      <label>
-        Investigation started at
-        <p className="ps-3 text-gold-light">
-          {investigation?.started_at &&
-            new Date(investigation?.started_at).toLocaleString('sv-SE', {
-              day: '2-digit',
-              month: '2-digit',
-              year: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
-        </p>
-      </label>
-      <label>
-        Investigation status
-        <p className="ps-3 text-gold-light">{investigation?.status}</p>
-      </label>
-      <h4>Team</h4>
-      <label>
-        Team name <p className="ps-3 text-gold-light">{investigation?.teams.name}</p>
-      </label>
-      <label>
-        Team code <p className="ps-3 text-gold-light">{investigation?.teams.invite_code}</p>
-      </label>
-      <h5>Team members</h5>
-      {investigation?.teams.team_members.map((m, i) => (
-        <div key={m.joined_at + i} className="border my-1 py-1">
-          <p className="ps-3 text-gold-light">{m.profiles.display_name}</p>
+      <div className="border border-gold-light px-2 pb-1">
+        <h4>Investigation</h4>
+        <label>
+          Id
+          <p className="ps-3 text-gold-light">{investigation?.id}</p>
+        </label>
+        <label>
+          Started at
           <p className="ps-3 text-gold-light">
-            {new Date(m.joined_at).toLocaleString('sv-SE', {
-              day: '2-digit',
-              month: '2-digit',
-              year: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
+            {investigation?.started_at &&
+              new Date(investigation?.started_at).toLocaleString('sv-SE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
           </p>
-        </div>
-      ))}
-      <h4>Case</h4>
-      <label>
-        title <p className="ps-3 text-gold-light">{investigation?.cases.title}</p>
-      </label>
-      <h5>Clues</h5>
-      {investigation?.investigation_found_clues.map((cf, i) => (
-        <div key={cf.found_at + i} className="border my-1 py-1">
-          <p className="ps-3 text-gold-light">{cf.case_clues.title}</p>
-          <p className="ps-3 text-gold-light">{cf.case_clues.clue_types.name}</p>
-          <p className="ps-3 text-gold-light">
-            {new Date(cf.found_at).toLocaleString('sv-SE', {
-              day: '2-digit',
-              month: '2-digit',
-              year: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
-          </p>
-        </div>
-      ))}
-      <h5>Notes</h5>
-      {investigation?.notes.map((n, i) => (
-        <div key={n.created_at + i} className="border my-1 py-1">
-          <p className="ps-3 text-gold-light">{n.content}</p>
-          <p className="ps-3 text-gold-light">{n.profiles.display_name}</p>
-          <p className="ps-3 text-gold-light">
-            {new Date(n.created_at).toLocaleString('sv-SE', {
-              day: '2-digit',
-              month: '2-digit',
-              year: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
-          </p>
-        </div>
-      ))}
+        </label>
+        <label>
+          Status
+          <p className="ps-3 text-gold-light">{investigation?.status}</p>
+        </label>
+      </div>
+      <div className="border border-gold-light px-2 pb-1">
+        <h4>Team</h4>
+        <label>
+          Name <p className="ps-3 text-gold-light">{investigation?.teams.name}</p>
+        </label>
+        <label>
+          Code <p className="ps-3 text-gold-light">{investigation?.teams.invite_code}</p>
+        </label>
+        <h5>Members</h5>
+        {investigation?.teams.team_members.map((m, i) => (
+          <div key={m.joined_at + i} className="my-1 py-1 ps-3 flex gap-2 items-center">
+            <div className="w-10 h-10 overflow-hidden rounded-[50%]">
+              {m.profiles.avatar_url === '' || m.profiles.avatar_url === null ? (
+                <div className="w-[100%] h-auto aspect-[1/1] bg-muted"></div>
+              ) : (
+                m.profiles && (
+                  <Image
+                    src={m.profiles.avatar_url || ''}
+                    alt={'avatar image'}
+                    height={100}
+                    width={100}
+                    className="w-[100%] h-auto"
+                  />
+                )
+              )}
+            </div>
+            <div>
+              <p className="ps-3 text-gold-light">{m.profiles.display_name}</p>
+              <p className="ps-3 text-gold-light">
+                {new Date(m.joined_at).toLocaleString('sv-SE', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>{' '}
+      <div className="border border-gold-light px-2 pb-1">
+        <h4>Case</h4>
+        <label>
+          Title <p className="ps-3 text-gold-light">{investigation?.cases.title}</p>
+        </label>
+        <h5>Clues</h5>
+        {investigation?.investigation_found_clues.map((cf, i) => (
+          <div key={cf.found_at + i} className="border my-1 py-1">
+            <p className="ps-3 text-gold-light">{cf.case_clues.title}</p>
+            <p className="ps-3 text-gold-light">{cf.case_clues.clue_types.name}</p>
+            <p className="ps-3 text-gold-light">
+              {new Date(cf.found_at).toLocaleString('sv-SE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </p>
+          </div>
+        ))}
+        <h5>Notes</h5>
+        {investigation?.notes.map((n, i) => (
+          <div key={n.created_at + i} className="border my-1 py-1">
+            <p className="ps-3 text-gold-light">{n.content}</p>
+            <p className="ps-3 text-gold-light">{n.profiles.display_name}</p>
+            <p className="ps-3 text-gold-light">
+              {new Date(n.created_at).toLocaleString('sv-SE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </p>
+          </div>
+        ))}
+      </div>
       {/* <div className="w-50 h-50 overflow-hidden rounded-[50%] mx-auto my-4 border-3 border-gold">
         {profile?.avatar_url === '' || profile?.avatar_url === null ? (
           <div className="w-[100%] h-auto aspect-[1/1] bg-muted"></div>
