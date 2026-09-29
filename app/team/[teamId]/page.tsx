@@ -30,6 +30,10 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
   const typedTeam = team as unknown as ITeam;
   const members = typedTeam.team_members ?? [];
 
+  // Boolean för att visa "Visa fall" knappen endast till ägaren av rummet
+  const isOwner = user.id === typedTeam.owner_id;
+  const ownerName = members.find((m) => m.profiles.id === typedTeam.owner_id)?.profiles.display_name ?? 'Ägaren';
+
   return (
     <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/team-bg.png)] bg-center bg-no-repeat bg-cover">
       <div className="absolute top-2 left-0 right-0 flex justify-center z-10">
@@ -57,13 +61,25 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
             />
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <Link
-              href={`/team/${typedTeam.id}/cases`}
-              className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity hover:opacity-90"
-              style={{ backgroundImage: 'var(--btn-primary)' }}
-            >
-              Välj fall
-            </Link>
+            {isOwner ? (
+              <Link
+                href={`/team/${typedTeam.id}/cases`}
+                className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity hover:opacity-90"
+                style={{ backgroundImage: 'var(--btn-primary)' }}
+              >
+                Välj fall
+              </Link>
+            ) : (
+              <p className="rounded bg-background/80 px-6 py-3 border border-gold/30 font-label text-sm uppercase tracking-widest text-gold">
+                {ownerName} väljer fall att lösa...
+                {/* Här kan en pulsing animation läggas till istället för tre statiska punkter */}
+                {/* <span className="inline-flex w-6">
+                  <span className="animate-dot-blink" style={{ animationDelay: '0s' }}>.</span>
+                  <span className="animate-dot-blink" style={{ animationDelay: '0.2s' }}>.</span>
+                  <span className="animate-dot-blink" style={{ animationDelay: '0.4s' }}>.</span>
+                </span> */}
+              </p>
+            )}
           </div>
         </section>
 
