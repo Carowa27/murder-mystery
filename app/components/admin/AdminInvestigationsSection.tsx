@@ -11,7 +11,6 @@ export const AdminInvestigationsSection = () => {
       .then((r) => r.json())
       .then(setInvestigations);
   }, []);
-  console.log(investigations);
 
   return (
     <div>
