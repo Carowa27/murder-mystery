@@ -1,19 +1,16 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
 // Egen komponent så att både profilsidan och headern kan använda den.
 export const LogoutButton = () => {
-  const router = useRouter();
-
   async function handleLogout() {
     const supabase = createClient();
     // local loggar bara ut den här webbläsaren. Utan den loggas man ut på alla enheter.
     await supabase.auth.signOut({ scope: 'local' });
-    router.push('/login');
-    // Tömmer det Next redan har hämtat, så att inget från den inloggade ligger kvar.
-    router.refresh();
+    // En vanlig sidladdning, så att inget från den inloggade ligger kvar i Nexts cache.
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+    window.location.assign('/login');
   }
 
   return (
