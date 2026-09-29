@@ -1,11 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function LoginForm() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -30,9 +28,10 @@ export default function LoginForm() {
       return;
     }
 
-    router.push('/');
-    // Utan refresh ritas layouten inte om, och headern visar utloggat läge.
-    router.refresh();
+    // En vanlig sidladdning så att headern ritas om som inloggad. router.push följt
+    // av router.refresh fastnade på Vercel, eftersom refresh laddar om /login.
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+    window.location.assign('/');
   }
 
   return (
