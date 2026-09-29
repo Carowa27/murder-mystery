@@ -8,6 +8,7 @@ import { difficultyName } from '@/lib/helper fns/difficultyName';
 interface IShopCase {
   id: string;
   title: string;
+  description: string | null;
   image_url: string | null;
   price: number;
   story_date: string | null;
@@ -40,6 +41,9 @@ function CaseCard({ shopCase, buyable }: { shopCase: IShopCase; buyable: boolean
       </div>
       {shopCase.difficulties && (
         <div className="text-xs text-muted">{difficultyName(shopCase.difficulties.name)}</div>
+      )}
+      {shopCase.description && (
+        <div className="line-clamp-2 text-sm text-text-secondary">{shopCase.description}</div>
       )}
 
       {buyable && (
