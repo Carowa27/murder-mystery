@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect, notFound } from 'next/navigation';
 import type { ITeam } from '@/lib/interfaces/gameRelated';
 import CopyInviteLink from '@/app/components/CopyInviteLink';
+import CaseDrawer from '@/app/components/CaseDrawer';
 
 export default async function TeamDetailPage({ params }: { params: Promise<{ teamId: string }> }) {
   const { teamId } = await params;
@@ -62,13 +62,7 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
             {isOwner ? (
-              <Link
-                href={`/team/${typedTeam.id}/cases`}
-                className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity hover:opacity-90"
-                style={{ backgroundImage: 'var(--btn-primary)' }}
-              >
-                Välj fall
-              </Link>
+              <CaseDrawer teamId={typedTeam.id} />
             ) : (
               <p className="rounded bg-background/80 px-6 py-3 border border-gold/30 font-label text-sm uppercase tracking-widest text-gold">
                 {ownerName} väljer fall att lösa...
