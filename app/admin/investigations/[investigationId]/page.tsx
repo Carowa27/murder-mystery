@@ -100,9 +100,7 @@ const AdminInvestigationInfoPage = () => {
           </p>
         </div>
       ))}
-      <p>team name</p>
-      <p>team code</p>
-      <p>map team members</p>
+
       {/* <div className="w-50 h-50 overflow-hidden rounded-[50%] mx-auto my-4 border-3 border-gold">
         {profile?.avatar_url === '' || profile?.avatar_url === null ? (
           <div className="w-[100%] h-auto aspect-[1/1] bg-muted"></div>
