@@ -63,14 +63,18 @@ const AdminEditProfilePage = () => {
   return (
     <div>
       <BackLink linkUrl={'/admin?tab=profiles'} linkText={'Back'} />
-      <div className="w-50 h-50 overflow-hidden rounded-[50%] mx-auto my-4">
-        <Image
-          src={avatarUrl || ''}
-          alt={'avatar image'}
-          height={100}
-          width={100}
-          className="w-[100%] h-auto"
-        />
+      <div className="w-50 h-50 overflow-hidden rounded-[50%] mx-auto my-4 border-3 border-gold">
+        {avatarUrl === '' || avatarUrl === null ? (
+          <div className="w-[100%] h-auto aspect-[1/1] bg-muted"></div>
+        ) : (
+          <Image
+            src={avatarUrl || ''}
+            alt={'avatar image'}
+            height={100}
+            width={100}
+            className="w-[100%] h-auto"
+          />
+        )}
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label>
@@ -78,7 +82,7 @@ const AdminEditProfilePage = () => {
           <input
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            className="border p-2 w-full mt-1"
+            className="border border-gold p-2 w-full mt-1"
           />
         </label>
 
@@ -92,6 +96,7 @@ const AdminEditProfilePage = () => {
                 value="user"
                 checked={role === 'user'}
                 onChange={(e) => setRole(e.target.value)}
+                className="accent-surface"
               />{' '}
               User
             </label>
@@ -102,6 +107,7 @@ const AdminEditProfilePage = () => {
                 value="admin"
                 checked={role === 'admin'}
                 onChange={(e) => setRole(e.target.value)}
+                className="accent-surface"
               />{' '}
               Admin
             </label>
@@ -112,7 +118,7 @@ const AdminEditProfilePage = () => {
           <input
             value={avatarUrl ?? ''}
             onChange={(e) => setAvatarUrl(e.target.value)}
-            className="border p-2 w-full mt-1"
+            className="border border-gold p-2 w-full mt-1"
           />
         </label>
 
