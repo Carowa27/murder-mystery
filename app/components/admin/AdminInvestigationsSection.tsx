@@ -1,5 +1,6 @@
 'use client';
 import type { Database } from '@/lib/database.types';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type IInvestigation = Database['public']['Tables']['investigations']['Row'];
@@ -29,7 +30,9 @@ export const AdminInvestigationsSection = () => {
             investigations.length !== 0 &&
             investigations.map((inv: IInvestigation) => (
               <tr key={inv.id} className="border-b">
-                <td className="p-2">{inv.id}</td>
+                <td className="p-2">
+                  <Link href={`/admin/investigations/${inv.id}`}>{inv.id}</Link>
+                </td>
                 <td
                   className={`p-2 text-center ${inv.status === 'active' ? 'text-success font-bold' : inv.status === 'failed' || 'abandoned' ? 'text-danger font-bold' : 'text-warning font-bold'}`}
                 >
