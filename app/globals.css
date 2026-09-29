@@ -125,4 +125,20 @@ span {
   --font-printed: var(--printed);
   --font-handwritten: var(--handwritten);
   --font-label: var(--label);
+
+  /* ANIMATIONS */
+  --animate-dot-blink: dot-blink 1.4s infinite;
+}
+
+@keyframes dot-blink {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
