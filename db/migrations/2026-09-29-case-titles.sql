@@ -12,7 +12,7 @@ WHERE id = 'a0000000-0000-4000-8000-000000000002';
 UPDATE cases SET title = 'Corinthia'
 WHERE id = 'a0000000-0000-4000-8000-000000000003';
 
-UPDATE cases SET title = 'Bredskär'
+UPDATE cases SET title = 'Fyren'
 WHERE id = 'a0000000-0000-4000-8000-000000000004';
 
 UPDATE cases SET title = 'Ateljé 9'
