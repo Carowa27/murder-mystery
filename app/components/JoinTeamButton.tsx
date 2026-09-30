@@ -3,7 +3,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function JoinTeamButton({ inviteCode, teamId }: { inviteCode: string; teamId: string }) {
+export default function JoinTeamButton({
+  inviteCode,
+  teamId,
+}: {
+  inviteCode: string;
+  teamId: string;
+}) {
   const router = useRouter();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
