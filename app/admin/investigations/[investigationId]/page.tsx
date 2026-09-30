@@ -21,7 +21,7 @@ const AdminInvestigationInfoPage = () => {
 
   return (
     <div>
-      <BackLink linkUrl={'/admin?tab=investigations'} linkText={'Back'} />
+      <BackLink linkUrl={'/admin?tab=investigations'} linkText={'Utredningar'} />
       <div className="pb-1">
         <h4 className="border border-l-muted-secondary border-t-muted-secondary border-b-gold-light border-r-gold-light ps-2 my-2 !font-label text-gold uppercase">
           Utredning

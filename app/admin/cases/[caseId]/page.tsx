@@ -39,7 +39,7 @@ const CaseInfoPage = () => {
   if (!gameCase) {
     return (
       <div>
-        <BackLink linkUrl="/admin?tab=cases" linkText="Back" />
+        <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
 
         <p>Laddar...</p>
       </div>

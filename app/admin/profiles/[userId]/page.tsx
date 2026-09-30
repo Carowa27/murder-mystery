@@ -21,7 +21,7 @@ const AdminProfileInfoPage = () => {
 
   return (
     <div>
-      <BackLink linkUrl={'/admin?tab=profiles'} linkText={'Back'} />
+      <BackLink linkUrl={'/admin?tab=profiles'} linkText={'Profiler'} />
       <div className="w-50 h-50 overflow-hidden rounded-[50%] mx-auto my-4 border-3 border-gold">
         {profile?.avatar_url === '' || profile?.avatar_url === null ? (
           <div className="w-[100%] h-auto aspect-[1/1] bg-muted"></div>
