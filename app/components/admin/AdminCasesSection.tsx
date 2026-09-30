@@ -87,7 +87,7 @@ export const AdminCasesSection = () => {
       <p> Create case</p>
       <p>X Read Case</p>
       <p> Update Case</p>
-      <p> Delete case</p>
+      <p> X Delete case</p>
       <p> Add clues to existing case</p>
       <p> Update clues to existing case</p>
     </div>
