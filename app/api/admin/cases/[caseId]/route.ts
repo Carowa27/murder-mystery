@@ -19,7 +19,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ case
       characters (*),
       case_clues (
         *,
-        clue_types (*)
+        clue_types (*),
+        clue_requirements!clue_requirements_clue_id_fkey (
+          required_clue_id
+        )
     )`
       )
       .eq('id', caseId)
