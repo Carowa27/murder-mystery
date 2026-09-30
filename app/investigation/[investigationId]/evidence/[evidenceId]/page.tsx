@@ -1,9 +1,9 @@
 import { BackLink } from '@/app/components/BackLink';
 import { KeyEvidence } from '@/app/components/KeyEvidence';
 import { ScalableImageBox } from '@/app/components/ScalableImageBox';
+import { ZoomableImage } from '@/app/components/ZoomableImage';
 import { IFoundClues } from '@/lib/interfaces/gameRelated';
 import { cookies } from 'next/headers';
-import Image from 'next/image';
 
 const EvidenceSpecificPage = async ({
   params,
@@ -83,13 +83,7 @@ const EvidenceSpecificPage = async ({
 
             {/* Har ledtråden en bild visas både bilden och texten, annars bara texten. */}
             {evidence.case_clues.image_url && (
-              <Image
-                src={evidence.case_clues.image_url}
-                alt={evidence.case_clues.title}
-                width={400}
-                height={300}
-                className="h-auto w-full"
-              />
+              <ZoomableImage src={evidence.case_clues.image_url} alt={evidence.case_clues.title} />
             )}
 
             {evidence.case_clues.content && (
