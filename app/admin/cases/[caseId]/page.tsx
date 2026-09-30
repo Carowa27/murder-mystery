@@ -14,6 +14,7 @@ const CaseInfoPage = () => {
   const [gameCase, setGameCase] = useState<ICaseObject>();
   const [saving, setSaving] = useState(false);
   const [showClues, setShowClues] = useState<{ id: string; show: boolean }[]>([]);
+  const [showCharacters, setShowCharacters] = useState<{ id: string; show: boolean }[]>([]);
   useEffect(() => {
     if (!gameCase) return;
 
@@ -21,6 +22,12 @@ const CaseInfoPage = () => {
     setShowClues(
       gameCase.case_clues.map((clue) => ({
         id: clue.id,
+        show: false,
+      }))
+    );
+    setShowClues(
+      gameCase.characters.map((char) => ({
+        id: char.id,
         show: false,
       }))
     );
@@ -116,6 +123,7 @@ const CaseInfoPage = () => {
   return (
     <div>
       <BackLink linkUrl="/admin?tab=cases" linkText="Back" />
+
       <div className="flex flex-col max-w-4xl mx-auto">
         {/* Case Details */}
         <h4 className="border border-l-muted-secondary border-t-muted-secondary border-b-gold-light border-r-gold-light ps-2 my-2 !font-label text-gold uppercase">
@@ -126,7 +134,7 @@ const CaseInfoPage = () => {
           <Image
             src={gameCase.image_url}
             alt={gameCase.title}
-            className="max-w-xs border w-[100%]"
+            className="max-w-xs border w-[100%] mx-auto"
             height={200}
             width={200}
           />
@@ -238,6 +246,87 @@ const CaseInfoPage = () => {
               )}
             </div>
           ))}
+
+        {/* Characters */}
+        <section className="">
+          <h4 className="border border-l-muted-secondary border-t-muted-secondary border-b-gold-light border-r-gold-light ps-2 my-2 !font-label text-gold uppercase">
+            Characters
+          </h4>
+
+          {[...gameCase.characters]
+            .sort((a, b) => a.id.localeCompare(b.id))
+            .map((character) => (
+              <>
+                <div className="flex justify-between my-2">
+                  <p>
+                    {character.first_name} {character.last_name}
+                  </p>
+                  <button
+                    onClick={(e) => (
+                      e.preventDefault(),
+                      setShowCharacters((prev) =>
+                        prev.map((item) =>
+                          item.id === character.id ? { ...item, show: !item.show } : item
+                        )
+                      )
+                    )}
+                    className="h-fit border border-gold active:bg-gold px-2 py-1 my-auto rounded !text-sm"
+                  >
+                    show
+                  </button>
+                </div>
+
+                {showCharacters.find((item) => item.id === character.id)?.show && (
+                  <div key={character.id} className="border-b pb-4 mb-4">
+                    {character.image_url && (
+                      <Image
+                        src={character.image_url}
+                        alt={character.first_name}
+                        className="max-w-xs border w-[100%] mx-auto"
+                        height={200}
+                        width={200}
+                      />
+                    )}
+
+                    <div className="grid grid-cols-3 gap-4 mt-2">
+                      <label className="flex flex-col gap-1">
+                        <span>First Name</span>
+
+                        <p className="ps-3 text-gold">{character.first_name}</p>
+                      </label>
+
+                      <label className="flex flex-col gap-1">
+                        <span>Last Name</span>
+
+                        <p className="ps-3 text-gold">{character.last_name}</p>
+                      </label>
+                      {character.is_victim && (
+                        <p className="ps-2 my-auto !font-bold !text-lg">Victim</p>
+                      )}
+
+                      {character.is_guilty && (
+                        <p className="ps-2 my-auto !font-bold !text-lg">Guilty</p>
+                      )}
+                    </div>
+
+                    {character.is_victim !== true && (
+                      <label className="flex flex-col gap-1 mt-2">
+                        <span>Relation to Victim</span>
+
+                        <p className="ps-3 text-gold">{character.relationship}</p>
+                      </label>
+                    )}
+
+                    <label className="flex flex-col gap-1 mt-2">
+                      <span>Description</span>
+
+                      <p className="ps-3 text-gold">{character.description}</p>
+                    </label>
+                  </div>
+                )}
+              </>
+            ))}
+        </section>
       </div>
     </div>
   );
