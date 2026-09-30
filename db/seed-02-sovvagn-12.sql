@@ -21,7 +21,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000002',
-  'Mordet i sovvagn 12',
+  'Sovvagn 12',
   'Natten mot den fjärde mars 1936 kör expresståget från Wien in i en snödriva tjugo kilometer norr om Niš och blir stående. När plogen kommer fram i gryningen ligger konsthandlaren Viktor Halász död i kupé 5, och den förseglade lådan han vaktat hela vägen från Budapest är tom. Snön runt vagnarna är orörd, så den som gjorde det sitter kvar ombord.',
   'Sovvagn 12, expresståget mot Istanbul',
   '1936-03-04',

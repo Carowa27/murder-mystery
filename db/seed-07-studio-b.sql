@@ -22,7 +22,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000007',
-  'Mordet under finalen',
+  'Studio B',
   'London, den 30 juli 1966. Hela huset samlas kring tv-apparaten i kantinen för att se finalen, och Studio B står tom och mörk. När personalen kommer tillbaka efter slutsignalen sitter producenten Gerald Prentice död vid programledarbordet med en bränd handflata. Bordsmikrofonen förde ström. Alla säger att de såg matchen tillsammans, och en av dem ljuger om det tredje målet.',
   'Meridian Television, Studio B, London',
   '1966-07-30',

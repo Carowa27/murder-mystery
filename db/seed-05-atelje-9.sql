@@ -22,7 +22,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000005',
-  'Mordet i ateljé 9',
+  'Ateljé 9',
   'Hollywood, augusti 1957. Vid fjärde tagningen av scen 108 höjer Ruth Calder revolvern och skjuter Vincent Hale i bröstet, precis som i manus. Skillnaden är att han inte reser sig igen. Vapnet kom ur studions eget skåp, laddat med sex lösa patroner av rekvisitören själv, och hela ateljén såg det hända. Någon av de nitton på golvet bytte en av patronerna under matrasten.',
   'Monarch Pictures, ateljé 9, Hollywood',
   '1957-08-09',

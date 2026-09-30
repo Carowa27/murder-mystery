@@ -22,7 +22,7 @@ const OfficePage = async ({ params }: { params: Promise<{ investigationId: strin
   const characters: IGameCharacter[] = data.characters;
 
   return (
-    <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-bg.png)] bg-top-right bg-no-repeat bg-cover">
+    <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-v2.png)] bg-top-right bg-no-repeat bg-cover">
       <Corkboard characters={characters} />
       <section
         className={`flex items-end justify-center w-[100%] aspect-[1261/1247] absolute bottom-0 bg-[url(/images/item-backgrounds/desk.png)] bg-bottom bg-no-repeat bg-cover`}

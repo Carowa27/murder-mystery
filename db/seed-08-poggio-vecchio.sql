@@ -22,7 +22,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000008',
-  'Mordet i jäskaret',
+  'Poggio Vecchio',
   'Chianti, september 1971, mitt under skörden. På morgonen hittas den unge ägaren Piero Ferrante död på botten av kar fyra, med ficklampan fortfarande lysande i handen. Koldioxiden från jäsningen samlas på botten av tomma kar, och den som går ner utan fläkt kommer inte upp igen. Fläktens stickpropp låg bredvid uttaget och stegen låg femton meter bort.',
   'Vingården Poggio Vecchio, Chianti',
   '1971-09-14',

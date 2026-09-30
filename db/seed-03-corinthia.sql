@@ -23,7 +23,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000003',
-  'Mordet ombord på Corinthia',
+  'Corinthia',
   'Femte natten ut från Southampton hittas bankiren Cornelius Farrow död i simbassängen på C-däck, i pyjamas och morgonrock. Bassängen är tömd till knähöjd och kaklet runt den är torrt. Obduktionen i New York visar att han drunknat i saltvatten, fast bassängen är fylld med sötvatten. Åtta personer ombord hade skäl att vilja se honom gå under, och ingen av dem kunde lämna fartyget.',
   'Atlantångaren Corinthia, Nordatlanten',
   '1934-03-08',
