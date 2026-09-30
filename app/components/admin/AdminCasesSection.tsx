@@ -39,7 +39,7 @@ export const AdminCasesSection = () => {
         btnText={'Skapa nytt fall'}
         btnAction={() => console.log('clicked')}
       />
-      <table className="w-full border-collapse">
+      <table className="w-full border-collapse mt-2">
         <thead>
           <tr className="border-b">
             <th className="text-left p-2">Titel</th>
