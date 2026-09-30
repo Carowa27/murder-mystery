@@ -10,13 +10,16 @@ export async function GET() {
     }
 
     const { data, error } = await supabase.from('cases').select(`
+      *,
+      difficulties(*),
+      characters(*),
+      case_clues(
         *,
-        difficulties (*),
-        characters (*),
-        case_clues (
-          *,
-          clue_types (*)
-        )`);
+        clue_types(*),
+        clue_requirements!clue_requirements_clue_id_fkey(required_clue_id),
+        clue_characters(character_id)
+      )
+    `);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 404 });

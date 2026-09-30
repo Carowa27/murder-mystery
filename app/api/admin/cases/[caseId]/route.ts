@@ -15,16 +15,16 @@ export async function GET(request: Request, { params }: { params: Promise<{ case
       .from('cases')
       .select(
         `
-      *,
-      difficulties (*),
-      characters (*),
-      case_clues (
         *,
-        clue_types (*),
-        clue_requirements!clue_requirements_clue_id_fkey (
-          required_clue_id
+        difficulties(*),
+        characters(*),
+        case_clues(
+          *,
+          clue_types(*),
+          clue_requirements!clue_requirements_clue_id_fkey(required_clue_id),
+          clue_characters(character_id)
         )
-    )`
+      `
       )
       .eq('id', caseId)
       .single();
@@ -35,8 +35,22 @@ export async function GET(request: Request, { params }: { params: Promise<{ case
         { status: 404 }
       );
     }
+    const { data: difficulties, error: diffError } = await supabase.from('difficulties').select(
+      `
+        *
+        
+      `
+    );
 
-    return NextResponse.json(data);
+    if (diffError || !difficulties) {
+      return NextResponse.json(
+        { error: 'Case not found, error msg:' + diffError?.message },
+        { status: 404 }
+      );
+    }
+    const { data: clueTypes } = await supabase.from('clue_types').select('id, name').order('id');
+
+    return NextResponse.json({ data: data, difficulties, clueTypes: clueTypes ?? [] });
   } catch (error) {
     return NextResponse.json(
       {
