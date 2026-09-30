@@ -295,18 +295,21 @@ export type Database = {
           found_at: string;
           found_by: string | null;
           investigation_id: string;
+          opened_at: string | null;
         };
         Insert: {
           clue_id: string;
           found_at?: string;
           found_by?: string | null;
           investigation_id: string;
+          opened_at?: string | null;
         };
         Update: {
           clue_id?: string;
           found_at?: string;
           found_by?: string | null;
           investigation_id?: string;
+          opened_at?: string | null;
         };
         Relationships: [
           {
