@@ -51,7 +51,7 @@ export interface ICaseObject {
   image_url: string | null;
   location: string | null;
   price: number;
-  stage: string;
+  stage: 'dev' | 'active' | 'inactive';
   story_date: string | null;
   title: string;
   difficulties: {
