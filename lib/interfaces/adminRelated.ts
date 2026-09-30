@@ -43,3 +43,49 @@ export type IInvestigationDetails = Database['public']['Tables']['investigations
     owner_id: string;
   };
 };
+export interface ICaseObject {
+  created_at: string;
+  description: string | null;
+  difficulty_id: number;
+  id: string;
+  image_url: string | null;
+  location: string | null;
+  price: number;
+  stage: string;
+  story_date: string | null;
+  title: string;
+  difficulties: {
+    id: number;
+    max_accusations: number;
+    name: string;
+  };
+  characters: {
+    case_id: string;
+    created_at: string;
+    description: string | null;
+    first_name: string;
+    id: string;
+    image_url: string | null;
+    is_guilty: boolean;
+    is_victim: boolean;
+    last_name: string | null;
+    relationship: string | null;
+  }[];
+  case_clues: {
+    case_id: string;
+    clue_type_id: number;
+    content: string | null;
+    created_at: string;
+    id: string;
+    image_url: string | null;
+    is_key: boolean;
+    title: string;
+    clue_types: {
+      id: number;
+      name: string;
+    };
+    clue_requirements: {
+      required_clue_id: string;
+    }[];
+  }[];
+}
