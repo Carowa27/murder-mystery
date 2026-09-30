@@ -10,8 +10,6 @@ const CaseEditPage = () => {
   const caseId = params.caseId as string;
   const router = useRouter();
   const [gameCase, setGameCase] = useState<ICaseObject>();
-  const [loading, setLoading] = useState(false);
-  const [clues, setClues] = useState<ICaseObject['case_clues']>([]);
 
   useEffect(() => {
     fetch(`/api/admin/cases/${caseId}`)
@@ -20,8 +18,20 @@ const CaseEditPage = () => {
   }, []);
 
   const updateClue = (clueId: string, updates: Partial<ICaseObject['case_clues'][number]>) => {
-    setClues((prev) => prev.map((clue) => (clue.id === clueId ? { ...clue, ...updates } : clue)));
+    setGameCase((prev) => {
+      if (!prev) return prev;
+
+      return {
+        ...prev,
+        case_clues: prev.case_clues.map((clue) =>
+          clue.id === clueId ? { ...clue, ...updates } : clue
+        ),
+      };
+    });
   };
+  useEffect(() => {
+    console.log(gameCase?.case_clues);
+  }, [gameCase]);
   return (
     <div>
       <BackLink linkUrl={'/admin?tab=cases'} linkText={'Back'} />
