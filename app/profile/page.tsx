@@ -24,8 +24,10 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<IProfile | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [showAvatars, setShowAvatars] = useState(false);
-  const [avatarError, setAvatarError] = useState('');
+  const [editing, setEditing] = useState(false);
+  const [draftName, setDraftName] = useState('');
+  const [draftAvatar, setDraftAvatar] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState('');
 
   useEffect(() => {
     async function loadProfile() {
@@ -49,27 +51,35 @@ export default function ProfilePage() {
     loadProfile();
   }, []);
 
-  async function changeAvatar(avatarUrl: string) {
+  function startEditing() {
     if (!profile) return;
-    setAvatarError('');
+    setDraftName(profile.display_name);
+    setDraftAvatar(profile.avatar_url);
+    setSaveError('');
+    setEditing(true);
+  }
+
+  async function saveProfile() {
+    if (!profile) return;
+    setSaveError('');
 
     try {
       const res = await fetch('/api/profile', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ avatar_url: avatarUrl }),
+        body: JSON.stringify({ display_name: draftName, avatar_url: draftAvatar }),
       });
       const data = await res.json();
 
       if (!res.ok) {
-        setAvatarError(data.error);
+        setSaveError(data.error);
         return;
       }
 
-      setProfile({ ...profile, avatar_url: data.avatar_url });
-      setShowAvatars(false);
+      setProfile({ ...profile, display_name: data.display_name, avatar_url: data.avatar_url });
+      setEditing(false);
     } catch {
-      setAvatarError('Kunde inte spara avatarn');
+      setSaveError('Kunde inte spara profilen');
     }
   }
 
@@ -82,14 +92,15 @@ export default function ProfilePage() {
   }
 
   const isUnlimited = profile.subscription_tier === 'unlimited';
+  const shownAvatar = editing ? draftAvatar : profile.avatar_url;
 
   return (
     <div className="flex flex-col gap-8 py-8">
       <div className="flex flex-col gap-4 rounded-lg border border-gold/30 bg-surface p-6">
         <div className="flex items-center gap-4">
-          {profile.avatar_url ? (
+          {shownAvatar ? (
             <Image
-              src={profile.avatar_url}
+              src={shownAvatar}
               alt="Din avatar"
               width={80}
               height={80}
@@ -99,41 +110,72 @@ export default function ProfilePage() {
             <div className="h-20 w-20 rounded-full bg-muted"></div>
           )}
 
-          <div className="flex flex-col gap-1">
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
             <div className="font-label text-xs uppercase tracking-widest text-gold">
               {profile.subscription_tier}
             </div>
-            <h1 className="text-gold">{profile.display_name}</h1>
-            <div className="text-sm text-text-secondary">{profile.email}</div>
+            {editing ? (
+              <input
+                value={draftName}
+                onChange={(e) => setDraftName(e.target.value)}
+                maxLength={30}
+                aria-label="Namn"
+                className="w-full rounded border border-gold/20 bg-background px-3 py-2 text-text-primary focus:border-gold focus:outline-none"
+              />
+            ) : (
+              <h1 className="text-gold">{profile.display_name}</h1>
+            )}
+            <div className="break-all text-sm text-text-secondary">{profile.email}</div>
           </div>
+
+          {!editing && (
+            <button
+              onClick={startEditing}
+              className="self-start text-sm text-gold hover:text-gold-light transition-colors cursor-pointer"
+            >
+              Redigera profil
+            </button>
+          )}
         </div>
 
-        <button
-          onClick={() => setShowAvatars(!showAvatars)}
-          className="self-start text-gold hover:text-gold-light transition-colors cursor-pointer"
-        >
-          {showAvatars ? 'Stäng' : 'Byt avatar'}
-        </button>
+        {editing && (
+          <>
+            <ul className="grid grid-cols-4 gap-3 sm:grid-cols-6">
+              {avatars.map((avatar) => (
+                <li key={avatar}>
+                  <button onClick={() => setDraftAvatar(avatar)} className="cursor-pointer">
+                    <Image
+                      src={avatar}
+                      alt=""
+                      width={80}
+                      height={80}
+                      className={`aspect-square w-full rounded-full border-2 object-cover ${avatar === draftAvatar ? 'border-gold' : 'border-transparent'}`}
+                    />
+                  </button>
+                </li>
+              ))}
+            </ul>
 
-        {showAvatars && (
-          <ul className="grid grid-cols-4 gap-3 sm:grid-cols-6">
-            {avatars.map((avatar) => (
-              <li key={avatar}>
-                <button onClick={() => changeAvatar(avatar)} className="cursor-pointer">
-                  <Image
-                    src={avatar}
-                    alt=""
-                    width={80}
-                    height={80}
-                    className={`aspect-square w-full rounded-full border-2 object-cover ${avatar === profile.avatar_url ? 'border-gold' : 'border-transparent'}`}
-                  />
-                </button>
-              </li>
-            ))}
-          </ul>
+            {saveError && <div className="text-sm text-danger">{saveError}</div>}
+
+            <div className="flex items-center gap-4">
+              <button
+                onClick={saveProfile}
+                className="rounded bg-btn-primary px-4 py-2 hover:opacity-90 transition-opacity cursor-pointer"
+              >
+                <div className="font-label font-bold text-xs uppercase tracking-widest text-background">
+                  Spara
+                </div>
+              </button>
+              <button
+                onClick={() => setEditing(false)}
+                className="text-gold hover:text-gold-light transition-colors cursor-pointer"
+              >
+                Avbryt
+              </button>
+            </div>
+          </>
         )}
-
-        {avatarError && <div className="text-sm text-danger">{avatarError}</div>}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-gold/30 bg-surface p-6">
