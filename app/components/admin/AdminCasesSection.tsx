@@ -37,7 +37,7 @@ export const AdminCasesSection = () => {
       <AdminButton
         btnDisabled={false}
         btnText={'Skapa nytt fall'}
-        btnAction={() => console.log('clicked')}
+        btnAction={() => router.push('/admin/cases/create-case')}
       />
       <table className="w-full border-collapse mt-2">
         <thead>
