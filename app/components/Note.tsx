@@ -28,14 +28,11 @@ export const Note = ({ n }: INoteParams) => {
     setSaving(true);
 
     try {
-      const res = await fetch(
-        `/api/investigations/${investigationId}/notes/updateNote/${n.id}`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: editContent.trim() }),
-        }
-      );
+      const res = await fetch(`/api/investigations/${investigationId}/notes/updateNote/${n.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: editContent.trim() }),
+      });
 
       if (!res.ok) {
         const data = await res.json();
@@ -61,10 +58,9 @@ export const Note = ({ n }: INoteParams) => {
     setDeleting(true);
 
     try {
-      const res = await fetch(
-        `/api/investigations/${investigationId}/notes/deleteNote/${n.id}`,
-        { method: 'DELETE' }
-      );
+      const res = await fetch(`/api/investigations/${investigationId}/notes/deleteNote/${n.id}`, {
+        method: 'DELETE',
+      });
 
       if (!res.ok) {
         const data = await res.json();
@@ -97,7 +93,7 @@ export const Note = ({ n }: INoteParams) => {
             </button>
             <button
               // Eftersom X ikonen har "double duty" behöver de olika nycklar så att de behandlas som två olika element!
-              // Utan denna key property på båda knappar (godtyckliga strings) kan vi inte ändra en anteckning, avbryta och 
+              // Utan denna key property på båda knappar (godtyckliga strings) kan vi inte ändra en anteckning, avbryta och
               // sedan ta bort den. X knappen blir "greyed out"
               key="cancel"
               onClick={handleCancelEdit}

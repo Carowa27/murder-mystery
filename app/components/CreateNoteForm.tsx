@@ -17,16 +17,13 @@ export default function CreateNoteForm({ investigationId }: { investigationId: s
     setError('');
 
     try {
-      const res = await fetch(
-        `/api/investigations/${investigationId}/notes/createNote`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          // För att inte ändra i Carolinas createNote route utelämnas clue_id medvetet. Att skicka null på denna ger 404
-          // Men att utelämna fältet helt fungerar och skapar en anteckning utan kopplad ledtråd
-          body: JSON.stringify({ content: content.trim() }),
-        }
-      );
+      const res = await fetch(`/api/investigations/${investigationId}/notes/createNote`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // För att inte ändra i Carolinas createNote route utelämnas clue_id medvetet. Att skicka null på denna ger 404
+        // Men att utelämna fältet helt fungerar och skapar en anteckning utan kopplad ledtråd
+        body: JSON.stringify({ content: content.trim() }),
+      });
 
       if (!res.ok) {
         const data = await res.json();
@@ -61,11 +58,19 @@ export default function CreateNoteForm({ investigationId }: { investigationId: s
         {/* Återanvänd vår three pulsing dots animation! */}
         {loading ? (
           <span className="inline-flex">
-            <span className="animate-dot-blink" style={{ animationDelay: '0s' }}>.</span>
-            <span className="animate-dot-blink" style={{ animationDelay: '0.2s' }}>.</span>
-            <span className="animate-dot-blink" style={{ animationDelay: '0.4s' }}>.</span>
+            <span className="animate-dot-blink" style={{ animationDelay: '0s' }}>
+              .
+            </span>
+            <span className="animate-dot-blink" style={{ animationDelay: '0.2s' }}>
+              .
+            </span>
+            <span className="animate-dot-blink" style={{ animationDelay: '0.4s' }}>
+              .
+            </span>
           </span>
-        ) : 'Spara'}
+        ) : (
+          'Spara'
+        )}
       </button>
       {error && <p className="text-danger text-xs">{error}</p>}
     </form>
