@@ -60,11 +60,6 @@ export const AdminInvestigationsSection = () => {
             ))}
         </tbody>
       </table>
-      <p>Investigations</p>
-      Hantera active intestigations
-      <p>X Read investigation</p>
-      <p>Update investigation</p>
-      <p>Delete investigation</p>
     </div>
   );
 };
