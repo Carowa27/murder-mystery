@@ -41,7 +41,7 @@ const CaseInfoPage = () => {
       <div>
         <BackLink linkUrl="/admin?tab=cases" linkText="Back" />
 
-        <p>Loading...</p>
+        <p>Laddar...</p>
       </div>
     );
   }
@@ -53,7 +53,7 @@ const CaseInfoPage = () => {
       <div className="flex flex-col max-w-4xl mx-auto">
         {/* Case Details */}
         <h4 className="border border-l-muted-secondary border-t-muted-secondary border-b-gold-light border-r-gold-light ps-2 my-2 !font-label text-gold uppercase">
-          Case Details
+          Fall Översikt
         </h4>
 
         {gameCase.image_url && (
@@ -67,26 +67,26 @@ const CaseInfoPage = () => {
         )}
 
         <label className="flex flex-col gap-1 mb-3">
-          <span>Cover Image URL</span>
+          <span>Omslagsbild URL</span>
 
           <p className="ps-3 text-gold">{gameCase.image_url ?? ''}</p>
         </label>
 
         <label className="flex flex-col gap-1 mt-3 mb-3">
-          <span>Title</span>
+          <span>Titel</span>
 
           <p className="ps-3 text-gold">{gameCase.title}</p>
         </label>
 
         <label className="flex flex-col gap-1">
-          <span>Description</span>
+          <span>Beskrivning</span>
 
           <p className="ps-3 text-gold">{gameCase.description}</p>
         </label>
 
         {/* Clues */}
         <h4 className="border border-l-muted-secondary border-t-muted-secondary border-b-gold-light border-r-gold-light ps-2 my-2 mt-5 !font-label text-gold uppercase">
-          Clues
+          Bevis
         </h4>
 
         {[...gameCase.case_clues]
@@ -95,7 +95,7 @@ const CaseInfoPage = () => {
             <div key={clue.id}>
               <div className="flex justify-between my-1">
                 <label className="flex flex-col gap-1">
-                  {showClues.find((item) => item.id === clue.id)?.show && <span>Title</span>}
+                  {showClues.find((item) => item.id === clue.id)?.show && <span>Titel</span>}
 
                   <p className="ps-3 my-auto text-gold">{clue.title}</p>
                 </label>
@@ -110,26 +110,26 @@ const CaseInfoPage = () => {
                   )}
                   className="h-fit border border-gold active:bg-gold px-2 py-1 my-auto rounded !text-sm"
                 >
-                  {showClues.find((item) => item.id === clue.id)?.show ? 'hide' : 'show'}
+                  {showClues.find((item) => item.id === clue.id)?.show ? 'Göm' : 'Visa'}
                 </button>
               </div>
               {showClues.find((item) => item.id === clue.id)?.show && (
                 <div className="border-b pb-4 mb-4">
                   <label className="flex flex-col gap-1 mb-2">
-                    <span>Content</span>
+                    <span>Innehåll</span>
 
                     <p className="ps-3 text-gold">{clue.content}</p>
                   </label>
                   {clue.is_key && (
                     <label className="flex flex-col gap-2 mb-2">
-                      <span>Key clue</span>
-                      <p className="ps-3 text-gold"> Is key clue</p>
+                      <span>Nyckel bevis</span>
+                      <p className="ps-3 text-gold">Är nyckelbevis</p>
                     </label>
                   )}
                   {clue.clue_requirements.length !== 0 && (
                     <>
                       <label className="flex flex-col gap-1 mt-2">
-                        <span>Requires clue</span>
+                        <span>Nödvändigt bevis</span>
 
                         <div className="ps-3 text-gold">
                           <ul className="list-disc list-inside">
@@ -155,7 +155,7 @@ const CaseInfoPage = () => {
                   {clue.image_url && (
                     <>
                       <label className="flex flex-col gap-1">
-                        <span>Image URL</span>
+                        <span>Bild URL</span>
 
                         <p className="ps-3 text-gold">{clue.image_url}</p>
                       </label>
@@ -198,55 +198,60 @@ const CaseInfoPage = () => {
                     )}
                     className="h-fit border border-gold active:bg-gold px-2 py-1 my-auto rounded !text-sm"
                   >
-                    {showCharacters.find((item) => item.id === character.id)?.show
-                      ? 'hide'
-                      : 'show'}
+                    {showCharacters.find((item) => item.id === character.id)?.show ? 'Göm' : 'Visa'}
                   </button>
                 </div>
 
                 {showCharacters.find((item) => item.id === character.id)?.show && (
                   <div key={character.id} className="border-b pb-4 mb-4">
                     {character.image_url && (
-                      <Image
-                        src={character.image_url}
-                        alt={character.first_name}
-                        className="max-w-xs border w-[100%] mx-auto"
-                        height={200}
-                        width={200}
-                      />
+                      <>
+                        <Image
+                          src={character.image_url}
+                          alt={character.first_name}
+                          className="max-w-xs border w-[100%] mx-auto"
+                          height={200}
+                          width={200}
+                        />{' '}
+                        <label className="flex flex-col gap-1">
+                          <span>Bild URL</span>
+
+                          <p className="ps-3 text-gold">{character.image_url}</p>
+                        </label>
+                      </>
                     )}
 
                     <div className="grid grid-cols-3 gap-4 mt-2">
                       <label className="flex flex-col gap-1">
-                        <span>First Name</span>
+                        <span>Förnamn</span>
 
                         <p className="ps-3 text-gold">{character.first_name}</p>
                       </label>
 
                       <label className="flex flex-col gap-1">
-                        <span>Last Name</span>
+                        <span>Efternamn</span>
 
                         <p className="ps-3 text-gold">{character.last_name}</p>
                       </label>
                       {character.is_victim && (
-                        <p className="ps-2 my-auto !font-bold !text-lg">Victim</p>
+                        <p className="ps-2 my-auto !font-bold !text-lg">Offer</p>
                       )}
 
                       {character.is_guilty && (
-                        <p className="ps-2 my-auto !font-bold !text-lg">Guilty</p>
+                        <p className="ps-2 my-auto !font-bold !text-lg">Skyldig</p>
                       )}
                     </div>
 
                     {character.is_victim !== true && (
                       <label className="flex flex-col gap-1 mt-2">
-                        <span>Relation to Victim</span>
+                        <span>Relation till offer</span>
 
                         <p className="ps-3 text-gold">{character.relationship}</p>
                       </label>
                     )}
 
                     <label className="flex flex-col gap-1 mt-2">
-                      <span>Description</span>
+                      <span>Beskrivning</span>
 
                       <p className="ps-3 text-gold">{character.description}</p>
                     </label>
