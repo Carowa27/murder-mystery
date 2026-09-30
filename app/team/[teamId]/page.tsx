@@ -8,7 +8,9 @@ import CaseDrawer from '@/app/components/CaseDrawer';
 export default async function TeamDetailPage({ params }: { params: Promise<{ teamId: string }> }) {
   const { teamId } = await params;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -16,7 +18,9 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
 
   const { data: team } = await supabase
     .from('teams')
-    .select('id, name, invite_code, owner_id, max_members, created_at, team_members(joined_at, profiles(id, display_name, avatar_url))')
+    .select(
+      'id, name, invite_code, owner_id, max_members, created_at, team_members(joined_at, profiles(id, display_name, avatar_url))'
+    )
     .eq('id', teamId)
     .single();
 
@@ -32,7 +36,8 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
 
   // Boolean för att visa "Visa fall" knappen endast till ägaren av rummet
   const isOwner = user.id === typedTeam.owner_id;
-  const ownerName = members.find((m) => m.profiles.id === typedTeam.owner_id)?.profiles.display_name ?? 'Ägaren';
+  const ownerName =
+    members.find((m) => m.profiles.id === typedTeam.owner_id)?.profiles.display_name ?? 'Ägaren';
 
   return (
     <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/team-bg.png)] bg-center bg-no-repeat bg-cover">
@@ -43,7 +48,10 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
       <div className="flex flex-col justify-between pt-20 px-2 min-h-[calc(100vh-64px-80px)]">
         <section className="flex justify-between pt-8">
           {[0, 1].map((i) => (
-            <div key={i} className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary">
+            <div
+              key={i}
+              className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
+            >
               {/* Visa första bokstaven i användarens namn! */}
               {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
             </div>
@@ -61,25 +69,20 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
             />
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            {isOwner ? (
-              <CaseDrawer teamId={typedTeam.id} />
-            ) : (
-              <p className="rounded bg-background/80 px-6 py-3 border border-gold/30 font-label text-sm uppercase tracking-widest text-gold">
-                {ownerName} väljer fall att lösa...
-                {/* Här kan en pulsing animation läggas till istället för tre statiska punkter */}
-                {/* <span className="inline-flex w-6">
-                  <span className="animate-dot-blink" style={{ animationDelay: '0s' }}>.</span>
-                  <span className="animate-dot-blink" style={{ animationDelay: '0.2s' }}>.</span>
-                  <span className="animate-dot-blink" style={{ animationDelay: '0.4s' }}>.</span>
-                </span> */}
-              </p>
-            )}
+            {/* CaseDrawer hanterar nu våra tre states: */}
+            {/* * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..." */}
+            {/* * Inget fall valt, owner → "Välj fall" knapp → öppna drawer */}
+            {/* * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner) */}
+            <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
           </div>
         </section>
 
         <section className="flex justify-between">
           {[2, 3].map((i) => (
-            <div key={i} className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary">
+            <div
+              key={i}
+              className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
+            >
               {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
             </div>
           ))}

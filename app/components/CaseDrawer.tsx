@@ -4,11 +4,18 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import type { ICase } from '@/lib/interfaces/gameRelated';
 
-export default function CaseDrawer({ teamId }: { teamId: string }) {
+interface CaseDrawerProps {
+  teamId: string;
+  isOwner: boolean;
+  ownerName: string;
+}
+
+export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerProps) {
   const [open, setOpen] = useState(false);
   const [cases, setCases] = useState<ICase[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [selectedCase, setSelectedCase] = useState<ICase | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -32,11 +39,57 @@ export default function CaseDrawer({ teamId }: { teamId: string }) {
     fetchCases();
   }, [open, teamId]);
 
+  function handleSelectCase(c: ICase) {
+    setSelectedCase(c);
+    setOpen(false);
+  }
+
+  if (selectedCase) {
+    return (
+      <div className="flex flex-col items-center gap-3">
+        {/* Inline JSX för polaroid! */}
+        <div className="bg-paper p-2 rounded-xs shadow-md -rotate-3">
+          <div className="relative w-28 aspect-square">
+            <Image
+              src={selectedCase.image_url}
+              alt={selectedCase.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+          <p className="text-center text-surface text-xs font-label mt-1 px-1 truncate max-w-28">
+            {selectedCase.title}
+          </p>
+        </div>
+        {isOwner ? (
+          <button
+            className="rounded px-6 py-2 font-label text-xs uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer"
+            style={{ backgroundImage: 'var(--btn-primary)' }}
+          >
+            Starta fall
+          </button>
+        ) : (
+          <p className="rounded bg-background/80 px-4 py-2 border border-gold/30 font-label text-xs uppercase tracking-widest text-gold text-center">
+            Väntar på att {ownerName} ska starta fallet...
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  if (!isOwner) {
+    return (
+      <p className="rounded bg-background/80 px-6 py-3 border border-gold/30 font-label text-sm uppercase tracking-widest text-gold">
+        {ownerName} väljer fall att lösa...
+      </p>
+    );
+  }
+
   return (
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity hover:opacity-90 cursor-pointer"
+        className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer"
         style={{ backgroundImage: 'var(--btn-primary)' }}
       >
         Välj fall
@@ -73,11 +126,11 @@ export default function CaseDrawer({ teamId }: { teamId: string }) {
             )}
 
             {!loading && !error && cases.length > 0 && (
-              // Efter förslag från gruppen: vi kör 1 case per rad!
               <div className="flex flex-col gap-4">
                 {cases.map((c) => (
                   <button
                     key={c.id}
+                    onClick={() => handleSelectCase(c)}
                     className="flex gap-4 rounded-lg border border-gold/20 bg-background/50 overflow-hidden text-left active:border-gold/50 transition-colors cursor-pointer"
                   >
                     {c.image_url && (
