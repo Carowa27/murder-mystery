@@ -238,7 +238,7 @@ const CaseInfoPage = () => {
               )}
             </div>
           ))}
-      </div>{' '}
+      </div>
     </div>
   );
 };
