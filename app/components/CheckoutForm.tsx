@@ -80,7 +80,7 @@ export const CheckoutForm = ({ product, caseId, price }: ICheckoutForm) => {
       <div className="flex flex-col items-center gap-3 text-center">
         <h2 className="text-gold">Tack för ditt köp</h2>
         <p>Kvittonummer: {receiptNumber}</p>
-        <Link href="/profile/receipts" className="text-gold hover:text-gold-light">
+        <Link href="/profile" className="text-gold hover:text-gold-light">
           Se dina kvitton
         </Link>
       </div>
