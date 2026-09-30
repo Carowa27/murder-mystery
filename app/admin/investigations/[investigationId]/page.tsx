@@ -20,38 +20,46 @@ const AdminInvestigationInfoPage = () => {
   return (
     <div>
       <BackLink linkUrl={'/admin?tab=investigations'} linkText={'Back'} />
-      <div className="border border-gold-light px-2 pb-1">
-        <h4>Investigation</h4>
+      <div className="px-2 pb-1">
+        <h4 className="border-l border-b border-l-muted-secondary ps-2 my-2 !font-label text-gold uppercase">
+          Investigation
+        </h4>
         <label>
           Id
-          <p className="ps-3 text-gold-light">{investigation?.id}</p>
+          <p className="text-gold-light">{investigation?.id}</p>
         </label>
-        <label>
-          Started at
-          <p className="ps-3 text-gold-light">
-            {investigation?.started_at &&
-              new Date(investigation?.started_at).toLocaleString('sv-SE', {
-                day: '2-digit',
-                month: '2-digit',
-                year: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-          </p>
-        </label>
-        <label>
-          Status
-          <p className="ps-3 text-gold-light">{investigation?.status}</p>
-        </label>
+        <div className="flex gap-15">
+          <label>
+            Started at
+            <p className="text-gold-light">
+              {investigation?.started_at &&
+                new Date(investigation?.started_at).toLocaleString('sv-SE', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+            </p>
+          </label>
+          <label>
+            Status
+            <p className="text-gold-light">{investigation?.status}</p>
+          </label>
+        </div>
       </div>
-      <div className="border border-gold-light px-2 pb-1">
-        <h4>Team</h4>
-        <label>
-          Name <p className="ps-3 text-gold-light">{investigation?.teams.name}</p>
-        </label>
-        <label>
-          Code <p className="ps-3 text-gold-light">{investigation?.teams.invite_code}</p>
-        </label>
+      <div className="px-2 pb-1">
+        <h4 className="border-l border-b border-l-muted-secondary ps-2 my-2 !font-label text-gold uppercase">
+          Team
+        </h4>
+        <div className="flex gap-15">
+          <label>
+            Name <p className="text-gold-light">{investigation?.teams.name}</p>
+          </label>
+          <label>
+            Code <p className="text-gold-light">{investigation?.teams.invite_code}</p>
+          </label>
+        </div>
         <h5>Members</h5>
         {investigation?.teams.team_members.map((m, i) => (
           <div key={m.joined_at + i} className="my-1 py-1 ps-3 flex gap-2 items-center">
@@ -73,6 +81,7 @@ const AdminInvestigationInfoPage = () => {
             <div>
               <p className="ps-3 text-gold-light">{m.profiles.display_name}</p>
               <p className="ps-3 text-gold-light">
+                Joined{' '}
                 {new Date(m.joined_at).toLocaleString('sv-SE', {
                   day: '2-digit',
                   month: '2-digit',
@@ -84,7 +93,7 @@ const AdminInvestigationInfoPage = () => {
             </div>
           </div>
         ))}
-      </div>{' '}
+      </div>
       <div className="border border-gold-light px-2 pb-1">
         <h4>Case</h4>
         <label>
