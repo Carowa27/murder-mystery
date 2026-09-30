@@ -3,6 +3,7 @@ import type { Database } from '@/lib/database.types';
 import { AdminButton } from './AdminButton';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 type ICase = Database['public']['Tables']['cases']['Row'];
 
@@ -53,7 +54,9 @@ export const AdminCasesSection = () => {
             cases.length !== 0 &&
             cases.map((c: ICase) => (
               <tr key={c.id} className="border-b">
-                <td className="p-2">{c.title}</td>
+                <td className="p-2">
+                  <Link href={`/admin/cases/${c.id}`}>{c.title}</Link>
+                </td>
                 <td
                   className={`p-2 text-center ${c.stage === 'active' ? 'text-success font-bold' : c.stage === 'inactive' ? 'text-danger font-bold' : 'text-warning font-bold'}`}
                 >
