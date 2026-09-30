@@ -127,7 +127,17 @@ span {
   --font-label: var(--label);
 
   /* ANIMATIONS */
+  --animate-slide-up: slide-up 0.3s ease-out;
   --animate-dot-blink: dot-blink 1.4s infinite;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes dot-blink {

@@ -48,7 +48,8 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith('/login') &&
     !request.nextUrl.pathname.startsWith('/register') && // Utan denna går det inte att komma till /register!
     !request.nextUrl.pathname.startsWith('/auth') && // Sparar denna för säkerhets skull. Skadar inte
-    !request.nextUrl.pathname.startsWith('/api') // API-routes hanterar auth själva via getCurrentUser() och returnerar 401 JSON
+    !request.nextUrl.pathname.startsWith('/api') && // API-routes hanterar auth själva via getCurrentUser() och returnerar 401 JSON
+    !request.nextUrl.pathname.startsWith('/join') // Gäster som inte är inloggade ännu måste kunna se inbjudningssidan!
   ) {
     // Ingen giltig användare. Redirect till /login
     const url = request.nextUrl.clone();
