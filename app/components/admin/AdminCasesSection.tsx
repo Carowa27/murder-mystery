@@ -7,14 +7,30 @@ type ICase = Database['public']['Tables']['cases']['Row'];
 
 export const AdminCasesSection = () => {
   const [cases, setCases] = useState<ICase[]>();
+  const [searchParam, setSearchParam] = useState('');
   useEffect(() => {
     fetch('/api/admin/cases')
       .then((r) => r.json())
       .then(setCases);
   }, []);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      fetch(`/api/admin/cases/search?q=${searchParam}`)
+        .then((r) => r.json())
+        .then(setCases);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [searchParam]);
 
   return (
     <div>
+      <input
+        type="search"
+        value={searchParam}
+        onChange={(e) => setSearchParam(e.target.value)}
+        placeholder="Search cases..."
+        className="w-full border border-primary bg-background px-3 py-2 mb-2"
+      />
       <Button
         btnDisabled={false}
         btnText={'Create new case'}
@@ -31,7 +47,7 @@ export const AdminCasesSection = () => {
         </thead>
 
         <tbody>
-          {cases &&
+          {Array.isArray(cases) &&
             cases.length !== 0 &&
             cases.map((c: ICase) => (
               <tr key={c.id} className="border-b">
