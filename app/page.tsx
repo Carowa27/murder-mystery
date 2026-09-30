@@ -18,7 +18,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col items-center gap-6 py-16 text-center">
       <Image
-        src="/images/logotype/logo-full.png"
+        src="/images/logotype/logo-full.webp"
         alt="Nocturne"
         width={1212}
         height={1212}
