@@ -92,8 +92,11 @@ const CaseInfoPage = () => {
         {[...gameCase.case_clues]
           .sort((a, b) => a.id.localeCompare(b.id))
           .map((clue) => (
-            <div key={clue.id}>
-              <div className="flex justify-between my-1">
+            <div
+              key={clue.id}
+              className={`mb-2 ${showClues.find((item) => item.id === clue.id)?.show && 'px-1 bg-surface rounded'}`}
+            >
+              <div className={`flex justify-between my-1`}>
                 <label className="flex flex-col gap-1">
                   {showClues.find((item) => item.id === clue.id)?.show && <span>Titel</span>}
 
@@ -114,7 +117,7 @@ const CaseInfoPage = () => {
                 </button>
               </div>
               {showClues.find((item) => item.id === clue.id)?.show && (
-                <div className="border-b pb-4 mb-4">
+                <div className="pb-4 px-1">
                   <label className="flex flex-col gap-1 mb-2">
                     <span>Innehåll</span>
 
@@ -182,7 +185,10 @@ const CaseInfoPage = () => {
           {[...gameCase.characters]
             .sort((a, b) => a.id.localeCompare(b.id))
             .map((character) => (
-              <div key={character.id}>
+              <div
+                key={character.id}
+                className={`mb-3 ${showCharacters.find((item) => item.id === character.id)?.show && 'px-2 py-1 bg-surface rounded'}`}
+              >
                 <div className="flex justify-between my-2">
                   <p className="ps-3 text-gold">
                     {character.first_name} {character.last_name}
@@ -203,7 +209,7 @@ const CaseInfoPage = () => {
                 </div>
 
                 {showCharacters.find((item) => item.id === character.id)?.show && (
-                  <div key={character.id} className="border-b pb-4 mb-4">
+                  <div key={character.id} className="pb-4">
                     {character.image_url && (
                       <>
                         <Image
