@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { createServiceClient } from '@/lib/supabase/service';
 import { getCurrentUser } from '@/lib/supabase/auth';
 import { notFound } from 'next/navigation';
