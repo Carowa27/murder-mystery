@@ -87,5 +87,8 @@ export interface ICaseObject {
     clue_requirements: {
       required_clue_id: string;
     }[];
+    clue_characters: {
+      character_id: string;
+    }[];
   }[];
 }
