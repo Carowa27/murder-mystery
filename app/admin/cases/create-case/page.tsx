@@ -1,64 +1,87 @@
 'use client';
 
+import { SectionHeader } from '@/app/components/admin/AdminSectionHeader';
 import { BackLink } from '@/app/components/BackLink';
 import { ICaseObject } from '@/lib/interfaces/adminRelated';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Clue = ICaseObject['case_clues'][number];
 type Character = ICaseObject['characters'][number];
+type ClueType = { id: number; name: string };
 
-const SectionHeader = ({
-  title,
-  buttonText,
-  onButtonClick,
-  className = '',
-}: {
-  title: string;
-  buttonText?: string;
-  onButtonClick?: () => void;
-  className?: string;
-}) => (
-  <div
-    className={`flex justify-between items-center border border-l-muted-secondary border-t-muted-secondary border-b-gold-light border-r-gold-light ps-2 pe-1 py-1 my-2 ${className}`}
-  >
-    <h4 className="!font-label text-gold uppercase">{title}</h4>
-    {buttonText && (
-      <button
-        type="button"
-        onClick={onButtonClick}
-        className="border border-gold active:bg-gold px-3 py-1 rounded !text-sm normal-case"
-      >
-        {buttonText}
-      </button>
-    )}
-  </div>
-);
+type Props = {
+  difficulties: { id: number; name: string; max_accusations: number }[];
+  clueTypes: { id: number; name: string }[];
+};
+type Difficulty = { id: number; name: string; max_accusations: number };
 
-const createEmptyCase = (): ICaseObject => ({
-  id: crypto.randomUUID(),
-  created_at: new Date().toISOString(),
-  title: '',
-  description: '',
-  image_url: null,
-  location: null,
-  price: 0,
-  stage: 'dev',
-  story_date: null,
-  difficulty_id: 1,
-  difficulties: { id: 1, max_accusations: 0, name: '' }, // adjust to your real default
-  characters: [],
-  case_clues: [],
-});
+const createEmptyCase = (difficulties: Props['difficulties']): ICaseObject => {
+  const difficulty = (difficulties && difficulties[0]) ?? {
+    id: 1,
+    name: 'beginner',
+    max_accusations: 3,
+  };
 
-const NewCasePage = () => {
+  return {
+    id: crypto.randomUUID(),
+    created_at: new Date().toISOString(),
+    title: '',
+    description: '',
+    image_url: null,
+    location: null,
+    price: 0,
+    stage: 'dev',
+    story_date: null,
+    difficulty_id: difficulty.id,
+    difficulties: difficulty,
+    characters: [],
+    case_clues: [],
+  };
+};
+
+const NewCaseForm = () => {
   const router = useRouter();
+  const [difficulties, setDifficulties] = useState<Difficulty[]>([]);
+  const [clueTypes, setClueTypes] = useState<ClueType[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  // Lazy initializer so the UUID is generated once, not on every render
-  const [gameCase, setGameCase] = useState<ICaseObject>(createEmptyCase);
+  const [gameCase, setGameCase] = useState<ICaseObject>(() => createEmptyCase(difficulties));
   const [saving, setSaving] = useState(false);
   const [openClues, setOpenClues] = useState<Record<string, boolean>>({});
   const [openCharacters, setOpenCharacters] = useState<Record<string, boolean>>({});
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        const difRes = await fetch(`/api/admin/caseDifficulties`);
+        if (!difRes.ok) throw new Error('Kunde inte hämta svårighetsgraderna');
+        const difjson = await difRes.json();
+
+        const ctRes = await fetch(`/api/admin/caseTypes`);
+        if (!ctRes.ok) throw new Error('Kunde inte hämta bevis typerna');
+        const ctjson = await ctRes.json();
+
+        if (cancelled) return;
+
+        const byCreated = <T extends { created_at: string }>(a: T, b: T) =>
+          a.created_at.localeCompare(b.created_at);
+
+        setDifficulties(difjson ?? []);
+        setClueTypes(ctjson);
+      } catch (err) {
+        if (!cancelled) {
+          setLoadError(err instanceof Error ? err.message : 'Kunde inte hämta fallet');
+        }
+      }
+    };
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // ---- Updaters ----
   const updateCase = (updates: Partial<ICaseObject>) =>
@@ -76,27 +99,45 @@ const NewCasePage = () => {
       characters: prev.characters.map((c) => (c.id === characterId ? { ...c, ...updates } : c)),
     }));
 
+  // Only one victim and one guilty per case, and never the same character
+  const setRole = (id: string, role: 'is_victim' | 'is_guilty', value: boolean) =>
+    setGameCase((prev) => {
+      const other = role === 'is_victim' ? 'is_guilty' : 'is_victim';
+      return {
+        ...prev,
+        characters: prev.characters.map((c) => {
+          if (c.id === id) return { ...c, [role]: value, ...(value ? { [other]: false } : {}) };
+          return value ? { ...c, [role]: false } : c;
+        }),
+      };
+    });
+
   // ---- Adders ----
   const addClue = () => {
     const newId = crypto.randomUUID();
+    const defaultType = clueTypes[0] ?? { id: 1, name: 'Brottsplatsrapport' };
+
     const newClue: Clue = {
       id: newId,
       case_id: gameCase.id,
-      clue_type_id: 1,
+      clue_type_id: defaultType.id,
       title: '',
       content: '',
       image_url: null,
       is_key: false,
       created_at: new Date().toISOString(),
-      clue_types: { id: 1, name: 'Brottsplatsrapport' },
+      clue_types: defaultType,
       clue_requirements: [],
+      clue_characters: [],
     };
+
     setGameCase((prev) => ({ ...prev, case_clues: [...prev.case_clues, newClue] }));
     setOpenClues((prev) => ({ ...prev, [newId]: true }));
   };
 
   const addCharacter = () => {
     const newId = crypto.randomUUID();
+
     const newCharacter: Character = {
       id: newId,
       case_id: gameCase.id,
@@ -109,17 +150,17 @@ const NewCasePage = () => {
       is_victim: false,
       is_guilty: false,
     };
+
     setGameCase((prev) => ({ ...prev, characters: [...prev.characters, newCharacter] }));
     setOpenCharacters((prev) => ({ ...prev, [newId]: true }));
   };
 
-  // ---- Removers (handy when creating from scratch) ----
+  // ---- Removers ----
   const removeClue = (clueId: string) =>
     setGameCase((prev) => ({
       ...prev,
       case_clues: prev.case_clues
         .filter((c) => c.id !== clueId)
-        // also drop any requirements pointing at the removed clue
         .map((c) => ({
           ...c,
           clue_requirements: c.clue_requirements.filter((r) => r.required_clue_id !== clueId),
@@ -130,6 +171,10 @@ const NewCasePage = () => {
     setGameCase((prev) => ({
       ...prev,
       characters: prev.characters.filter((c) => c.id !== characterId),
+      case_clues: prev.case_clues.map((c) => ({
+        ...c,
+        clue_characters: c.clue_characters.filter((cc) => cc.character_id !== characterId),
+      })),
     }));
 
   // ---- Submit ----
@@ -152,13 +197,21 @@ const NewCasePage = () => {
       if (res.ok) {
         router.push('/admin?tab=cases');
       } else {
-        const data = await res.json().catch(() => ({}));
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
         alert(data.error ?? 'Failed to create case');
       }
     } finally {
       setSaving(false);
     }
   };
+  if (loadError) {
+    return (
+      <div>
+        <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
+        <p>{loadError}</p>
+      </div>
+    );
+  }
   return (
     <form onSubmit={handleSubmit}>
       <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
@@ -178,6 +231,55 @@ const NewCasePage = () => {
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </select>
+        </label>
+
+        <label className="flex flex-col gap-1 mb-3">
+          <span>Svårighetsgrad</span>
+          <select
+            value={gameCase.difficulty_id}
+            onChange={(e) => {
+              const d = difficulties.find((x) => x.id === Number(e.target.value));
+              if (d) updateCase({ difficulty_id: d.id, difficulties: d });
+            }}
+            className="border border-gold p-2 bg-background"
+          >
+            {difficulties &&
+              difficulties.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name} ({d.max_accusations} anklagelser)
+                </option>
+              ))}
+          </select>
+        </label>
+
+        <label className="flex flex-col gap-1 mb-3">
+          <span>Pris (kr, 0 = gratis)</span>
+          <input
+            type="number"
+            min={0}
+            value={gameCase.price}
+            onChange={(e) => updateCase({ price: Math.max(0, Number(e.target.value) || 0) })}
+            className="border border-gold p-2"
+          />
+        </label>
+
+        <label className="flex flex-col gap-1 mb-3">
+          <span>Plats</span>
+          <input
+            value={gameCase.location ?? ''}
+            onChange={(e) => updateCase({ location: e.target.value || null })}
+            className="border border-gold p-2"
+          />
+        </label>
+
+        <label className="flex flex-col gap-1 mb-3">
+          <span>Datum i berättelsen</span>
+          <input
+            type="date"
+            value={gameCase.story_date ?? ''}
+            onChange={(e) => updateCase({ story_date: e.target.value || null })}
+            className="border border-gold p-2"
+          />
         </label>
 
         {gameCase.image_url && (
@@ -218,12 +320,6 @@ const NewCasePage = () => {
         </label>
 
         {/* Clues */}
-        {/* <div className="flex justify-between items-center mt-5 mb-3">
-          <h4 className={headingClass}>Bevis</h4>
-          <button type="button" onClick={addClue} className="border border-gold px-3 py-1 rounded">
-            + Lägg till bevis
-          </button>
-        </div> */}
         <SectionHeader
           title="Bevis"
           buttonText="+ Lägg till bevis"
@@ -272,6 +368,24 @@ const NewCasePage = () => {
               {isOpen && (
                 <div className="pb-4 px-1">
                   <label className="flex flex-col gap-1 mb-2">
+                    <span>Typ</span>
+                    <select
+                      value={clue.clue_type_id}
+                      onChange={(e) => {
+                        const t = clueTypes.find((x) => x.id === Number(e.target.value));
+                        if (t) updateClue(clue.id, { clue_type_id: t.id, clue_types: t });
+                      }}
+                      className="border border-gold p-2 bg-background"
+                    >
+                      {clueTypes.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {t.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label className="flex flex-col gap-1 mb-2">
                     <span>Innehåll</span>
                     <textarea
                       value={clue.content ?? ''}
@@ -315,6 +429,29 @@ const NewCasePage = () => {
                     </select>
                   </label>
 
+                  {gameCase.characters.length > 0 && (
+                    <fieldset className="mt-2">
+                      <legend>Berör karaktärer</legend>
+                      {gameCase.characters.map((ch) => (
+                        <label key={ch.id} className="flex gap-2">
+                          <input
+                            type="checkbox"
+                            checked={clue.clue_characters.some((cc) => cc.character_id === ch.id)}
+                            onChange={(e) =>
+                              updateClue(clue.id, {
+                                clue_characters: e.target.checked
+                                  ? [...clue.clue_characters, { character_id: ch.id }]
+                                  : clue.clue_characters.filter((cc) => cc.character_id !== ch.id),
+                              })
+                            }
+                            className="accent-gold"
+                          />
+                          {ch.first_name || '(namnlös)'} {ch.last_name ?? ''}
+                        </label>
+                      ))}
+                    </fieldset>
+                  )}
+
                   <label className="flex flex-col gap-1 mt-2">
                     <span>Bild URL</span>
                     <input
@@ -339,16 +476,6 @@ const NewCasePage = () => {
 
         {/* Characters */}
         <section>
-          {/* <div className="flex justify-between items-center mt-5 mb-3">
-            <h4 className={headingClass}>Karaktärer</h4>
-            <button
-              type="button"
-              onClick={addCharacter}
-              className="border border-gold px-3 py-1 rounded"
-            >
-              + Lägg till karaktär
-            </button>
-          </div> */}
           <SectionHeader
             title="Karaktärer"
             buttonText="+ Lägg till karaktär"
@@ -442,9 +569,7 @@ const NewCasePage = () => {
                           <input
                             type="checkbox"
                             checked={character.is_victim}
-                            onChange={(e) =>
-                              updateCharacter(character.id, { is_victim: e.target.checked })
-                            }
+                            onChange={(e) => setRole(character.id, 'is_victim', e.target.checked)}
                             className="accent-gold"
                           />
                         </label>
@@ -453,9 +578,7 @@ const NewCasePage = () => {
                           <input
                             type="checkbox"
                             checked={character.is_guilty}
-                            onChange={(e) =>
-                              updateCharacter(character.id, { is_guilty: e.target.checked })
-                            }
+                            onChange={(e) => setRole(character.id, 'is_guilty', e.target.checked)}
                             className="accent-gold"
                           />
                         </label>
@@ -505,4 +628,4 @@ const NewCasePage = () => {
   );
 };
 
-export default NewCasePage;
+export default NewCaseForm;
