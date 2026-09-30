@@ -15,27 +15,27 @@ export const AdminNav = () => {
           href="?tab=overview"
           className={`${activeTab === 'overview' && 'bg-gold text-surface !font-bold'} flex-1 text-center px-4 py-2 border border-gold`}
         >
-          Overview
+          Översikt
         </Link>
         <Link
           href="?tab=cases"
           className={`${activeTab === 'cases' && 'bg-gold text-surface !font-bold'} flex-1 text-center px-4 py-2 border border-gold`}
         >
-          Cases
+          Fall
         </Link>
 
         <Link
           href="?tab=investigations"
           className={`${activeTab === 'investigations' && 'bg-gold text-surface !font-bold'} flex-1 text-center px-4 py-2 border border-gold`}
         >
-          Investigations
+          Utredningar
         </Link>
 
         <Link
           href="?tab=profiles"
           className={`${activeTab === 'profiles' && 'bg-gold text-surface !font-bold'} flex-1 text-center px-4 py-2 border border-gold`}
         >
-          Profiles
+          Profiler
         </Link>
       </nav>
     </>
