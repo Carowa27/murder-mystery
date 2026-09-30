@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { avatars } from '@/lib/avatars';
 import { CaseCard, type ICaseCard } from '@/app/components/CaseCard';
+import { ReceiptList } from '../components/ReceiptList';
 
 interface IProfile {
   email: string;
@@ -215,12 +216,7 @@ export default function ProfilePage() {
         )}
       </div>
 
-      <Link
-        href="/profile/receipts"
-        className="self-start text-gold hover:text-gold-light transition-colors"
-      >
-        Visa kvitton
-      </Link>
+      <ReceiptList />
     </div>
   );
 }
