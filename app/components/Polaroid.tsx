@@ -26,7 +26,9 @@ export const Polaroid = ({ c, showName, showVictim, onWall, width, crossSize }: 
   return (
     <div
       style={{ width: typeof width === 'number' ? `${width}px` : width }}
-      className={`shadow-sm relative bg-paper p-1 rounded-xs flex flex-col items-center w-[${width}px] aspect-[1/1.215] brightness-70`}
+      // Med namn bestäms höjden av fotot plus namnet under. Utan namn har
+      // polaroiden fast form, med en tom pappersremsa under fotot.
+      className={`shadow-sm relative bg-paper p-1 rounded-xs flex flex-col items-center w-[${width}px] ${showName ? '' : 'aspect-[1/1.215]'} brightness-70`}
     >
       {onWall && (
         <PushPinIcon size={15} color="#ca220c" weight="fill" className="z-1000 absolute -top-2" />
@@ -66,15 +68,17 @@ export const Polaroid = ({ c, showName, showVictim, onWall, width, crossSize }: 
           <div className="bg-muted w-full h-full opacity-40"></div>
         )}
       </section>
+      {/* Namnet står handskrivet på pappret under fotot, som på ett riktigt
+          polaroidfoto, i stället för på en lapp ovanpå fotot. min-h-[2.4em]
+          ger plats för två rader, så att alla foton blir lika höga även när
+          ett namn får plats på en rad. */}
       {showName && (
-        <section
+        <div
           style={{ transform: `rotate(${rotation}deg)` }}
-          className="absolute z-500 bottom-0 px-2 pb-2"
+          className="flex min-h-[2.4em] w-full items-center justify-center px-1 pt-1 text-center font-handwritten text-lg leading-none text-surface"
         >
-          <p className="text-center !text-sm leading-4.5 text-surface !font-label bg-muted-secondary">
-            {c.first_name} {c.last_name}
-          </p>
-        </section>
+          {c.first_name} {c.last_name}
+        </div>
       )}
     </div>
   );
