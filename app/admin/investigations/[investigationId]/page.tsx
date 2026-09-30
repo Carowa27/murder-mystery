@@ -49,7 +49,7 @@ const AdminInvestigationInfoPage = () => {
         </div>
       </div>
       <div className="px-2 pb-1">
-        <h4 className="border-l border-b border-l-muted-secondary ps-2 my-2 !font-label text-gold uppercase">
+        <h4 className="border-l border-b border-l-muted-secondary border-b-gold-light ps-2 my-2 !font-label text-gold uppercase">
           Team
         </h4>
         <div className="flex gap-15">
