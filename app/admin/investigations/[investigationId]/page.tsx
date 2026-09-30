@@ -33,7 +33,7 @@ const AdminInvestigationInfoPage = () => {
           </label>
           <div className="flex gap-15">
             <label>
-              Började
+              Startad
               <p className="text-gold-light">
                 {investigation?.started_at &&
                   new Date(investigation?.started_at).toLocaleString('sv-SE', {
