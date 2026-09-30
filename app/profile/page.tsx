@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { LogoutButton } from '@/app/components/LogoutButton';
 import { avatars } from '@/lib/avatars';
+import { CaseCard, type ICaseCard } from '@/app/components/CaseCard';
 
 interface IProfile {
   email: string;
@@ -14,7 +14,7 @@ interface IProfile {
   subscription_tier: string;
   purchases: {
     created_at: string;
-    cases: { id: string; title: string; image_url: string | null } | null;
+    cases: (ICaseCard & { id: string }) | null;
   }[];
 }
 
@@ -81,120 +81,104 @@ export default function ProfilePage() {
     return <p className="py-16 text-center text-danger">{error}</p>;
   }
 
+  const isUnlimited = profile.subscription_tier === 'unlimited';
+
   return (
-    <div className="py-8">
-      <div className="flex flex-col gap-6 rounded-lg border border-gold/30 bg-surface p-6">
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-4">
-            {profile.avatar_url ? (
-              <Image
-                src={profile.avatar_url}
-                alt="Din avatar"
-                width={80}
-                height={80}
-                className="h-20 w-20 rounded-full object-cover"
-              />
-            ) : (
-              <div className="h-20 w-20 rounded-full bg-muted"></div>
-            )}
-
-            <div className="flex flex-col gap-1">
-              <div className="font-label text-xs uppercase tracking-widest text-muted">
-                Detektiv
-              </div>
-              <h1 className="text-gold">{profile.display_name}</h1>
-              <div className="text-sm text-text-secondary">{profile.email}</div>
-            </div>
-          </div>
-
-          <button
-            onClick={() => setShowAvatars(!showAvatars)}
-            className="self-start text-gold hover:text-gold-light transition-colors cursor-pointer"
-          >
-            {showAvatars ? 'Stäng' : 'Byt avatar'}
-          </button>
-
-          {showAvatars && (
-            <ul className="grid grid-cols-4 gap-3 sm:grid-cols-6">
-              {avatars.map((avatar) => (
-                <li key={avatar}>
-                  <button onClick={() => changeAvatar(avatar)} className="cursor-pointer">
-                    <Image
-                      src={avatar}
-                      alt=""
-                      width={80}
-                      height={80}
-                      className={`aspect-square w-full rounded-full border-2 object-cover ${avatar === profile.avatar_url ? 'border-gold' : 'border-transparent'}`}
-                    />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {avatarError && <div className="text-sm text-danger">{avatarError}</div>}
-        </div>
-
-        <div className="flex flex-wrap items-end justify-between gap-2 border-t border-gold/20 pt-6">
-          <div className="flex flex-col gap-1">
-            <div className="font-label text-xs uppercase tracking-widest text-muted">Nivå</div>
-            <div className="text-lg capitalize">{profile.subscription_tier}</div>
-
-            {profile.subscription_tier === 'unlimited' && profile.unlimited_until && (
-              <div className="text-sm text-text-secondary">
-                Gäller till {new Date(profile.unlimited_until).toLocaleDateString('sv-SE')}
-              </div>
-            )}
-          </div>
-
-          {profile.subscription_tier !== 'unlimited' && (
-            <Link
-              href="/checkout?product=unlimited_month"
-              className="text-gold hover:text-gold-light transition-colors"
-            >
-              Uppgradera till Unlimited
-            </Link>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-3 border-t border-gold/20 pt-6">
-          <div className="font-label text-xs uppercase tracking-widest text-muted">Köpta fall</div>
-
-          {profile.purchases.length === 0 ? (
-            <div className="text-sm text-text-secondary">Du har inte köpt några fall än.</div>
+    <div className="flex flex-col gap-8 py-8">
+      <div className="flex flex-col gap-4 rounded-lg border border-gold/30 bg-surface p-6">
+        <div className="flex items-center gap-4">
+          {profile.avatar_url ? (
+            <Image
+              src={profile.avatar_url}
+              alt="Din avatar"
+              width={80}
+              height={80}
+              className="h-20 w-20 rounded-full object-cover"
+            />
           ) : (
-            <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              {profile.purchases.map((purchase) => (
-                <li key={purchase.cases?.id} className="flex flex-col gap-2">
-                  {purchase.cases?.image_url ? (
-                    <Image
-                      src={purchase.cases.image_url}
-                      alt={purchase.cases.title}
-                      width={240}
-                      height={240}
-                      className="w-full h-auto rounded"
-                    />
-                  ) : (
-                    <div className="w-full aspect-square rounded bg-muted"></div>
-                  )}
-                  <div className="text-sm">{purchase.cases?.title}</div>
-                </li>
-              ))}
-            </ul>
+            <div className="h-20 w-20 rounded-full bg-muted"></div>
           )}
+
+          <div className="flex flex-col gap-1">
+            <div className="font-label text-xs uppercase tracking-widest text-gold">
+              {profile.subscription_tier}
+            </div>
+            <h1 className="text-gold">{profile.display_name}</h1>
+            <div className="text-sm text-text-secondary">{profile.email}</div>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-gold/20 pt-6">
-          <Link
-            href="/profile/receipts"
-            className="text-gold hover:text-gold-light transition-colors"
-          >
-            Visa kvitton
-          </Link>
+        <button
+          onClick={() => setShowAvatars(!showAvatars)}
+          className="self-start text-gold hover:text-gold-light transition-colors cursor-pointer"
+        >
+          {showAvatars ? 'Stäng' : 'Byt avatar'}
+        </button>
 
-          <LogoutButton />
-        </div>
+        {showAvatars && (
+          <ul className="grid grid-cols-4 gap-3 sm:grid-cols-6">
+            {avatars.map((avatar) => (
+              <li key={avatar}>
+                <button onClick={() => changeAvatar(avatar)} className="cursor-pointer">
+                  <Image
+                    src={avatar}
+                    alt=""
+                    width={80}
+                    height={80}
+                    className={`aspect-square w-full rounded-full border-2 object-cover ${avatar === profile.avatar_url ? 'border-gold' : 'border-transparent'}`}
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {avatarError && <div className="text-sm text-danger">{avatarError}</div>}
       </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-gold/30 bg-surface p-6">
+        <div className="flex flex-col gap-1">
+          <div className="font-label text-xs uppercase tracking-widest text-gold">Unlimited</div>
+          <div className="text-lg">
+            {isUnlimited && profile.unlimited_until
+              ? `Gäller till ${new Date(profile.unlimited_until).toLocaleDateString('sv-SE')}`
+              : 'För dig som inte kan få nog av mysterier. Ger dig tillgång till alla nuvarande och kommande fall. De fall du redan köpt behåller du när prenumerationen tar slut.'}
+          </div>
+        </div>
+
+        {!isUnlimited && (
+          <Link
+            href="/checkout?product=unlimited_month"
+            className="rounded bg-btn-primary px-4 py-2 hover:opacity-90 transition-opacity"
+          >
+            <div className="font-label font-bold text-xs uppercase tracking-widest text-background">
+              Uppgradera till Unlimited
+            </div>
+          </Link>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <div className="font-label text-xs uppercase tracking-widest text-gold">Mina fall</div>
+
+        {profile.purchases.length === 0 ? (
+          <div className="text-sm text-text-secondary">Du har inte köpt några fall än.</div>
+        ) : (
+          <ul className="grid grid-cols-2 gap-4">
+            {profile.purchases.map(
+              (purchase) =>
+                purchase.cases && <CaseCard key={purchase.cases.id} caseInfo={purchase.cases} />
+            )}
+          </ul>
+        )}
+      </div>
+
+      <Link
+        href="/profile/receipts"
+        className="self-start text-gold hover:text-gold-light transition-colors"
+      >
+        Visa kvitton
+      </Link>
     </div>
   );
 }
