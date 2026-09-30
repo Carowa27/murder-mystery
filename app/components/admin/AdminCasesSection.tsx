@@ -31,21 +31,21 @@ export const AdminCasesSection = () => {
         type="search"
         value={searchParam}
         onChange={(e) => setSearchParam(e.target.value)}
-        placeholder="Search cases..."
+        placeholder="Sök fall..."
         className="w-full border border-primary bg-background px-3 py-2 mb-2"
       />
       <AdminButton
         btnDisabled={false}
-        btnText={'Create new case'}
+        btnText={'Skapa nytt fall'}
         btnAction={() => console.log('clicked')}
       />
       <table className="w-full border-collapse">
         <thead>
           <tr className="border-b">
-            <th className="text-left p-2">Title</th>
+            <th className="text-left p-2">Titel</th>
             <th className="text-left p-2">Stage</th>
-            <th className="text-center p-2">Edit</th>
-            <th className="text-center p-2">Delete</th>
+            <th className="text-center p-2">Redigera</th>
+            <th className="text-center p-2">Radera</th>
           </tr>
         </thead>
 
@@ -68,7 +68,7 @@ export const AdminCasesSection = () => {
                     onClick={() => router.push(`/admin/cases/${c.id}/edit-case`)}
                     className="px-2 py-1 rounded bg-gold text-background"
                   >
-                    Edit
+                    Redigera
                   </button>
                 </td>
 
@@ -77,7 +77,7 @@ export const AdminCasesSection = () => {
                     onClick={() => router.push(`/admin/cases/${c.id}/delete-case/`)}
                     className="px-2 py-1 rounded bg-danger text-white"
                   >
-                    Delete
+                    Radera
                   </button>
                 </td>
               </tr>

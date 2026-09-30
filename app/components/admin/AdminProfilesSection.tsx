@@ -27,17 +27,17 @@ export const AdminProfilesSection = () => {
         type="search"
         value={searchParam}
         onChange={(e) => setSearchParam(e.target.value)}
-        placeholder="Search profiles..."
+        placeholder="Sök profiler..."
         className="w-full border border-primary bg-background px-3 py-2"
       />
       {profiles && profiles.length !== 0 && (
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b">
-              <th className="text-left p-2">Display name</th>
-              <th className="text-left p-2">Role</th>
-              <th className="text-center p-2">Edit</th>
-              <th className="text-center p-2">Delete</th>
+              <th className="text-left p-2">Namn</th>
+              <th className="text-left p-2">Roll</th>
+              <th className="text-center p-2">Redigera</th>
+              <th className="text-center p-2">Radera</th>
             </tr>
           </thead>
 
@@ -59,7 +59,7 @@ export const AdminProfilesSection = () => {
                       onClick={() => handleEdit(p.id)}
                       className="px-2 py-1 rounded bg-gold text-background"
                     >
-                      Edit
+                      Redigera
                     </button>
                   </td>
                   <td className="p-2 text-center">
@@ -67,7 +67,7 @@ export const AdminProfilesSection = () => {
                       // onClick={() => handleDelete(c.id)}
                       className="px-2 py-1 rounded bg-danger text-white"
                     >
-                      Delete
+                      Radera
                     </button>
                   </td>
                 </tr>
