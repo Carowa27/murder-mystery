@@ -65,7 +65,7 @@ export const AdminCasesSection = () => {
 
                 <td className="p-2 text-center">
                   <button
-                    // onClick={() => handleEdit(c)}
+                    onClick={() => router.push(`/admin/cases/${c.id}/edit-case`)}
                     className="px-2 py-1 rounded bg-gold text-background"
                   >
                     Edit
