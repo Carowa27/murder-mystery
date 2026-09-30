@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import type { ICase } from '@/lib/interfaces/gameRelated';
 
@@ -11,11 +12,13 @@ interface CaseDrawerProps {
 }
 
 export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerProps) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [cases, setCases] = useState<ICase[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [selectedCase, setSelectedCase] = useState<ICase | null>(null);
+  const [starting, setStarting] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -44,6 +47,31 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
     setOpen(false);
   }
 
+  async function handleStartCase() {
+    if (!selectedCase) return;
+    setStarting(true);
+
+    try {
+      // Måste komma överens med gruppen var denna ska ligga!
+      const res = await fetch('/api/investigations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ team_id: teamId, case_id: selectedCase.id }),
+      });
+
+      if (!res.ok) throw new Error('Kunde inte starta fallet');
+
+      // Vi bygger funktionaliteten i denna component med kravet att investigation
+      // POST routen returnerar id på den investigation som precis skapats. Sebastian
+      // fixar detta!
+      const { id } = await res.json();
+      router.push(`/investigation/${id}/team`);
+    } catch {
+      setError('Kunde inte starta fallet');
+      setStarting(false);
+    }
+  }
+
   if (selectedCase) {
     return (
       <div className="flex flex-col items-center gap-3">
@@ -64,10 +92,20 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
         {isOwner ? (
           <div className="flex flex-col items-center gap-2">
             <button
-              className="rounded px-6 py-2 font-label text-xs uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer"
+              onClick={handleStartCase}
+              disabled={starting}
+              className="rounded px-6 py-2 font-label text-xs uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer min-w-[8rem] h-9 disabled:opacity-60"
               style={{ backgroundImage: 'var(--btn-primary)' }}
             >
-              Starta fall
+              {starting ? (
+                <span className="flex justify-center gap-1">
+                  <span className="animate-dot-blink [animation-delay:0s]">.</span>
+                  <span className="animate-dot-blink [animation-delay:0.2s]">.</span>
+                  <span className="animate-dot-blink [animation-delay:0.4s]">.</span>
+                </span>
+              ) : (
+                'Starta fall'
+              )}
             </button>
 
             {/* Tillåt användaren att byta fall utan att ladda om sidan! */}
