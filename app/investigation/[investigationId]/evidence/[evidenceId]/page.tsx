@@ -14,6 +14,18 @@ const EvidenceSpecificPage = async ({
 
   const cookieStore = await cookies();
 
+  // Stämplar ledtråden som öppnad och låser upp de ledtrådar som kräver den.
+  // Svaret behövs inte här, de nya ledtrådarna syns i Bevismaterial nästa gång listan hämtas.
+  await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/investigations/${investigationId}/evidence/${evidenceId}/open`,
+    {
+      method: 'POST',
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    }
+  );
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/api/investigations/${investigationId}/evidence/${evidenceId}`,
     {
