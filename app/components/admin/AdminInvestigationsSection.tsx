@@ -18,10 +18,10 @@ export const AdminInvestigationsSection = () => {
       <table className="w-full border-collapse">
         <thead>
           <tr className="border-b">
-            <th className="text-left p-2">Title</th>
+            <th className="text-left p-2">Id</th>
             <th className="text-left p-2">Status</th>
-            <th className="text-center p-2">Edit</th>
-            <th className="text-center p-2">Delete</th>
+            {/* <th className="text-center p-2">Edit</th>
+            <th className="text-center p-2">Delete</th> */}
           </tr>
         </thead>
 
@@ -39,7 +39,7 @@ export const AdminInvestigationsSection = () => {
                   {inv.status}
                 </td>
 
-                <td className="p-2 text-center">
+                {/* <td className="p-2 text-center">
                   <button
                     // onClick={() => handleEdit(c)}
                     className="px-2 py-1 rounded bg-gold text-background"
@@ -55,7 +55,7 @@ export const AdminInvestigationsSection = () => {
                   >
                     Delete
                   </button>
-                </td>
+                </td> */}
               </tr>
             ))}
         </tbody>
