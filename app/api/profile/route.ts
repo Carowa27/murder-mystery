@@ -1,9 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/supabase/auth';
 import { NextResponse } from 'next/server';
+import { avatars } from '@/lib/avatars';
 
 interface IProfileRow {
   display_name: string;
+  avatar_url: string | null;
   unlimited_until: string | null;
   subscription_tier: string;
 }
@@ -23,7 +25,7 @@ export async function GET() {
   // Typerna i database.types.ts känner inte till den, därför IProfileRow.
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('display_name, unlimited_until, subscription_tier')
+    .select('display_name, avatar_url, unlimited_until, subscription_tier')
     .eq('id', user.sub)
     .single<IProfileRow>();
 
@@ -43,4 +45,31 @@ export async function GET() {
   }
 
   return NextResponse.json({ email: user.email, ...profile, purchases });
+}
+
+// Byter den inloggades avatar. Bara det som finns i listan i lib/avatars.ts får sparas.
+export async function PATCH(request: Request) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return NextResponse.json({ error: 'Ej inloggad' }, { status: 401 });
+  }
+
+  const body = await request.json();
+
+  const { avatar_url } = body;
+
+  if (!avatars.includes(avatar_url)) {
+    return NextResponse.json({ error: 'Okänd avatar' }, { status: 400 });
+  }
+
+  const supabase = await createClient();
+
+  const { error } = await supabase.from('profiles').update({ avatar_url }).eq('id', user.sub);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ avatar_url });
 }
