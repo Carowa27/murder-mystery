@@ -1,7 +1,7 @@
 'use client';
 import { dateFormatter } from '@/lib/helper fns/dateformatter';
 import { INotes } from '@/lib/interfaces/gameRelated';
-import { LinkIcon } from '@phosphor-icons/react';
+import { LinkIcon, PencilSimpleIcon, XIcon } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 
 interface INoteParams {
@@ -20,6 +20,15 @@ export const Note = ({ n }: INoteParams) => {
       style={{ transform: `rotate(${rotation}deg)` }}
       className="flex flex-col gap-2 shadow-md rounded py-2 px-4 my-2 mx-4 bg-[url(/images/item-backgrounds/open-case-v2.png)] bg-center bg-no-repeat bg-fill"
     >
+      <div className="flex justify-between items-start">
+        {/* `active:opacity-100` istället för `hover:opacity-100` */}
+        <button className="cursor-pointer opacity-60 active:opacity-100 transition-opacity">
+          <PencilSimpleIcon size={16} />
+        </button>
+        <button className="cursor-pointer opacity-60 active:opacity-100 transition-opacity">
+          <XIcon size={16} />
+        </button>
+      </div>
       <p className="!font-handwritten !text-2xl">{n.content}</p>
       {n.case_clues !== null && (
         <p className="flex gap-2 align-center">
