@@ -84,15 +84,11 @@ export const AdminCasesSection = () => {
             ))}
         </tbody>
       </table>
-      ---
-      <p>Cases</p>
-      Hantera cases och alla dess delar.
+      {/* TODO:
       <p> Create case</p>
-      <p>X Read Case</p>
       <p> Update Case</p>
-      <p> X Delete case</p>
       <p> Add clues to existing case</p>
-      <p> Update clues to existing case</p>
+      <p> Update clues to existing case</p> */}
     </div>
   );
 };
