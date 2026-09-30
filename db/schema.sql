@@ -169,6 +169,7 @@ CREATE TABLE investigation_found_clues (
   clue_id uuid NOT NULL REFERENCES case_clues (id) ON DELETE CASCADE,
   found_by uuid REFERENCES profiles (id) ON DELETE SET NULL,
   found_at timestamptz NOT NULL DEFAULT now(),
+  opened_at timestamptz, -- sätts första gången någon öppnar ledtråden
   PRIMARY KEY (investigation_id, clue_id)
 );
 
@@ -818,6 +819,11 @@ CREATE POLICY found_clues_select ON investigation_found_clues
 
 CREATE POLICY found_clues_insert ON investigation_found_clues
   FOR INSERT TO authenticated
+  WITH CHECK (public.can_access_investigation(investigation_id));
+
+CREATE POLICY found_clues_update ON investigation_found_clues
+  FOR UPDATE TO authenticated
+  USING (public.can_access_investigation(investigation_id))
   WITH CHECK (public.can_access_investigation(investigation_id));
 
 CREATE POLICY notes_select ON notes
