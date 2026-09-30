@@ -28,7 +28,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000010',
-  'Mordet på tjugotredje våningen',
+  'Sheung Wan',
   'Hongkong, september 1986. Signal åtta hissas klockan 17:40 och staden stänger, men sju personer blir kvar i Lau Cheongs kontorshus i Sheung Wan medan tyfonen drar in. På morgonen ligger styrelseordföranden Lau Wing-kit på lastkajens tak, sex våningar under sitt eget fönster. Polisen skriver olyckshändelse, eftersom rutan uppenbarligen gav vika för vinden. Glaset säger något annat.',
   'Lau Cheong Shipping, Sheung Wan, Hongkong',
   '1986-09-09',

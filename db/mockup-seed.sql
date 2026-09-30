@@ -17,7 +17,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000001',
-  'Mordet på Hôtel Le Mont',
+  'Hôtel Le Mont',
   'Paris, våren 1929. Hotellets ägare Armand Rousseau hittas död i svit 402 morgonen efter vårbalen. Dörren var låst inifrån och nyckeln satt kvar. Fem personer var kvar i huset den natten, och alla har något de hellre hade behållit för sig själva.',
   'Hôtel Le Mont, Paris',
   '1929-03-15',

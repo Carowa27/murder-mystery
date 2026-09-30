@@ -26,7 +26,8 @@ export async function GET() {
         image_url,
         price,
         stage,
-        difficulties (*) 
+        story_date,
+        difficulties (*)
       `
       )
       .eq('stage', 'active');

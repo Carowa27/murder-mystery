@@ -22,7 +22,7 @@
 INSERT INTO cases (id, title, description, location, story_date, difficulty_id, price, stage)
 VALUES (
   'a0000000-0000-4000-8000-000000000006',
-  'Mordet under kupolen',
+  'Cirkus Fortuna',
   'Köpenhamn, oktober 1962. Vid säsongens sista föreställning kastar sig trapetsartisten Aurel Bassi ut mot fångaren, blir inte gripen och faller mot säkerhetsnätet. Nätet borde ha tagit emot. I stället ger det vika i ett hörn och Bassi slår i sågspånet inför åttahundra åskådare. Alla fyra surrningarna satt på plats när tältmästaren kontrollerade dem klockan fem.',
   'Cirkus Fortuna, Bellahøj, Köpenhamn',
   '1962-10-14',
