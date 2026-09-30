@@ -54,7 +54,8 @@ export default function CreateNoteForm({ investigationId }: { investigationId: s
       <button
         type="submit"
         disabled={loading || !content.trim()}
-        className="rounded px-4 py-2 font-label text-xs uppercase tracking-widest text-background transition-opacity hover:opacity-90 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed self-end"
+        // Fixed width och height så att knappen inte byter form när "Spara" ändras till "..."
+        className="rounded px-4 py-2 min-w-[5.5rem] h-9 font-label text-xs uppercase tracking-widest text-background transition-opacity hover:opacity-90 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed self-end"
         style={{ backgroundImage: 'var(--btn-primary)' }}
       >
         {/* Återanvänd vår three pulsing dots animation! */}
