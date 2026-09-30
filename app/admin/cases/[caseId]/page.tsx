@@ -3,16 +3,14 @@
 import { BackLink } from '@/app/components/BackLink';
 import { ICaseObject } from '@/lib/interfaces/adminRelated';
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
-import { FormEvent, useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const CaseInfoPage = () => {
   const params = useParams();
   const caseId = params.caseId as string;
-  const router = useRouter();
 
   const [gameCase, setGameCase] = useState<ICaseObject>();
-  const [saving, setSaving] = useState(false);
   const [showClues, setShowClues] = useState<{ id: string; show: boolean }[]>([]);
   const [showCharacters, setShowCharacters] = useState<{ id: string; show: boolean }[]>([]);
   useEffect(() => {
@@ -38,78 +36,6 @@ const CaseInfoPage = () => {
       .then(setGameCase);
   }, [caseId]);
 
-  const updateCase = (updates: Partial<ICaseObject>) => {
-    setGameCase((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        ...updates,
-      };
-    });
-  };
-
-  const updateClue = (clueId: string, updates: Partial<ICaseObject['case_clues'][number]>) => {
-    setGameCase((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        case_clues: prev.case_clues.map((clue) =>
-          clue.id === clueId ? { ...clue, ...updates } : clue
-        ),
-      };
-    });
-  };
-
-  const updateCharacter = (
-    characterId: string,
-    updates: Partial<ICaseObject['characters'][number]>
-  ) => {
-    setGameCase((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        characters: prev.characters.map((character) =>
-          character.id === characterId ? { ...character, ...updates } : character
-        ),
-      };
-    });
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!gameCase) return;
-
-    setSaving(true);
-
-    try {
-      const response = await fetch(`/api/admin/cases/${caseId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(gameCase),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error ?? 'Failed to save case');
-      }
-
-      alert('Case saved');
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-
-      alert(error instanceof Error ? error.message : 'Something went wrong');
-    } finally {
-      setSaving(false);
-    }
-  };
-
   if (!gameCase) {
     return (
       <div>
@@ -134,7 +60,7 @@ const CaseInfoPage = () => {
           <Image
             src={gameCase.image_url}
             alt={gameCase.title}
-            className="max-w-xs border w-[100%] mx-auto"
+            className="max-w-xs border w-[50%] mx-auto"
             height={200}
             width={200}
           />
@@ -166,8 +92,8 @@ const CaseInfoPage = () => {
         {[...gameCase.case_clues]
           .sort((a, b) => a.id.localeCompare(b.id))
           .map((clue) => (
-            <div key={clue.id} className="border-b pb-4 mb-4">
-              <div className="flex justify-between">
+            <div key={clue.id}>
+              <div className="flex justify-between my-1">
                 <label className="flex flex-col gap-1">
                   {showClues.find((item) => item.id === clue.id)?.show && <span>Title</span>}
 
@@ -188,7 +114,7 @@ const CaseInfoPage = () => {
                 </button>
               </div>
               {showClues.find((item) => item.id === clue.id)?.show && (
-                <>
+                <div className="border-b pb-4 mb-4">
                   <label className="flex flex-col gap-1 mb-2">
                     <span>Content</span>
 
@@ -242,7 +168,7 @@ const CaseInfoPage = () => {
                       />
                     </>
                   )}
-                </>
+                </div>
               )}
             </div>
           ))}
@@ -258,7 +184,7 @@ const CaseInfoPage = () => {
             .map((character) => (
               <div key={character.id}>
                 <div className="flex justify-between my-2">
-                  <p>
+                  <p className="ps-3 text-gold">
                     {character.first_name} {character.last_name}
                   </p>
                   <button
