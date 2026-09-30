@@ -10,7 +10,9 @@ interface IPolaroidParam {
   showVictim: boolean;
   crossSize: 'small' | 'big' | 'none';
   onWall: boolean;
-  width: number;
+  // Ett tal betyder pixlar, till exempel 110. En text används som den står,
+  // till exempel '100%' när fotot ska fylla sin plats i ett rutnät.
+  width: number | string;
 }
 
 export const Polaroid = ({ c, showName, showVictim, onWall, width, crossSize }: IPolaroidParam) => {
@@ -23,7 +25,7 @@ export const Polaroid = ({ c, showName, showVictim, onWall, width, crossSize }: 
 
   return (
     <div
-      style={{ width: `${width}px` }}
+      style={{ width: typeof width === 'number' ? `${width}px` : width }}
       className={`shadow-sm relative bg-paper p-1 rounded-xs flex flex-col items-center w-[${width}px] aspect-[1/1.215] brightness-70`}
     >
       {onWall && (
@@ -53,8 +55,11 @@ export const Polaroid = ({ c, showName, showVictim, onWall, width, crossSize }: 
           <Image
             src={c.image_url}
             alt={`image of ${c.first_name} ${c.last_name}`}
-            height={50}
-            width={50}
+            // Next hämtar bilden i ungefär den här storleken. Med 50 blev fotona
+            // suddiga så fort de visades större än 50 pixlar.
+            height={400}
+            width={400}
+            sizes="(max-width: 768px) 50vw, 240px"
             className="w-[100%]"
           />
         ) : (
