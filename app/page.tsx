@@ -29,7 +29,8 @@ export default async function Home() {
 
       <h1 className="text-gold">Välkommen, {name}</h1>
       <div className="max-w-sm text-text-secondary">
-        Nya fall väntar på byrån. Samla ditt team och sätt mördaren bakom lås och bom.
+        Nya fall väntar på byrån. Spela själv eller samla ditt team och sätt mördaren bakom lås och
+        bom.
       </div>
 
       <Link
