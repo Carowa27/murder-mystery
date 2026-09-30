@@ -25,7 +25,7 @@ const CaseInfoPage = () => {
         show: false,
       }))
     );
-    setShowClues(
+    setShowCharacters(
       gameCase.characters.map((char) => ({
         id: char.id,
         show: false,
@@ -168,10 +168,10 @@ const CaseInfoPage = () => {
           .map((clue) => (
             <div key={clue.id} className="border-b pb-4 mb-4">
               <div className="flex justify-between">
-                <label className="flex flex-col gap-1 mb-2">
-                  <span>Title</span>
+                <label className="flex flex-col gap-1">
+                  {showClues.find((item) => item.id === clue.id)?.show && <span>Title</span>}
 
-                  <p className="ps-3 text-gold">{clue.title}</p>
+                  <p className="ps-3 my-auto text-gold">{clue.title}</p>
                 </label>
                 <button
                   onClick={(e) => (
@@ -184,7 +184,7 @@ const CaseInfoPage = () => {
                   )}
                   className="h-fit border border-gold active:bg-gold px-2 py-1 my-auto rounded !text-sm"
                 >
-                  show
+                  {showClues.find((item) => item.id === clue.id)?.show ? 'hide' : 'show'}
                 </button>
               </div>
               {showClues.find((item) => item.id === clue.id)?.show && (
@@ -205,7 +205,7 @@ const CaseInfoPage = () => {
                       <label className="flex flex-col gap-1 mt-2">
                         <span>Requires clue</span>
 
-                        <p className="ps-3 text-gold">
+                        <div className="ps-3 text-gold">
                           <ul className="list-disc list-inside">
                             {gameCase.case_clues
                               .filter((c) => c.id !== clue.id)
@@ -222,7 +222,7 @@ const CaseInfoPage = () => {
                                 </li>
                               ))}
                           </ul>
-                        </p>
+                        </div>
                       </label>
                     </>
                   )}
@@ -256,7 +256,7 @@ const CaseInfoPage = () => {
           {[...gameCase.characters]
             .sort((a, b) => a.id.localeCompare(b.id))
             .map((character) => (
-              <>
+              <div key={character.id}>
                 <div className="flex justify-between my-2">
                   <p>
                     {character.first_name} {character.last_name}
@@ -272,7 +272,9 @@ const CaseInfoPage = () => {
                     )}
                     className="h-fit border border-gold active:bg-gold px-2 py-1 my-auto rounded !text-sm"
                   >
-                    show
+                    {showCharacters.find((item) => item.id === character.id)?.show
+                      ? 'hide'
+                      : 'show'}
                   </button>
                 </div>
 
@@ -324,7 +326,7 @@ const CaseInfoPage = () => {
                     </label>
                   </div>
                 )}
-              </>
+              </div>
             ))}
         </section>
       </div>
