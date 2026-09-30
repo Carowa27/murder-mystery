@@ -36,7 +36,9 @@ export async function GET() {
   // RLS släpper igenom allt för admin, så filtret på user_id behövs här också.
   const { data: purchases, error: purchasesError } = await supabase
     .from('purchases')
-    .select('created_at, cases ( id, title, image_url )')
+    .select(
+      'created_at, cases ( id, title, description, image_url, story_date, difficulties ( name ) )'
+    )
     .eq('user_id', user.sub)
     .order('created_at', { ascending: false });
 
@@ -47,7 +49,8 @@ export async function GET() {
   return NextResponse.json({ email: user.email, ...profile, purchases });
 }
 
-// Byter den inloggades avatar. Bara det som finns i listan i lib/avatars.ts får sparas.
+// Sparar namn och avatar från Redigera profil. Avataren måste finnas i listan
+// i lib/avatars.ts, eller vara null för den som inte har valt någon än.
 export async function PATCH(request: Request) {
   const user = await getCurrentUser();
 
@@ -57,19 +60,32 @@ export async function PATCH(request: Request) {
 
   const body = await request.json();
 
-  const { avatar_url } = body;
+  const { display_name, avatar_url } = body;
 
-  if (!avatars.includes(avatar_url)) {
+  if (typeof display_name !== 'string') {
+    return NextResponse.json({ error: 'Namn saknas' }, { status: 400 });
+  }
+
+  const name = display_name.trim();
+
+  if (name.length < 1 || name.length > 30) {
+    return NextResponse.json({ error: 'Namnet ska vara 1 till 30 tecken' }, { status: 400 });
+  }
+
+  if (avatar_url !== null && !avatars.includes(avatar_url)) {
     return NextResponse.json({ error: 'Okänd avatar' }, { status: 400 });
   }
 
   const supabase = await createClient();
 
-  const { error } = await supabase.from('profiles').update({ avatar_url }).eq('id', user.sub);
+  const { error } = await supabase
+    .from('profiles')
+    .update({ display_name: name, avatar_url })
+    .eq('id', user.sub);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ avatar_url });
+  return NextResponse.json({ display_name: name, avatar_url });
 }
