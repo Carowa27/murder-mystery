@@ -96,6 +96,10 @@ export const Note = ({ n }: INoteParams) => {
               <CheckIcon size={16} />
             </button>
             <button
+              // Eftersom X ikonen har "double duty" behöver de olika nycklar så att de behandlas som två olika element!
+              // Utan denna key property på båda knappar (godtyckliga strings) kan vi inte ändra en anteckning, avbryta och 
+              // sedan ta bort den. X knappen blir "greyed out"
+              key="cancel"
               onClick={handleCancelEdit}
               className="cursor-pointer opacity-60 active:opacity-100 transition-opacity"
             >
@@ -111,6 +115,7 @@ export const Note = ({ n }: INoteParams) => {
               <PencilSimpleIcon size={16} />
             </button>
             <button
+              key="delete"
               onClick={handleDelete}
               disabled={deleting}
               className="cursor-pointer opacity-60 active:opacity-100 transition-opacity disabled:opacity-30"
