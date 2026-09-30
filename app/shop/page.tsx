@@ -64,8 +64,8 @@ export default function ShopPage() {
         <div className="flex flex-col gap-1">
           <div className="font-label text-xs uppercase tracking-widest text-gold">Unlimited</div>
           <div className="text-lg">
-            Fär dig som inte kan få nog av mysterier. Ger dig tillgång till alla nuvarande fall och
-            kommande.
+            För dig som inte kan få nog av mysterier. Ger dig tillgång till alla nuvarande fall och
+            kommande. De fall du redan köpt behåller du när prenumerationen tar slut.
           </div>
         </div>
         <Link
