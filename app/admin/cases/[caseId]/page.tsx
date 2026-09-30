@@ -48,7 +48,7 @@ const CaseInfoPage = () => {
 
   return (
     <div>
-      <BackLink linkUrl="/admin?tab=cases" linkText="Back" />
+      <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
 
       <div className="flex flex-col max-w-4xl mx-auto">
         {/* Case Details */}
