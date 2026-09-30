@@ -4,7 +4,7 @@ interface IParams {
   btnAction: () => void;
 }
 
-export const Button = ({ btnDisabled, btnText, btnAction }: IParams) => {
+export const AdminButton = ({ btnDisabled, btnText, btnAction }: IParams) => {
   return (
     <button
       onClick={btnAction}

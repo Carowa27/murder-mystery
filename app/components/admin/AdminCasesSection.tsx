@@ -1,11 +1,13 @@
 'use client';
 import type { Database } from '@/lib/database.types';
-import { Button } from './AdminButton';
+import { AdminButton } from './AdminButton';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type ICase = Database['public']['Tables']['cases']['Row'];
 
 export const AdminCasesSection = () => {
+  const router = useRouter();
   const [cases, setCases] = useState<ICase[]>();
   const [searchParam, setSearchParam] = useState('');
   useEffect(() => {
@@ -31,7 +33,7 @@ export const AdminCasesSection = () => {
         placeholder="Search cases..."
         className="w-full border border-primary bg-background px-3 py-2 mb-2"
       />
-      <Button
+      <AdminButton
         btnDisabled={false}
         btnText={'Create new case'}
         btnAction={() => console.log('clicked')}
@@ -69,7 +71,7 @@ export const AdminCasesSection = () => {
 
                 <td className="p-2 text-center">
                   <button
-                    // onClick={() => handleDelete(c.id)}
+                    onClick={() => router.push(`/admin/cases/${c.id}/delete-case/`)}
                     className="px-2 py-1 rounded bg-danger text-white"
                   >
                     Delete
