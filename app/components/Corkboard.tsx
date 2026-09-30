@@ -9,7 +9,7 @@ interface IParams {
   characters: IGameCharacter[];
 }
 
-// cqw till skillnad mot vw sätter sin bredd i procent mot föräldern, inte hela skärmen.
+// cqw till skillnad mot vw sätter sin bredd i procent mot närmsta föräldern med @container, inte hela skärmen.
 // Ett foto är 12.5cqw brett, alltså en åttondel av tavlan, oavsett
 // hur stor skärmen är.
 //
