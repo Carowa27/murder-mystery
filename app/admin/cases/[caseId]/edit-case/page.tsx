@@ -417,8 +417,15 @@ const CaseEditPage = () => {
                     {character.is_victim !== true && (
                       <label className="flex flex-col gap-1 mt-2">
                         <span>Relation till offer</span>
-
-                        <p className="ps-3 text-gold">{character.relationship}</p>
+                        <input
+                          value={character.relationship ?? ''}
+                          onChange={(e) =>
+                            updateCharacter(character.id, {
+                              relationship: e.target.value,
+                            })
+                          }
+                          className="border border-gold p-2"
+                        />{' '}
                       </label>
                     )}
 
