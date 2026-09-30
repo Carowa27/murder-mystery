@@ -10,6 +10,8 @@ const AdminInvestigationInfoPage = () => {
   const params = useParams();
   const investigationId = params.investigationId as string;
   const [investigation, setInvestigation] = useState<IInvestigationDetails>();
+  const [showClues, setShowClues] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
 
   useEffect(() => {
     fetch(`/api/admin/investigations/${investigationId}`)
@@ -94,45 +96,68 @@ const AdminInvestigationInfoPage = () => {
           </div>
         ))}
       </div>
-      <div className="border border-gold-light px-2 pb-1">
+      <div className="px-2 pb-1">
         <h4 className="border-l border-b border-l-muted-secondary border-b-gold-light ps-2 my-2 !font-label text-gold uppercase">
-          Case
+          Active case
         </h4>
-        <label>
-          Title <p className="ps-3 text-gold-light">{investigation?.cases.title}</p>
-        </label>
-        <h5>Clues</h5>
-        {investigation?.investigation_found_clues.map((cf, i) => (
-          <div key={cf.found_at + i} className="border my-1 py-1">
-            <p className="ps-3 text-gold-light">{cf.case_clues.title}</p>
-            <p className="ps-3 text-gold-light">{cf.case_clues.clue_types.name}</p>
-            <p className="ps-3 text-gold-light">
-              {new Date(cf.found_at).toLocaleString('sv-SE', {
-                day: '2-digit',
-                month: '2-digit',
-                year: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </p>
-          </div>
-        ))}
-        <h5>Notes</h5>
-        {investigation?.notes.map((n, i) => (
-          <div key={n.created_at + i} className="border my-1 py-1">
-            <p className="ps-3 text-gold-light">{n.content}</p>
-            <p className="ps-3 text-gold-light">{n.profiles.display_name}</p>
-            <p className="ps-3 text-gold-light">
-              {new Date(n.created_at).toLocaleString('sv-SE', {
-                day: '2-digit',
-                month: '2-digit',
-                year: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </p>
-          </div>
-        ))}
+        <p className="ps-3 text-gold-light">{investigation?.cases.title}</p>
+
+        <div className="flex justify-between">
+          <h5>Found clues</h5>
+          <button
+            className="border border-gold active:bg-gold px-2 rounded !text-sm"
+            onClick={() => setShowClues(!showClues)}
+          >
+            show clues
+          </button>
+        </div>
+        {showClues && (
+          <>
+            {investigation?.investigation_found_clues.map((cf, i) => (
+              <div key={cf.found_at + i} className="rounded my-2 py-1 px-3 bg-surface">
+                <p className="text-gold-light">{cf.case_clues.title}</p>
+                <p className="text-text-primary text-end">{cf.case_clues.clue_types.name}</p>
+                <p className="text-text-primary text-end">
+                  {new Date(cf.found_at).toLocaleString('sv-SE', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </p>
+              </div>
+            ))}
+          </>
+        )}
+        <div className="flex justify-between mt-3">
+          <h5>Notes</h5>
+          <button
+            className="border border-gold active:bg-gold px-2 rounded !text-sm"
+            onClick={() => setShowNotes(!showNotes)}
+          >
+            show notes
+          </button>
+        </div>
+        {showNotes && (
+          <>
+            {investigation?.notes.map((n, i) => (
+              <div key={n.created_at + i} className="rounded my-2 py-1 px-3 bg-surface">
+                <p className="text-gold-light">{n.content}</p>
+                <p className="text-text-primary text-end">{n.profiles.display_name}</p>
+                <p className="text-text-primary text-end">
+                  {new Date(n.created_at).toLocaleString('sv-SE', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </p>
+              </div>
+            ))}
+          </>
+        )}
       </div>
       {/* <div className="w-50 h-50 overflow-hidden rounded-[50%] mx-auto my-4 border-3 border-gold">
         {profile?.avatar_url === '' || profile?.avatar_url === null ? (
