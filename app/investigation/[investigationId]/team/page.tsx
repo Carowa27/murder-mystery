@@ -29,8 +29,8 @@ const TeamPage = async ({ params }: { params: Promise<{ investigationId: string 
       <Scene
         background="/images/backgrounds/team-floor.webp"
         image="/images/item-backgrounds/team-table.webp"
-        width={1024}
-        height={1536}
+        width={1015}
+        height={1233}
       >
         {tableSeatPositions.map((position, i) => (
           <Seat key={position} profile={team_members[i]?.profiles} className={position} />

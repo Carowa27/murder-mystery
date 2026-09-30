@@ -3,10 +3,10 @@ import type { IProfile } from '@/lib/interfaces/gameRelated';
 
 // Stolarna i team-table.webp, i samma ordning som team_members.
 export const tableSeatPositions = [
-  'top-[25%] left-[13%]',
-  'top-[25%] left-[87%]',
-  'top-[70%] left-[13%]',
-  'top-[70%] left-[87%]',
+  'top-[24%] left-[12%]',
+  'top-[24%] left-[88%]',
+  'top-[75%] left-[12%]',
+  'top-[75%] left-[88%]',
 ];
 
 interface IParams {
