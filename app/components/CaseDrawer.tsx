@@ -62,12 +62,25 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
           </p>
         </div>
         {isOwner ? (
-          <button
-            className="rounded px-6 py-2 font-label text-xs uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer"
-            style={{ backgroundImage: 'var(--btn-primary)' }}
-          >
-            Starta fall
-          </button>
+          <div className="flex flex-col items-center gap-2">
+            <button
+              className="rounded px-6 py-2 font-label text-xs uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer"
+              style={{ backgroundImage: 'var(--btn-primary)' }}
+            >
+              Starta fall
+            </button>
+
+            {/* Tillåt användaren att byta fall utan att ladda om sidan! */}
+            <button
+              onClick={() => {
+                setSelectedCase(null);
+                setOpen(true);
+              }}
+              className="font-label text-xs uppercase tracking-widest text-text-secondary active:text-gold transition-colors cursor-pointer"
+            >
+              Byt fall
+            </button>
+          </div>
         ) : (
           <p className="rounded bg-background/80 px-4 py-2 border border-gold/30 font-label text-xs uppercase tracking-widest text-gold text-center">
             Väntar på att {ownerName} ska starta fallet...
