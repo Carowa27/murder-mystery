@@ -4,10 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { LogoutButton } from '@/app/components/LogoutButton';
+import { avatars } from '@/lib/avatars';
 
 interface IProfile {
   email: string;
   display_name: string;
+  avatar_url: string | null;
   unlimited_until: string | null;
   subscription_tier: string;
   purchases: {
@@ -22,6 +24,8 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<IProfile | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showAvatars, setShowAvatars] = useState(false);
+  const [avatarError, setAvatarError] = useState('');
 
   useEffect(() => {
     async function loadProfile() {
@@ -45,6 +49,30 @@ export default function ProfilePage() {
     loadProfile();
   }, []);
 
+  async function changeAvatar(avatarUrl: string) {
+    if (!profile) return;
+    setAvatarError('');
+
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ avatar_url: avatarUrl }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setAvatarError(data.error);
+        return;
+      }
+
+      setProfile({ ...profile, avatar_url: data.avatar_url });
+      setShowAvatars(false);
+    } catch {
+      setAvatarError('Kunde inte spara avatarn');
+    }
+  }
+
   if (loading) {
     return <p className="py-16 text-center">Hämtar profil...</p>;
   }
@@ -56,10 +84,55 @@ export default function ProfilePage() {
   return (
     <div className="py-8">
       <div className="flex flex-col gap-6 rounded-lg border border-gold/30 bg-surface p-6">
-        <div className="flex flex-col gap-1">
-          <div className="font-label text-xs uppercase tracking-widest text-muted">Detektiv</div>
-          <h1 className="text-gold">{profile.display_name}</h1>
-          <div className="text-sm text-text-secondary">{profile.email}</div>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-4">
+            {profile.avatar_url ? (
+              <Image
+                src={profile.avatar_url}
+                alt="Din avatar"
+                width={80}
+                height={80}
+                className="h-20 w-20 rounded-full object-cover"
+              />
+            ) : (
+              <div className="h-20 w-20 rounded-full bg-muted"></div>
+            )}
+
+            <div className="flex flex-col gap-1">
+              <div className="font-label text-xs uppercase tracking-widest text-muted">
+                Detektiv
+              </div>
+              <h1 className="text-gold">{profile.display_name}</h1>
+              <div className="text-sm text-text-secondary">{profile.email}</div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setShowAvatars(!showAvatars)}
+            className="self-start text-gold hover:text-gold-light transition-colors cursor-pointer"
+          >
+            {showAvatars ? 'Stäng' : 'Byt avatar'}
+          </button>
+
+          {showAvatars && (
+            <ul className="grid grid-cols-4 gap-3 sm:grid-cols-6">
+              {avatars.map((avatar) => (
+                <li key={avatar}>
+                  <button onClick={() => changeAvatar(avatar)} className="cursor-pointer">
+                    <Image
+                      src={avatar}
+                      alt=""
+                      width={80}
+                      height={80}
+                      className={`aspect-square w-full rounded-full border-2 object-cover ${avatar === profile.avatar_url ? 'border-gold' : 'border-transparent'}`}
+                    />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {avatarError && <div className="text-sm text-danger">{avatarError}</div>}
         </div>
 
         <div className="flex flex-wrap items-end justify-between gap-2 border-t border-gold/20 pt-6">
