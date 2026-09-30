@@ -31,7 +31,11 @@ export async function POST(
 
     // Vid detta skede i ett spel har can_accuse kallats på men vi har ändå en
     // server side guard här in case of bugs eller annat! 403 om inga anklagelse finns kvar
-    const maxAccusations = (investigation as any).cases.difficulties.max_accusations as number;
+    const maxAccusations = (
+      investigation as unknown as {
+        cases: { difficulties: { max_accusations: number } };
+      }
+    ).cases.difficulties.max_accusations;
 
     const { count: accusationsMade } = await supabase
       .from('accusations')

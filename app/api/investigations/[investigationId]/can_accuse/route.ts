@@ -27,7 +27,11 @@ export async function GET(
       throw new Error('Investigation not found');
     }
 
-    const maxAccusations = (investigation as any).cases.difficulties.max_accusations as number;
+    const maxAccusations = (
+      investigation as unknown as {
+        cases: { difficulties: { max_accusations: number } };
+      }
+    ).cases.difficulties.max_accusations;
 
     // Tre concurrent Supabase queries som alla körs oberoende av varandra!
     // De blir destructured i ordning: key clues count -> found key clues count -> accusations count.
