@@ -12,9 +12,11 @@ export const AdminCasesSection = () => {
   const [cases, setCases] = useState<ICase[]>();
   const [searchParam, setSearchParam] = useState('');
   useEffect(() => {
-    fetch('/api/admin/cases')
-      .then((r) => r.json())
-      .then(setCases);
+    if (cases === null || cases === undefined || cases.length === 0) {
+      fetch('/api/admin/cases')
+        .then((r) => r.json())
+        .then(setCases);
+    }
   }, []);
   useEffect(() => {
     const timeout = setTimeout(() => {

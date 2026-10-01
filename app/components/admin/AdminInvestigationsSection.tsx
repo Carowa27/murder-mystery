@@ -6,9 +6,11 @@ import { useEffect, useState } from 'react';
 export const AdminInvestigationsSection = () => {
   const [investigations, setInvestigations] = useState<IInvestigationDetails[]>();
   useEffect(() => {
-    fetch('/api/admin/investigations')
-      .then((r) => r.json())
-      .then(setInvestigations);
+    if (investigations === null || investigations === undefined || investigations.length === 0) {
+      fetch('/api/admin/investigations')
+        .then((r) => r.json())
+        .then(setInvestigations);
+    }
   }, []);
 
   return (
