@@ -84,11 +84,6 @@ export const AdminCasesSection = () => {
             ))}
         </tbody>
       </table>
-      {/* TODO:
-      <p> Create case</p>
-      <p> Update Case</p>
-      <p> Add clues to existing case</p>
-      <p> Update clues to existing case</p> */}
     </div>
   );
 };
