@@ -1,58 +1,72 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/supabase/auth';
+
+type InvestigationRow = {
+  case_id: string;
+  status: string;
+  cases: {
+    difficulties: {
+      max_accusations: number;
+    };
+  };
+};
+
+const fail = (error: string, status: number) => NextResponse.json({ error }, { status });
 
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ investigationId: string }> }
 ) {
-  const { investigationId } = await params;
-  const body = await request.json();
-  const { suspectId, userId } = body;
   try {
-    const supabase = await createClient();
-    console.log(suspectId, userId);
-    if (!supabase) {
-      return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
+    const { investigationId } = await params;
+    const body = (await request.json().catch(() => ({}))) as { suspectId?: unknown };
+    const suspectId = body.suspectId;
+
+    if (typeof suspectId !== 'string' || suspectId.length === 0) {
+      return fail('suspectId krävs', 400);
     }
-    // Samma INNER JOIN som i vår can_accuse GET route
-    const { data: investigation } = await supabase
+
+    const user = await getCurrentUser();
+    if (!user) return fail('No user found', 401);
+
+    const supabase = await createClient();
+    if (!supabase) return fail('Failed to initialize Supabase client', 500);
+
+    // ---- Investigation, status and accusation limit ----
+    const { data } = await supabase
       .from('investigations')
       .select(
-        `case_id,
-      cases!inner ( difficulty_id, difficulties!inner ( max_accusations ) )
-    `
+        `case_id, status,
+         cases!inner ( difficulties!inner ( max_accusations ) )`
       )
       .eq('id', investigationId)
       .single();
 
-    if (!investigation) {
-      return NextResponse.json({ error: 'Investigation not found' }, { status: 404 });
+    const investigation = data as unknown as InvestigationRow | null;
+
+    if (!investigation) return fail('Investigation not found', 404);
+
+    // Blocks accusations on solved, failed, abandoned and paused investigations
+    if (investigation.status !== 'active') {
+      return fail('Utredningen är inte aktiv', 409);
     }
 
-    // Vid detta skede i ett spel har can_accuse kallats på men vi har ändå en
-    // server side guard här in case of bugs eller annat! 403 om inga anklagelse finns kvar
-    const maxAccusations = (
-      investigation as unknown as {
-        cases: { difficulties: { max_accusations: number } };
-      }
-    ).cases.difficulties.max_accusations;
+    const maxAccusations = investigation.cases.difficulties.max_accusations;
 
-    const { count: accusationsMade } = await supabase
+    const { count: accusationsMade, error: countError } = await supabase
       .from('accusations')
       .select('*', { count: 'exact', head: true })
       .eq('investigation_id', investigationId);
 
-    if ((accusationsMade ?? 0) >= maxAccusations) {
-      return NextResponse.json(
-        {
-          error: 'Inga anklagelser kvar',
-          accusations_made: accusationsMade,
-          max_accusations: maxAccusations,
-        },
-        { status: 403 }
-      );
+    if (countError) return fail(countError.message, 500);
+
+    const made = accusationsMade ?? 0;
+    if (made >= maxAccusations) {
+      return fail('Inga anklagelser kvar', 403);
     }
 
+    // ---- Suspect must belong to this case ----
     const { data: suspect } = await supabase
       .from('characters')
       .select('id, is_guilty')
@@ -60,44 +74,44 @@ export async function POST(
       .eq('case_id', investigation.case_id)
       .single();
 
-    if (!suspect) {
-      return NextResponse.json({ error: 'Invalid suspect' }, { status: 400 });
-    }
+    if (!suspect) return fail('Invalid suspect', 400);
 
     const isGuilty = suspect.is_guilty;
 
-    const { error: accusationPostError } = await supabase.from('accusations').insert({
+    // ---- Record the accusation ----
+    const { error: accusationError } = await supabase.from('accusations').insert({
       investigation_id: investigationId,
       character_id: suspectId,
-      user_id: userId,
+      user_id: user.sub,
     });
 
-    if (accusationPostError) {
-      return NextResponse.json({ error: accusationPostError.message }, { status: 500 });
+    if (accusationError) return fail(accusationError.message, 500);
+
+    // ---- Close the investigation if it's over ----
+    // `made` was counted before the insert above, so add 1 for this accusation
+    const accusationsLeft = Math.max(maxAccusations - (made + 1), 0);
+    const newStatus: 'solved' | 'failed' | null = isGuilty
+      ? 'solved'
+      : accusationsLeft === 0
+        ? 'failed'
+        : null;
+
+    if (newStatus) {
+      const { error: statusError } = await supabase
+        .from('investigations')
+        .update({ status: newStatus, ended_at: new Date().toISOString() })
+        .eq('id', investigationId);
+
+      if (statusError) return fail(statusError.message, 500);
     }
 
-    // Nu sätter vi även 'solved' och 'failed' i investigations tabellen!
-    if (isGuilty) {
-      await supabase
-        .from('investigations')
-        .update({ status: 'solved', ended_at: new Date().toISOString() })
-        .eq('id', investigationId);
-      // accusationsMade beräknas på rad 40 innan vår nya accusation som skapas på rad 69
-      // så vi lägger på 1 här för att få vår riktiga accusation count
-    } else if ((accusationsMade ?? 0) + 1 >= maxAccusations) {
-      await supabase
-        .from('investigations')
-        .update({ status: 'failed', ended_at: new Date().toISOString() })
-        .eq('id', investigationId);
-    }
-
-    return NextResponse.json({ success: true, is_guilty: isGuilty });
+    return NextResponse.json({
+      success: true,
+      is_guilty: isGuilty,
+      accusations_left: accusationsLeft,
+      status: newStatus ?? 'active',
+    });
   } catch (error) {
-    return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : 'Internal server error',
-      },
-      { status: 500 }
-    );
+    return fail(error instanceof Error ? error.message : 'Internal server error', 500);
   }
 }
