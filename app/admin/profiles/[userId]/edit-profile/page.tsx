@@ -1,8 +1,7 @@
 'use client';
 
 import { Database } from '@/lib/database.types';
-import { redirect, useParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { AdminBackLink } from '@/app/components/admin/AdminBackLink';
@@ -36,7 +35,7 @@ const AdminEditProfilePage = () => {
 
     if (res.ok || res.status === 200) {
       alert('Profile updated');
-      redirect(`/admin/profiles/${userId}`);
+      router.push(`/admin/profiles/${userId}`);
     } else {
       const data = await res.json();
       alert(data.error ?? 'Profile has not been updated, something went wrong');
@@ -48,6 +47,7 @@ const AdminEditProfilePage = () => {
     fetch(`/api/admin/profiles/${userId}`)
       .then((r) => r.json())
       .then(setProfile);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
