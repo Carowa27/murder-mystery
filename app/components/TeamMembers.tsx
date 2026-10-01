@@ -26,9 +26,10 @@ export default function TeamMembers({ teamId, initialMembers, children }: TeamMe
   useEffect(() => {
     const supabase = createClient();
     let channel: ReturnType<typeof supabase.channel> | null = null;
+    let cancelled = false;
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) return;
+      if (cancelled || !session) return;
 
       channel = supabase
         .channel(`team-${teamId}`) // Godtyckligt namn som vi väljer
@@ -61,8 +62,10 @@ export default function TeamMembers({ teamId, initialMembers, children }: TeamMe
         .subscribe();
     });
 
-    // Cleanup
+    // Cleanup: cancelled-flagga så att vi inte skapar en kanal om effekten
+    // redan har städats (React StrictMode kör effekten två gånger i dev)
     return () => {
+      cancelled = true;
       if (channel) supabase.removeChannel(channel);
     };
   }, [teamId]);
