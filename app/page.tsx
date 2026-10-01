@@ -15,6 +15,24 @@ export default async function Home() {
 
   const name = profile?.display_name ?? 'detektiv';
 
+  // Har något av användarens team en pågående utredning står det Fortsätt spela.
+  // Först lagen man är med i, sedan om något av dem har en utredning som pågår.
+  const { data: memberships } = await supabase
+    .from('team_members')
+    .select('team_id')
+    .eq('user_id', user?.sub ?? '');
+  const teamIds = (memberships ?? []).map((m) => m.team_id);
+
+  let hasOngoing = false;
+  if (teamIds.length > 0) {
+    const { count } = await supabase
+      .from('investigations')
+      .select('id', { count: 'exact', head: true })
+      .in('team_id', teamIds)
+      .in('status', ['active', 'paused']);
+    hasOngoing = (count ?? 0) > 0;
+  }
+
   return (
     <div className="flex flex-col items-center gap-6 py-16 text-center">
       <Image
@@ -38,7 +56,7 @@ export default async function Home() {
         className="rounded bg-btn-primary px-6 py-3 hover:opacity-90 transition-opacity"
       >
         <div className="font-label font-bold text-sm uppercase tracking-widest text-background">
-          Börja spela
+          {hasOngoing ? 'Fortsätt spela' : 'Börja spela'}
         </div>
       </Link>
     </div>
