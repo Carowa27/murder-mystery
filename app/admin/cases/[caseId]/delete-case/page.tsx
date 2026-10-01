@@ -9,13 +9,20 @@ const DeleteCasePage = () => {
   const caseId = params.caseId as string;
   const router = useRouter();
   const [gameCase, setGameCase] = useState<ICase>();
+  const [data, setData] = useState<{ data: ICase }>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch(`/api/admin/cases/${caseId}`)
       .then((r) => r.json())
-      .then(setGameCase);
+      .then(setData);
   }, []);
+  useEffect(() => {
+    if (data) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setGameCase(data.data);
+    }
+  }, [data]);
   const softDeleteCase = async () => {
     setLoading(true);
 
@@ -38,9 +45,9 @@ const DeleteCasePage = () => {
       router.refresh();
     }
   };
+
   return (
     <div>
-      <h3 className="text-center">Are you sure?</h3>
       {loading ? (
         'Loading ... '
       ) : (
@@ -74,6 +81,7 @@ const DeleteCasePage = () => {
               </div>
             </div>
           </div>
+          <h3 className="text-center">Are you sure?</h3>
           <div className="flex justify-evenly gap-3 mt-4">
             <button
               className="w-full rounded py-2.5 font-paragraph font-bold text-sm uppercase tracking-widest text-text-primary bg-danger hover:opacity-90 cursor-pointer disabled:bg-none disabled:bg-btn-disabled disabled:text-btn-disabled-text disabled:cursor-not-allowed"
