@@ -132,7 +132,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000205',
     'a0000000-0000-4000-8000-000000000002',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Gardinsnöret i kupé 6',
     'I kupé 6 saknar den inre gardinen sitt uppfästningssnöre, och stumpen som sitter kvar i öglan har en ren snittyta. Snöret som låg på golvet i kupé 5 är av samma mörkblå siden och samma bredd, och ändarna passar mot stumpen. Konduktören uppger att snörena sitter fast i en ögla och inte går att lossa för hand. I necessären i kupé 6 ligger en nagelsax.',
     true
@@ -172,7 +172,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000210',
     'a0000000-0000-4000-8000-000000000002',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Urklipp ur Wiener Zeitung, november 1931',
     'Notisen handlar om konsthandlaren Anton Wenzel, som tog sitt liv i november 1931. En samling ikoner han köpt av Viktor Halász hade visat sig vara kopior, och firman gick i konkurs på hösten. Wenzel efterlämnar hustru och dotter. Dottern Klara, nitton år, är elev vid musikakademien. Advokatbyrån som förde dödsboets talan låg på Schottenring. Urklippet låg hopvikt i passfodralet i kupé 6, tillsammans med ett fotografi av en äldre man utanför en butik i Wien.',
     true

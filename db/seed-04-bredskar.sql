@@ -126,7 +126,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000405',
     'a0000000-0000-4000-8000-000000000004',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Urverkets lod',
     'Lodet är ett tyngdstycke i mässing på nio kilo som hänger i en lina i tornets schakt och driver runt linsen. Det vevas upp var fjärde timme. Underkanten är rund och mäter fem centimeter tvärs över. I kanten sitter hår, och blodet i skarven är av fyrmästarens blodgrupp. För att få loss lodet måste man haka av det uppe i lanterninen, och då stannar linsen. Fyren slutar inte lysa när det sker, men den slutar blinka.',
     true

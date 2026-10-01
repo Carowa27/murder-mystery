@@ -142,7 +142,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000905',
     'a0000000-0000-4000-8000-000000000009',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Livlinan och isskruven',
     'Linans bortre ände har lossats ur isskruven och surrats runt ett bränslefat. Isskruven själv saknas från verktygstavlan i generatorhuset, där varje plats är märkt, och hittades nedstucken i snön vid fatet. Fatet har dragmärken i snön efter att ha rullats på plats. Den som följer linan utåt hamnar alltså vid fatet, fyrtio meter nordväst om generatorhuset, och släpper man linan där finns den inte att hitta igen i drivsnön. Arbetet kräver bara vantar och en minut, men det kräver att man vet var isskruven hör hemma och att man vet att linan är det enda som håller en på rätt kurs i noll sikt.',
     true
@@ -166,7 +166,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000908',
     'a0000000-0000-4000-8000-000000000009',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'David Bells anteckningsbok',
     'Boken låg i den understa lådan på vinden, under ett par kängor. Bell arbetade som rättsläkare åt polisen i Glasgow mellan 1964 och 1971 innan han sökte sig söderut. På de sista sidorna, daterade i september 1977, skriver han att han känt igen kocken från ett fall i Glasgow nio år tidigare och att mannen bär en dödsförklarad mans namn. Den sista raden lyder: "Han vet att jag vet. Jag tar upp det när vi kommer tillbaka från fältet."',
     true
