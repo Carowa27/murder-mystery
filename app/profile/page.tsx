@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { avatars } from '@/lib/avatars';
 import { CaseCard, type ICaseCard } from '@/app/components/CaseCard';
 import { ReceiptList } from '../components/ReceiptList';
+import { UnlimitedCard } from '@/app/components/UnlimitedCard';
 
 interface IProfile {
   email: string;
@@ -92,7 +92,6 @@ export default function ProfilePage() {
     return <p className="py-16 text-center text-danger">{error}</p>;
   }
 
-  const isUnlimited = profile.subscription_tier === 'unlimited';
   const shownAvatar = editing ? draftAvatar : profile.avatar_url;
 
   return (
@@ -179,27 +178,7 @@ export default function ProfilePage() {
         )}
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-gold/30 bg-surface p-6">
-        <div className="flex flex-col gap-1">
-          <div className="font-label text-xs uppercase tracking-widest text-gold">Unlimited</div>
-          <div className="text-lg">
-            {isUnlimited && profile.unlimited_until
-              ? `Gäller till ${new Date(profile.unlimited_until).toLocaleDateString('sv-SE')}`
-              : 'För dig som inte kan få nog av mysterier. Ger dig tillgång till alla nuvarande och kommande fall. De fall du redan köpt behåller du när prenumerationen tar slut.'}
-          </div>
-        </div>
-
-        {!isUnlimited && (
-          <Link
-            href="/checkout?product=unlimited_month"
-            className="rounded bg-btn-primary px-4 py-2 hover:opacity-90 transition-opacity"
-          >
-            <div className="font-label font-bold text-xs uppercase tracking-widest text-background">
-              Uppgradera till Unlimited
-            </div>
-          </Link>
-        )}
-      </div>
+      <UnlimitedCard unlimitedUntil={profile.unlimited_until} />
 
       <div className="flex flex-col gap-3">
         <div className="font-label text-xs uppercase tracking-widest text-gold">Mina fall</div>
