@@ -45,7 +45,6 @@ const CharacterPage = async ({ params }: { params: Promise<{ investigationId: st
                 showVictim={true}
                 onWall={true}
                 width={'100%'}
-                crossSize={'big'}
               />
             </Link>
           ))}
