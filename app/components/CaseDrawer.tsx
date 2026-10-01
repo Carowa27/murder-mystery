@@ -140,7 +140,7 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer"
+        className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background hover:opacity-90 active:opacity-90 transition-opacity cursor-pointer"
         style={{ backgroundImage: 'var(--btn-primary)' }}
       >
         Välj fall
