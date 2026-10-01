@@ -4,6 +4,7 @@ import { redirect, notFound } from 'next/navigation';
 import type { ITeam } from '@/lib/interfaces/gameRelated';
 import CopyInviteLink from '@/app/components/CopyInviteLink';
 import CaseDrawer from '@/app/components/CaseDrawer';
+import OngoingInvestigation from '@/app/components/OngoingInvestigation';
 import TeamMembers from '@/app/components/TeamMembers';
 import { Scene } from '@/app/components/Scene';
 
@@ -35,6 +36,14 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
   // Alternativet skulle vara att skriva en GET route i api/teams/route.ts
   const typedTeam = team as unknown as ITeam;
   const members = typedTeam.team_members ?? [];
+
+  // Kolla om teamet har en pågående utredning (active/paused)
+  const { data: ongoingInvestigation } = await supabase
+    .from('investigations')
+    .select('id, status')
+    .eq('team_id', teamId)
+    .in('status', ['active', 'paused'])
+    .single();
 
   // Boolean för att visa "Visa fall" knappen endast till ägaren av rummet
   const isOwner = user.id === typedTeam.owner_id;
@@ -70,12 +79,20 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
       </div>
 
       {/* Utanför Scene, annars fastnar lådan i scenen. Sidans mitt är bordets mitt. */}
-      {/* CaseDrawer hanterar nu våra tre states: */}
-      {/* * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..." */}
-      {/* * Inget fall valt, owner → "Välj fall" knapp → öppna drawer */}
-      {/* * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner) */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
+        {/* Här används ongoingInvestigation! Pågående utredning finns → visa "Fortsätt" och "Överge" istället för CaseDrawer */}
+        {ongoingInvestigation ? (
+          <OngoingInvestigation
+            investigationId={ongoingInvestigation.id}
+            status={ongoingInvestigation.status}
+          />
+        ) : (
+          // CaseDrawer hanterar nu våra tre states:
+          // * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..."
+          // * Inget fall valt, owner → "Välj fall" knapp → öppna drawer
+          // * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner)
+          <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
+        )}
       </div>
     </div>
   );

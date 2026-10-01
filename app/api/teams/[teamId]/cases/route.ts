@@ -10,12 +10,16 @@ export async function GET(request: Request, { params }: { params: Promise<{ team
       return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
     }
 
-    const { data, error } = await supabase.from('cases').select(
-      `
+    // Vi fetchar nu endast cases med status 'active'!
+    const { data, error } = await supabase
+      .from('cases')
+      .select(
+        `
       id, title, description, image_url,
       difficulties (*)
       `
-    );
+      )
+      .eq('stage', 'active');
     const { data: teamUsers, error: teamUserError } = await supabase
       .from('team_members')
       .select(
