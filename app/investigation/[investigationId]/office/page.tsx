@@ -24,8 +24,10 @@ const OfficePage = async ({ params }: { params: Promise<{ investigationId: strin
   return (
     <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/office-v2.png)] bg-top-right bg-no-repeat bg-cover">
       <Corkboard characters={characters} />
+      {/* Skrivbordet når upp över tavlan på breda skärmar. pointer-events-none
+          släpper igenom klicken till tavlan, och Notebook tar tillbaka sina egna. */}
       <section
-        className={`flex items-end justify-center w-[100%] aspect-[1261/1247] absolute bottom-0 bg-[url(/images/item-backgrounds/desk.png)] bg-bottom bg-no-repeat bg-cover`}
+        className={`pointer-events-none flex items-end justify-center w-[100%] aspect-[1261/1247] absolute bottom-0 bg-[url(/images/item-backgrounds/desk.png)] bg-bottom bg-no-repeat bg-cover`}
       >
         <Notebook />
       </section>

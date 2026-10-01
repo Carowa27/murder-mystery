@@ -10,7 +10,8 @@ export const Notebook = () => {
   const baseUrl = `/investigation/${investigationId}`;
 
   return (
-    <Link href={`${baseUrl}/notes`} className={`w-[45%] h-auto  `}>
+    // pointer-events-auto eftersom skrivbordet runt omkring släpper igenom klick.
+    <Link href={`${baseUrl}/notes`} className={`pointer-events-auto w-[45%] h-auto  `}>
       <Image
         src="/images/item-backgrounds/notebook.png"
         alt=""
