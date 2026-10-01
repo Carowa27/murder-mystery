@@ -76,6 +76,21 @@ export async function POST(
       return NextResponse.json({ error: accusationPostError.message }, { status: 500 });
     }
 
+    // Nu sätter vi även 'solved' och 'failed' i investigations tabellen!
+    if (isGuilty) {
+      await supabase
+        .from('investigations')
+        .update({ status: 'solved', ended_at: new Date().toISOString() })
+        .eq('id', investigationId);
+      // accusationsMade beräknas på rad 40 innan vår nya accusation som skapas på rad 69
+      // så vi lägger på 1 här för att få vår riktiga accusation count
+    } else if ((accusationsMade ?? 0) + 1 >= maxAccusations) {
+      await supabase
+        .from('investigations')
+        .update({ status: 'failed', ended_at: new Date().toISOString() })
+        .eq('id', investigationId);
+    }
+
     return NextResponse.json({ success: true, is_guilty: isGuilty });
   } catch (error) {
     return NextResponse.json(
