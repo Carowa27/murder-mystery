@@ -51,6 +51,18 @@ export const CheckoutForm = ({ product, caseId, price }: ICheckoutForm) => {
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setError('');
+
+    // Kortet gäller till och med månaden som står på det. Månader räknas som
+    // år * 12 + månad, så att 12/26 och 01/27 hamnar bredvid varandra.
+    const [month, year] = expiry.split('/').map(Number);
+    const now = new Date();
+    const thisMonth = (now.getFullYear() % 100) * 12 + now.getMonth() + 1;
+
+    if (year * 12 + month < thisMonth) {
+      setError('Kortet har gått ut');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -114,7 +126,9 @@ export const CheckoutForm = ({ product, caseId, price }: ICheckoutForm) => {
           <input
             required
             inputMode="numeric"
-            pattern="[0-9]{2}/[0-9]{2}"
+            // Månaden måste vara 01 till 12, så 13/24 stoppas av webbläsaren.
+            pattern="(0[1-9]|1[0-2])/[0-9]{2}"
+            title="Månad 01 till 12 och år, till exempel 08/28"
             placeholder="MM/ÅÅ"
             value={expiry}
             onChange={(e) => setExpiry(formatExpiry(e.target.value))}
