@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { CaseCard } from '@/app/components/CaseCard';
+import { UnlimitedCard } from '@/app/components/UnlimitedCard';
 
 interface IShopCase {
   id: string;
@@ -23,13 +24,18 @@ interface IShop {
 // globals.css sätter storlek och typsnitt på dem och då vinner över Tailwind.
 export default function ShopPage() {
   const [shop, setShop] = useState<IShop | null>(null);
+  const [unlimitedUntil, setUnlimitedUntil] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadShop() {
       try {
-        const res = await fetch('/api/shop/cases');
+        // Profilen hämtas samtidigt, för att Unlimited-rutan ska veta om man redan har det.
+        const [res, profileRes] = await Promise.all([
+          fetch('/api/shop/cases'),
+          fetch('/api/profile'),
+        ]);
         const data = await res.json();
 
         if (!res.ok) {
@@ -38,6 +44,11 @@ export default function ShopPage() {
         }
 
         setShop(data);
+
+        if (profileRes.ok) {
+          const profile = await profileRes.json();
+          setUnlimitedUntil(profile.unlimited_until);
+        }
       } catch {
         setError('Kunde inte hämta butiken');
       } finally {
@@ -60,23 +71,7 @@ export default function ShopPage() {
     <div className="flex flex-col gap-8 py-8">
       <h1 className="text-gold">Butik</h1>
 
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-gold/30 bg-surface p-6">
-        <div className="flex flex-col gap-1">
-          <div className="font-label text-xs uppercase tracking-widest text-gold">Unlimited</div>
-          <div className="text-lg">
-            För dig som inte kan få nog av mysterier. Ger dig tillgång till alla nuvarande och
-            kommande fall. De fall du redan köpt behåller du när prenumerationen tar slut.
-          </div>
-        </div>
-        <Link
-          href="/checkout?product=unlimited_month"
-          className="rounded bg-btn-primary px-4 py-2 hover:opacity-90 transition-opacity"
-        >
-          <div className="font-label font-bold text-xs uppercase tracking-widest text-background">
-            Till kassan
-          </div>
-        </Link>
-      </div>
+      <UnlimitedCard unlimitedUntil={unlimitedUntil} />
 
       <div className="flex flex-col gap-3">
         <div className="font-label text-xs uppercase tracking-widest text-gold">Tillgängliga</div>
