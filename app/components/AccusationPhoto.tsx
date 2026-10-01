@@ -10,13 +10,17 @@ interface IAccusationPhotoParams {
 export const AccusationPhoto = ({ c }: IAccusationPhotoParams) => {
   return (
     <div className="w-[25%] bg-background p-3 flex flex-col gap-2 rounded-md border-1 border-primary">
-      <section className="h-auto w-[100%] aspect-[1/1]">
+      <section className="relative h-auto w-[100%] aspect-[1/1] overflow-hidden">
         {c.image_url !== null ? (
+          // fill gör att porträttet fyller hela rutan, hur stor rutan än blir.
+          // Det kräver att rutan runt är relative. object-cover beskär bilden
+          // i kanterna i stället för att töja den.
           <Image
             src={c.image_url}
             alt={`image of ${c.first_name} ${c.last_name}`}
-            height={50}
-            width={50}
+            fill
+            sizes="(max-width: 768px) 30vw, 160px"
+            className="object-cover"
           />
         ) : (
           <div className="bg-muted h-[100%] w-[100%] opacity-100"></div>

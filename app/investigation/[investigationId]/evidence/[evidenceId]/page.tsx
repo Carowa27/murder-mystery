@@ -1,8 +1,9 @@
 import { BackLink } from '@/app/components/BackLink';
 import { KeyEvidence } from '@/app/components/KeyEvidence';
+import { ScalableImageBox } from '@/app/components/ScalableImageBox';
+import { ZoomableImage } from '@/app/components/ZoomableImage';
 import { IFoundClues } from '@/lib/interfaces/gameRelated';
 import { cookies } from 'next/headers';
-import Image from 'next/image';
 
 const EvidenceSpecificPage = async ({
   params,
@@ -45,39 +46,58 @@ const EvidenceSpecificPage = async ({
     'Fingeravtrycksanalys',
     'Övervakningsbilder',
   ];
-  const otherDocs = ['Vittnesmål', 'Telefonlogg'];
+  // Polisens dokument skrivs på det ljusa pappret, allt annat på det bruna.
+  // De två bilderna har hörn av olika storlek, därför olika slice och edge.
+  // Vad siffrorna betyder står i ScalableImageBox.
+  const isPoliceDoc = policeDocs.some((type) => evidence.case_clues.clue_types.name.includes(type));
+  const paper = isPoliceDoc
+    ? {
+        image: '/images/item-backgrounds/document-v2.png',
+        slice: '70 80 130 100',
+        edge: '35px 40px 65px 50px',
+        layerClassName: '',
+      }
+    : {
+        image: '/images/item-backgrounds/document-v1.png',
+        slice: '40',
+        edge: '20px',
+        layerClassName: 'brightness-140',
+      };
 
+  // Pappret har alltid A4-format (aspect-[1/1.414]). Blir texten för lång
+  // scrollar den inuti pappret i stället för att rinna ut över kanten.
   return (
-    <div className="relative w-full min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/evidence-bg.png)] bg-center bg-no-repeat bg-cover flex flex-col justify-center items-center">
+    <div className="relative flex min-h-[calc(100vh-64px-80px)] items-center justify-center bg-[url(/images/backgrounds/evidence-bg.png)] bg-cover bg-center px-4 pt-14 pb-6">
       <BackLink linkUrl={`${baseUrl}/evidence`} linkText={'Bevismaterial'} />
-      <div
-        className={`relative w-[90%] -rotate-4 aspect-[1/1.414] rounded-md ${policeDocs.some((type) => evidence.case_clues.clue_types.name.includes(type)) ? 'bg-[url(/images/item-backgrounds/document-v2.png)] bg-cover shadow-lg' : otherDocs.some((type) => evidence.case_clues.clue_types.name.includes(type)) ? 'bg-[url(/images/item-backgrounds/document-v1.png)] bg-cover shadow-lg brightness-140' : evidence.case_clues.clue_types.name === 'Övervakningsbilder' ? 'bg-[url(/images/item-backgrounds/open-case-v3.png)] bg-contain' : ''} bg-center bg-no-repeat`}
+      <ScalableImageBox
+        image={paper.image}
+        slice={paper.slice}
+        edge={paper.edge}
+        layerClassName={paper.layerClassName}
+        className="aspect-[1/1.414] w-[90%] max-w-md -rotate-2 drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
       >
-        <div
-          className={
-            evidence.case_clues.image_url !== null
-              ? `px-2 h-100 text-surface flex flex-col justify-center items-center`
-              : `ps-4 pe-2 pt-4 text-surface flex flex-col justify-center`
-          }
-        >
-          <h4 className="!font-printed pb-2 leading-7">{evidence.case_clues.title}</h4>
-          {evidence.case_clues.image_url === null ? (
-            <>
-              {/* <h3 className="!font-printed pb-2 leading-7">{evidence.title}</h3> */}
-              <p className="!font-printed leading-4.5">{evidence.case_clues.content}</p>
-            </>
-          ) : (
-            <Image
-              src={evidence.case_clues.image_url}
-              alt={`image of ${evidence.case_clues.title}`}
-              width={250}
-              height={250}
-              className="self-center"
-            />
-          )}
+        {/* Marginalen gör att texten slutar innanför papperskanten när den scrollar. */}
+        <div className="h-full px-7 py-8">
+          <div className="flex h-full flex-col gap-4 overflow-y-auto pr-1 text-surface scrollbar-thin">
+            <h4 className="!font-printed leading-7">{evidence.case_clues.title}</h4>
+
+            {/* Har ledtråden en bild visas både bilden och texten, annars bara texten. */}
+            {evidence.case_clues.image_url && (
+              <ZoomableImage src={evidence.case_clues.image_url} alt={evidence.case_clues.title} />
+            )}
+
+            {evidence.case_clues.content && (
+              <p className="!font-printed leading-6">{evidence.case_clues.content}</p>
+            )}
+
+            {evidence.case_clues.is_key && (
+              <div className="relative h-8 shrink-0">
+                <KeyEvidence />
+              </div>
+            )}
+          </div>
         </div>
-        {evidence.case_clues.is_key && <KeyEvidence />}
-      </div>
+      </ScalableImageBox>
     </div>
   );
 };
