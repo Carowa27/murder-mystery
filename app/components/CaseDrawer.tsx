@@ -148,12 +148,12 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center"
+          className="fixed inset-0 z-50 flex items-end md:items-center justify-center"
           onClick={() => setOpen(false)}
         >
           <div className="absolute inset-0 bg-black/60" />
           <div
-            className="relative w-full max-w-lg h-[70vh] overflow-y-auto rounded-t-2xl bg-surface border-t border-gold/30 p-6 animate-slide-up"
+            className="relative w-full max-w-lg h-[70vh] md:h-auto md:max-h-[70vh] overflow-y-auto rounded-t-2xl md:rounded-2xl bg-surface border-t md:border border-gold/30 p-6 animate-slide-up md:animate-none"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
