@@ -1,7 +1,7 @@
 'use client';
 
 import { Database } from '@/lib/database.types';
-import { redirect, useParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { AdminBackLink } from '@/app/components/admin/AdminBackLink';
@@ -11,6 +11,7 @@ type IProfile = Database['public']['Tables']['profiles']['Row'];
 const AdminProfileInfoPage = () => {
   const params = useParams();
   const userId = params.userId as string;
+  const router = useRouter();
   const [profile, setProfile] = useState<IProfile>();
 
   useEffect(() => {
@@ -54,7 +55,7 @@ const AdminProfileInfoPage = () => {
 
         <button
           className="bg-primary px-4 py-2"
-          onClick={() => redirect(`/admin/profiles/${profile?.id}/edit-profile/`)}
+          onClick={() => router.push(`/admin/profiles/${profile?.id}/edit-profile/`)}
         >
           Edit
         </button>
