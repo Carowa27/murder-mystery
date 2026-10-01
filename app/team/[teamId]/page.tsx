@@ -4,6 +4,7 @@ import { redirect, notFound } from 'next/navigation';
 import type { ITeam } from '@/lib/interfaces/gameRelated';
 import CopyInviteLink from '@/app/components/CopyInviteLink';
 import CaseDrawer from '@/app/components/CaseDrawer';
+import OngoingInvestigation from '@/app/components/OngoingInvestigation';
 
 export default async function TeamDetailPage({ params }: { params: Promise<{ teamId: string }> }) {
   const { teamId } = await params;
@@ -77,11 +78,19 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
             />
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            {/* CaseDrawer hanterar nu våra tre states: */}
-            {/* * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..." */}
-            {/* * Inget fall valt, owner → "Välj fall" knapp → öppna drawer */}
-            {/* * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner) */}
-            <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
+            {/* Här används ongoingInvestigation! Pågående utredning finns → visa "Fortsätt" och "Överge" istället för CaseDrawer */}
+            {ongoingInvestigation ? (
+              <OngoingInvestigation
+                investigationId={ongoingInvestigation.id}
+                status={ongoingInvestigation.status}
+              />
+            ) : (
+              // CaseDrawer hanterar nu våra tre states:
+              // * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..."
+              // * Inget fall valt, owner → "Välj fall" knapp → öppna drawer
+              // * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner)
+              <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
+            )}
           </div>
         </section>
 
