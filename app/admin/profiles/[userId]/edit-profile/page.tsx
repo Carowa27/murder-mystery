@@ -47,6 +47,7 @@ const AdminEditProfilePage = () => {
     fetch(`/api/admin/profiles/${userId}`)
       .then((r) => r.json())
       .then(setProfile);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
