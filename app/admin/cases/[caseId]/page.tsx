@@ -56,6 +56,30 @@ const CaseInfoPage = () => {
         <h4 className="border border-l-muted-secondary border-t-muted-secondary border-b-gold-light border-r-gold-light ps-2 my-2 !font-label text-gold uppercase">
           Fall Översikt
         </h4>
+        <label className="flex flex-col gap-1 mb-3">
+          <span>Stage</span>
+          <p className="ps-3 text-gold">
+            {gameCase.stage === 'dev'
+              ? 'Development'
+              : gameCase.stage === 'active'
+                ? 'Active'
+                : 'Inactive'}
+          </p>
+        </label>
+
+        <label className="flex flex-col gap-1 mb-3">
+          <span>Svårighetsgrad</span>
+          <p className="ps-3 text-gold">
+            {gameCase.difficulties.name} ({gameCase.difficulties.max_accusations} anklagelser)
+          </p>
+        </label>
+
+        <label className="flex flex-col gap-1 mb-3">
+          <span>Pris</span>
+          <p className="ps-3 text-gold">
+            {gameCase.price === 0 ? 'Gratis' : `${gameCase.price} kr`}
+          </p>
+        </label>
 
         {gameCase.image_url && (
           <Image
@@ -69,20 +93,26 @@ const CaseInfoPage = () => {
 
         <label className="flex flex-col gap-1 mb-3">
           <span>Omslagsbild URL</span>
-
           <p className="ps-3 text-gold">{gameCase.image_url ?? ''}</p>
         </label>
 
         <label className="flex flex-col gap-1 mt-3 mb-3">
           <span>Titel</span>
-
           <p className="ps-3 text-gold">{gameCase.title}</p>
         </label>
 
         <label className="flex flex-col gap-1">
           <span>Beskrivning</span>
+          <p className="ps-3 text-gold">{gameCase.description ?? ''}</p>
+        </label>
+        <label className="flex flex-col gap-1 mb-3">
+          <span>Plats</span>
+          <p className="ps-3 text-gold">{gameCase.location ?? ''}</p>
+        </label>
 
-          <p className="ps-3 text-gold">{gameCase.description}</p>
+        <label className="flex flex-col gap-1 mb-3">
+          <span>Datum i berättelsen</span>
+          <p className="ps-3 text-gold">{gameCase.story_date ?? ''}</p>
         </label>
 
         {/* Clues */}
