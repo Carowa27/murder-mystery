@@ -1,12 +1,10 @@
 'use client';
-import type { Database } from '@/lib/database.types';
+import { IInvestigationDetails } from '@/lib/interfaces/adminRelated';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-type IInvestigation = Database['public']['Tables']['investigations']['Row'];
-
 export const AdminInvestigationsSection = () => {
-  const [investigations, setInvestigations] = useState<IInvestigation[]>();
+  const [investigations, setInvestigations] = useState<IInvestigationDetails[]>();
   useEffect(() => {
     fetch('/api/admin/investigations')
       .then((r) => r.json())
@@ -19,6 +17,7 @@ export const AdminInvestigationsSection = () => {
         <thead>
           <tr className="border-b">
             <th className="text-left p-2">Id</th>
+            <th className="text-left p-2">Team</th>
             <th className="text-left p-2">Status</th>
             {/* <th className="text-center p-2">Edit</th>
             <th className="text-center p-2">Delete</th> */}
@@ -28,11 +27,12 @@ export const AdminInvestigationsSection = () => {
         <tbody>
           {investigations &&
             investigations.length !== 0 &&
-            investigations.map((inv: IInvestigation) => (
+            investigations.map((inv: IInvestigationDetails) => (
               <tr key={inv.id} className="border-b">
                 <td className="p-2">
                   <Link href={`/admin/investigations/${inv.id}`}>{inv.id}</Link>
                 </td>
+                <td className={`p-2`}>{inv.teams.name}</td>
                 <td
                   className={`p-2 text-center ${inv.status === 'active' ? 'text-success font-bold' : inv.status === 'failed' || 'abandoned' ? 'text-danger font-bold' : 'text-warning font-bold'}`}
                 >
