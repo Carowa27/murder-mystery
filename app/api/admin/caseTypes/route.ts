@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const supabase = await createClient();
 
@@ -9,23 +9,20 @@ export async function GET() {
       return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
     }
 
-    const { data, error } = await supabase.from('cases').select(`
-      *,
-      difficulties(*),
-      characters(*),
-      case_clues(
-        *,
-        clue_types(*),
-        clue_requirements!clue_requirements_clue_id_fkey(required_clue_id),
-        clue_characters(character_id)
-      )
-    `);
+    const { data: clue_types, error } = await supabase.from('clue_types').select(
+      `
+        *
+        
+      `
+    );
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 404 });
+    if (error || !clue_types) {
+      return NextResponse.json(
+        { error: 'Case not found, error msg:' + error?.message },
+        { status: 404 }
+      );
     }
-
-    return NextResponse.json(data);
+    return NextResponse.json(clue_types);
   } catch (error) {
     return NextResponse.json(
       {
