@@ -85,6 +85,7 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
           <OngoingInvestigation
             investigationId={ongoingInvestigation.id}
             status={ongoingInvestigation.status}
+            isOwner={isOwner}
           />
         ) : (
           // CaseDrawer hanterar nu våra tre states:

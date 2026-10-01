@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 interface OngoingInvestigationProps {
   investigationId: string;
   status: string;
+  isOwner: boolean; // Tar nu även isOwner för att conditionally render "Överge" knappen endast till den som skapat rummet
 }
 
 // Denna kommer condtionally visas istället för Case Drawer om det redan finns en pågående investigation. Låter användaren
@@ -13,6 +14,7 @@ interface OngoingInvestigationProps {
 export default function OngoingInvestigation({
   investigationId,
   status,
+  isOwner,
 }: OngoingInvestigationProps) {
   const router = useRouter();
   const [abandoning, setAbandoning] = useState(false);
@@ -52,13 +54,15 @@ export default function OngoingInvestigation({
         Fortsätt
       </button>
 
-      <button
-        onClick={handleAbandon}
-        disabled={abandoning}
-        className="rounded bg-white/15 px-6 py-2 font-label text-xs uppercase tracking-widest text-gold/80 active:text-danger transition-colors cursor-pointer disabled:opacity-60"
-      >
-        {abandoning ? 'Överger...' : 'Överge'}
-      </button>
+      {isOwner && (
+        <button
+          onClick={handleAbandon}
+          disabled={abandoning}
+          className="rounded bg-white/15 px-6 py-2 font-label text-xs uppercase tracking-widest text-gold/80 active:text-danger transition-colors cursor-pointer disabled:opacity-60"
+        >
+          {abandoning ? 'Överger...' : 'Överge'}
+        </button>
+      )}
 
       {error && <p className="text-danger text-xs text-center">{error}</p>}
     </div>
