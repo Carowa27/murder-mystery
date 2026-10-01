@@ -1,6 +1,7 @@
 import { AccusationPhoto } from '@/app/components/AccusationPhoto';
 import { IGameCharacter } from '@/lib/interfaces/gameRelated';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 const InvestigationPage = async ({ params }: { params: Promise<{ investigationId: string }> }) => {
   const { investigationId } = await params;
@@ -23,6 +24,11 @@ const InvestigationPage = async ({ params }: { params: Promise<{ investigationId
 
   const officeData = await officeRes.json();
   const accuseData = await accuseRes.json();
+  // Utan alla nyckelledtrådar skickas man till kontoret, även om man skriver adressen själv.
+  if (!accuseData.all_keys_found) {
+    redirect(`/investigation/${investigationId}/office`);
+  }
+
   const characters: IGameCharacter[] = officeData.characters;
 
   return (
