@@ -40,6 +40,7 @@ const CaseEditForm = () => {
         if (!res.ok) throw new Error('Kunde inte hämta fallet');
         const json = (await res.json()) as CaseResponse;
         const { data } = json;
+        console.log(data);
 
         const difRes = await fetch(`/api/admin/caseDifficulties`);
         if (!difRes.ok) throw new Error('Kunde inte hämta svårighetsgraderna');
@@ -220,7 +221,7 @@ const CaseEditForm = () => {
       });
 
       if (res.ok) {
-        router.push('/admin?tab=cases');
+        router.push(`/admin/cases/${gameCase.id}`);
       } else {
         const data = (await res.json().catch(() => ({}))) as { error?: string };
         alert(data.error ?? 'Failed to update case');
