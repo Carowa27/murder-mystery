@@ -94,7 +94,7 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
             <button
               onClick={handleStartCase}
               disabled={starting}
-              className="rounded px-6 py-2 font-label text-xs uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer min-w-[8rem] h-9 disabled:opacity-60"
+              className="rounded px-6 py-2 font-label text-xs uppercase tracking-widest text-background hover:opacity-90 active:opacity-90 transition-opacity cursor-pointer min-w-[8rem] h-9 disabled:opacity-60"
               style={{ backgroundImage: 'var(--btn-primary)' }}
             >
               {starting ? (
@@ -114,7 +114,7 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
                 setSelectedCase(null);
                 setOpen(true);
               }}
-              className="font-label text-xs uppercase tracking-widest text-text-secondary active:text-gold transition-colors cursor-pointer"
+              className="font-label text-xs uppercase tracking-widest text-text-secondary hover:text-gold active:text-gold transition-colors cursor-pointer"
             >
               Byt fall
             </button>
