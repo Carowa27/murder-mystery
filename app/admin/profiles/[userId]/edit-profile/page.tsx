@@ -36,7 +36,7 @@ const AdminEditProfilePage = () => {
 
     if (res.ok || res.status === 200) {
       alert('Profile updated');
-      redirect(`/admin?tab=profiles/${userId}`);
+      redirect(`/admin/profiles/${userId}`);
     } else {
       const data = await res.json();
       alert(data.error ?? 'Profile has not been updated, something went wrong');
