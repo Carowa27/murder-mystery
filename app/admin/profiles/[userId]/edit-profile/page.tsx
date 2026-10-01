@@ -1,11 +1,11 @@
 'use client';
 
-import { BackLink } from '@/app/components/BackLink';
 import { Database } from '@/lib/database.types';
 import { redirect, useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { AdminBackLink } from '@/app/components/admin/AdminBackLink';
 
 type IProfile = Database['public']['Tables']['profiles']['Row'];
 
@@ -60,7 +60,7 @@ const AdminEditProfilePage = () => {
 
   return (
     <div>
-      <BackLink linkUrl={'/admin?tab=profiles'} linkText={'Profiler'} />
+      <AdminBackLink linkUrl={'/admin?tab=profiles'} linkText={'Profiler'} />
       <div className="w-50 h-50 overflow-hidden rounded-[50%] mx-auto my-4 border-3 border-gold">
         {avatarUrl === '' || avatarUrl === null ? (
           <div className="w-[100%] h-auto aspect-[1/1] bg-muted"></div>

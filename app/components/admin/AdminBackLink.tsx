@@ -8,10 +8,10 @@ interface IParams {
   linkText: string;
 }
 
-export const BackLink = ({ linkUrl, linkText }: IParams) => {
+export const AdminBackLink = ({ linkUrl, linkText }: IParams) => {
   return (
-    <Link href={linkUrl} className="absolute top-2 right-2 z-500 !text-lg flex items-center gap-2">
-      <ArrowLeftIcon size={32} />
+    <Link href={linkUrl} className="!text-lg flex items-center gap-2 mb-2">
+      <ArrowLeftIcon size={25} />
       {linkText}
     </Link>
   );

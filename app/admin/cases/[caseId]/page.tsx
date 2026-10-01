@@ -1,6 +1,6 @@
 'use client';
 
-import { BackLink } from '@/app/components/BackLink';
+import { AdminBackLink } from '@/app/components/admin/AdminBackLink';
 import { ICaseObject } from '@/lib/interfaces/adminRelated';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
@@ -40,7 +40,7 @@ const CaseInfoPage = () => {
   if (!gameCase) {
     return (
       <div>
-        <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
+        <AdminBackLink linkUrl="/admin?tab=cases" linkText="Fall" />
 
         <p>Laddar...</p>
       </div>
@@ -49,7 +49,7 @@ const CaseInfoPage = () => {
 
   return (
     <div>
-      <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
+      <AdminBackLink linkUrl="/admin?tab=cases" linkText="Fall" />
 
       <div className="flex flex-col max-w-4xl mx-auto">
         {/* Case Details */}

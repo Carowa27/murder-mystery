@@ -1,7 +1,7 @@
 'use client';
 
+import { AdminBackLink } from '@/app/components/admin/AdminBackLink';
 import { SectionHeader } from '@/app/components/admin/AdminSectionHeader';
-import { BackLink } from '@/app/components/BackLink';
 import { ICaseObject } from '@/lib/interfaces/adminRelated';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -207,14 +207,14 @@ const NewCaseForm = () => {
   if (loadError) {
     return (
       <div>
-        <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
+        <AdminBackLink linkUrl="/admin?tab=cases" linkText="Fall" />
         <p>{loadError}</p>
       </div>
     );
   }
   return (
     <form onSubmit={handleSubmit}>
-      <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
+      <AdminBackLink linkUrl="/admin?tab=cases" linkText="Fall" />
 
       <div className="flex flex-col max-w-4xl mx-auto">
         {/* Case details */}

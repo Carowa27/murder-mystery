@@ -1,10 +1,10 @@
 'use client';
 
-import { BackLink } from '@/app/components/BackLink';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IInvestigationDetails } from '@/lib/interfaces/adminRelated';
 import Image from 'next/image';
+import { AdminBackLink } from '@/app/components/admin/AdminBackLink';
 
 const AdminInvestigationInfoPage = () => {
   const params = useParams();
@@ -21,7 +21,7 @@ const AdminInvestigationInfoPage = () => {
 
   return (
     <div>
-      <BackLink linkUrl={'/admin?tab=investigations'} linkText={'Utredningar'} />
+      <AdminBackLink linkUrl={'/admin?tab=investigations'} linkText={'Utredningar'} />
       <div className="pb-1">
         <h4 className="border border-l-muted-secondary border-t-muted-secondary border-b-gold-light border-r-gold-light ps-2 my-2 !font-label text-gold uppercase">
           Utredning

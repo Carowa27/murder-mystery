@@ -1,7 +1,7 @@
 'use client';
 
+import { AdminBackLink } from '@/app/components/admin/AdminBackLink';
 import { SectionHeader } from '@/app/components/admin/AdminSectionHeader';
-import { BackLink } from '@/app/components/BackLink';
 import { ICaseObject } from '@/lib/interfaces/adminRelated';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -235,7 +235,7 @@ const CaseEditForm = () => {
   if (loadError) {
     return (
       <div>
-        <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
+        <AdminBackLink linkUrl="/admin?tab=cases" linkText="Fall" />
         <p>{loadError}</p>
       </div>
     );
@@ -244,7 +244,7 @@ const CaseEditForm = () => {
   if (!gameCase) {
     return (
       <div>
-        <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
+        <AdminBackLink linkUrl="/admin?tab=cases" linkText="Fall" />
         <p>Laddar...</p>
       </div>
     );
@@ -252,7 +252,7 @@ const CaseEditForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <BackLink linkUrl="/admin?tab=cases" linkText="Fall" />
+      <AdminBackLink linkUrl="/admin?tab=cases" linkText="Fall" />
 
       <div className="flex flex-col max-w-4xl mx-auto">
         {/* Case details */}
