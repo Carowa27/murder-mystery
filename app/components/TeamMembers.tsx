@@ -7,7 +7,10 @@ import type { ITeamMember } from '@/lib/interfaces/gameRelated';
 interface TeamMembersProps {
   teamId: string;
   initialMembers: ITeamMember[];
-  children: (members: ITeamMember[]) => React.ReactNode; // Istället för att låta den speciella `children` prop:en hanteras automatiskt tar vi manuell kontroll över det! Klickade när den integreras i dess förälder
+  // Att ha `children` som en funktion fick appen att krascha! "[browser] Uncaught Error: Functions are not valid as a child of Client Components."
+  // Om jag förstår rätt blir det någon typ av serialization bug: funktioner kan inte serialiseras över server/client-gränsen i Next.js App Router
+  // Vanlig ReactNode `children` nu istället för funktion
+  children: React.ReactNode;
 }
 
 export default function TeamMembers({ teamId, initialMembers, children }: TeamMembersProps) {
@@ -55,6 +58,33 @@ export default function TeamMembers({ teamId, initialMembers, children }: TeamMe
     };
   }, [teamId]);
 
-  // `children` funktionen in action. Skicka tillbaka live members arrayen; team sidan väljer hur det renderas
-  return <>{children(members)}</>;
+  // Avatarerna renderas här i komponenten nu istället! `children` (case files sektionen) placeras mellan dem
+  // Så istället för att returnera *allt* som `children` blir endast den <section> tag:en `children` i detta fall
+  return (
+    <div className="flex flex-col justify-between pt-20 px-2 min-h-[calc(100vh-64px-80px)]">
+      <section className="flex justify-between pt-8">
+        {[0, 1].map((i) => (
+          <div
+            key={i}
+            className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
+          >
+            {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
+          </div>
+        ))}
+      </section>
+
+      {children}
+
+      <section className="flex justify-between">
+        {[2, 3].map((i) => (
+          <div
+            key={i}
+            className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
+          >
+            {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
+          </div>
+        ))}
+      </section>
+    </div>
+  );
 }

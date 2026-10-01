@@ -46,52 +46,27 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
         <CopyInviteLink inviteCode={typedTeam.invite_code} />
       </div>
 
+      {/* TeamMembers renderar avatarerna och hanterar real-time uppdateringar */}
       <TeamMembers teamId={typedTeam.id} initialMembers={members}>
-        {/* Det här ser lite konstigt ut men JSX hanterar allt mellan <Component> och </Component> som `children` prop:en automatiskt! Likgiltigt med att explicit skriva <TeamMembers teamId={typedTeam.id} initialMembers={members} children=()=>{...} /> */}
-        {(members) => (
-          <div className="flex flex-col justify-between pt-20 px-2 min-h-[calc(100vh-64px-80px)]">
-            <section className="flex justify-between pt-8">
-              {[0, 1].map((i) => (
-                <div
-                  key={i}
-                  className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
-                >
-                  {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
-                </div>
-              ))}
-            </section>
-
-            <section className="relative">
-              <div className="flex justify-center">
-                <Image
-                  src={'/images/item-backgrounds/casefiles-w-lightsource.png'}
-                  alt={''}
-                  width={100}
-                  height={100}
-                  className="w-[80%] h-auto pe-4 pb-8 -rotate-10"
-                />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                {/* CaseDrawer hanterar nu våra tre states: */}
-                {/* * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..." */}
-                {/* * Inget fall valt, owner → "Välj fall" knapp → öppna drawer */}
-                {/* * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner) */}
-                <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
-              </div>
-            </section>
-
-            <section className="flex justify-between">
-              {[2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
-                >
-                  {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
-                </div>
-              ))}
-            </section>
+        {/* Det här ser fortfarande lite konstigt ut. Som sagt: JSX hanterar allt mellan <Component> och </Component> som `children` prop:en automatiskt så nu blir denna <section> `children`. Se även kommentar i TeamMembersProps */}
+        <section className="relative">
+          <div className="flex justify-center">
+            <Image
+              src={'/images/item-backgrounds/casefiles-w-lightsource.png'}
+              alt={''}
+              width={100}
+              height={100}
+              className="w-[80%] h-auto pe-4 pb-8 -rotate-10"
+            />
           </div>
-        )}
+          <div className="absolute inset-0 flex items-center justify-center">
+            {/* CaseDrawer hanterar nu våra tre states: */}
+            {/* * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..." */}
+            {/* * Inget fall valt, owner → "Välj fall" knapp → öppna drawer */}
+            {/* * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner) */}
+            <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
+          </div>
+        </section>
       </TeamMembers>
     </div>
   );
