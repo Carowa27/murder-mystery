@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 interface OngoingInvestigationProps {
   investigationId: string;
   status: string;
+  isOwner: boolean; // Tar nu även isOwner för att conditionally render "Överge" knappen endast till den som skapat rummet
 }
 
 // Denna kommer condtionally visas istället för Case Drawer om det redan finns en pågående investigation. Låter användaren
@@ -13,6 +14,7 @@ interface OngoingInvestigationProps {
 export default function OngoingInvestigation({
   investigationId,
   status,
+  isOwner,
 }: OngoingInvestigationProps) {
   const router = useRouter();
   const [abandoning, setAbandoning] = useState(false);
@@ -46,19 +48,21 @@ export default function OngoingInvestigation({
 
       <button
         onClick={() => router.push(`/investigation/${investigationId}/team`)}
-        className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer min-w-[10rem]"
+        className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background hover:opacity-90 active:opacity-90 transition-opacity cursor-pointer min-w-[10rem]"
         style={{ backgroundImage: 'var(--btn-primary)' }}
       >
         Fortsätt
       </button>
 
-      <button
-        onClick={handleAbandon}
-        disabled={abandoning}
-        className="rounded bg-white/15 px-6 py-2 font-label text-xs uppercase tracking-widest text-gold/80 active:text-danger transition-colors cursor-pointer disabled:opacity-60"
-      >
-        {abandoning ? 'Överger...' : 'Överge'}
-      </button>
+      {isOwner && (
+        <button
+          onClick={handleAbandon}
+          disabled={abandoning}
+          className="rounded bg-background/80 border border-danger/40 px-6 py-2 font-label text-xs uppercase tracking-widest text-gold hover:text-danger hover:border-danger active:text-danger active:border-danger transition-colors cursor-pointer disabled:opacity-60"
+        >
+          {abandoning ? 'Överger...' : 'Överge'}
+        </button>
+      )}
 
       {error && <p className="text-danger text-xs text-center">{error}</p>}
     </div>
