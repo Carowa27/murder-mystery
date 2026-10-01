@@ -7,7 +7,7 @@ import type { ITeamMember } from '@/lib/interfaces/gameRelated';
 interface TeamMembersProps {
   teamId: string;
   initialMembers: ITeamMember[];
-  children: (members: ITeamMember[]) => React.ReactNode; // En funktion för att låta föräldern styra layouten medan denna komponent äger datan
+  children: (members: ITeamMember[]) => React.ReactNode; // Istället för att låta den speciella `children` prop:en hanteras automatiskt tar vi manuell kontroll över det! Klickade när den integreras i dess förälder
 }
 
 export default function TeamMembers({ teamId, initialMembers, children }: TeamMembersProps) {
@@ -55,6 +55,6 @@ export default function TeamMembers({ teamId, initialMembers, children }: TeamMe
     };
   }, [teamId]);
 
-  // children funktionen in action. Skicka tillbaka live members arrayen; team sidan väljer hur det renderas!
+  // `children` funktionen in action. Skicka tillbaka live members arrayen; team sidan väljer hur det renderas
   return <>{children(members)}</>;
 }
