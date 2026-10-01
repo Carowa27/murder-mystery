@@ -58,7 +58,7 @@ export default function OngoingInvestigation({
         <button
           onClick={handleAbandon}
           disabled={abandoning}
-          className="rounded bg-white/15 px-6 py-2 font-label text-xs uppercase tracking-widest text-gold/80 active:text-danger transition-colors cursor-pointer disabled:opacity-60"
+          className="rounded bg-background/80 border border-danger/40 px-6 py-2 font-label text-xs uppercase tracking-widest text-gold active:text-danger transition-colors cursor-pointer disabled:opacity-60"
         >
           {abandoning ? 'Överger...' : 'Överge'}
         </button>
