@@ -82,6 +82,7 @@ export async function GET(
       max_accusations: maxAccusations,
       accusations_remaining: accusationsRemaining,
       can_accuse: canAccuse,
+      all_keys_found: allKeysFound,
     });
   } catch (error) {
     return NextResponse.json(
