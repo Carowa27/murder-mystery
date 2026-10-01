@@ -1,4 +1,4 @@
-import { AccusationPhoto } from '@/app/components/AccusationPhoto';
+import { AccusationCard } from '@/app/components/AccusationCard';
 import { IGameCharacter } from '@/lib/interfaces/gameRelated';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -39,7 +39,12 @@ const InvestigationPage = async ({ params }: { params: Promise<{ investigationId
         </p>
       </div>
       <section className="w-[90%] flex flex-wrap flex-1 justify-center items-center gap-2 mx-auto mb-10">
-        {characters.map((c, i) => c.is_victim === false && <AccusationPhoto key={i} c={c} />)}
+        {characters.map(
+          (c, i) =>
+            c.is_victim === false && (
+              <AccusationCard key={c.id} c={c} investigationId={investigationId} />
+            )
+        )}
       </section>
     </div>
   );
