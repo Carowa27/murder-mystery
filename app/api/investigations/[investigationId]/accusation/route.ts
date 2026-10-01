@@ -14,14 +14,43 @@ export async function POST(
     if (!supabase) {
       return NextResponse.json({ error: 'Failed to initialize Supabase client' }, { status: 500 });
     }
+    // Samma INNER JOIN som i vår can_accuse GET route
     const { data: investigation } = await supabase
       .from('investigations')
-      .select('case_id')
+      .select(
+        `case_id,
+      cases!inner ( difficulty_id, difficulties!inner ( max_accusations ) )
+    `
+      )
       .eq('id', investigationId)
       .single();
 
     if (!investigation) {
       return NextResponse.json({ error: 'Investigation not found' }, { status: 404 });
+    }
+
+    // Vid detta skede i ett spel har can_accuse kallats på men vi har ändå en
+    // server side guard här in case of bugs eller annat! 403 om inga anklagelse finns kvar
+    const maxAccusations = (
+      investigation as unknown as {
+        cases: { difficulties: { max_accusations: number } };
+      }
+    ).cases.difficulties.max_accusations;
+
+    const { count: accusationsMade } = await supabase
+      .from('accusations')
+      .select('*', { count: 'exact', head: true })
+      .eq('investigation_id', investigationId);
+
+    if ((accusationsMade ?? 0) >= maxAccusations) {
+      return NextResponse.json(
+        {
+          error: 'Inga anklagelser kvar',
+          accusations_made: accusationsMade,
+          max_accusations: maxAccusations,
+        },
+        { status: 403 }
+      );
     }
 
     const { data: suspect } = await supabase
@@ -45,6 +74,21 @@ export async function POST(
 
     if (accusationPostError) {
       return NextResponse.json({ error: accusationPostError.message }, { status: 500 });
+    }
+
+    // Nu sätter vi även 'solved' och 'failed' i investigations tabellen!
+    if (isGuilty) {
+      await supabase
+        .from('investigations')
+        .update({ status: 'solved', ended_at: new Date().toISOString() })
+        .eq('id', investigationId);
+      // accusationsMade beräknas på rad 40 innan vår nya accusation som skapas på rad 69
+      // så vi lägger på 1 här för att få vår riktiga accusation count
+    } else if ((accusationsMade ?? 0) + 1 >= maxAccusations) {
+      await supabase
+        .from('investigations')
+        .update({ status: 'failed', ended_at: new Date().toISOString() })
+        .eq('id', investigationId);
     }
 
     return NextResponse.json({ success: true, is_guilty: isGuilty });
