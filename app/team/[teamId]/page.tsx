@@ -34,6 +34,14 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
   const typedTeam = team as unknown as ITeam;
   const members = typedTeam.team_members ?? [];
 
+  // Kolla om teamet har en pågående utredning (active/paused)
+  const { data: ongoingInvestigation } = await supabase
+    .from('investigations')
+    .select('id, status')
+    .eq('team_id', teamId)
+    .in('status', ['active', 'paused'])
+    .single();
+
   // Boolean för att visa "Visa fall" knappen endast till ägaren av rummet
   const isOwner = user.id === typedTeam.owner_id;
   const ownerName =
