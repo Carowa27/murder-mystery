@@ -6,7 +6,6 @@ import CopyInviteLink from '@/app/components/CopyInviteLink';
 import CaseDrawer from '@/app/components/CaseDrawer';
 import TeamMembers from '@/app/components/TeamMembers';
 import { Scene } from '@/app/components/Scene';
-import { Seat, tableSeatPositions } from '@/app/components/Seat';
 
 export default async function TeamDetailPage({ params }: { params: Promise<{ teamId: string }> }) {
   const { teamId } = await params;
@@ -50,20 +49,20 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
         width={1015}
         height={1233}
       >
-        {tableSeatPositions.map((position, i) => (
-          <Seat key={position} profile={members[i]?.profiles} className={position} />
-        ))}
-
-        <div className="absolute top-[50%] left-1/2 w-[62cqw] -translate-x-1/2 -translate-y-1/2 -rotate-10">
-          <div className="relative aspect-[1537/1025]">
-            <Image
-              src="/images/item-backgrounds/casefiles-w-lightsource.png"
-              alt=""
-              fill
-              sizes="90vw"
-            />
+        {/* TeamMembers renderar avatarerna och hanterar real-time uppdateringar */}
+        {/* Det här ser fortfarande lite konstigt ut. Som sagt: JSX hanterar `children` som allt mellan öppnande och stängande taggen */}
+        <TeamMembers teamId={typedTeam.id} initialMembers={members}>
+          <div className="absolute top-[50%] left-1/2 w-[62cqw] -translate-x-1/2 -translate-y-1/2 -rotate-10">
+            <div className="relative aspect-[1537/1025]">
+              <Image
+                src="/images/item-backgrounds/casefiles-w-lightsource.png"
+                alt=""
+                fill
+                sizes="90vw"
+              />
+            </div>
           </div>
-        </div>
+        </TeamMembers>
       </Scene>
 
       <div className="absolute top-2 left-0 right-0 flex justify-center z-10">

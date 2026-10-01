@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { ITeamMember } from '@/lib/interfaces/gameRelated';
+import { Seat, tableSeatPositions } from '@/app/components/Seat';
 
 interface TeamMembersProps {
   teamId: string;
@@ -58,33 +59,15 @@ export default function TeamMembers({ teamId, initialMembers, children }: TeamMe
     };
   }, [teamId]);
 
-  // Avatarerna renderas här i komponenten nu istället! `children` (case files sektionen) placeras mellan dem
-  // Så istället för att returnera *allt* som `children` blir endast den <section> tag:en `children` i detta fall
+  // Vi rendrerar inte avatarerna här längre utan använder de nya Seat och tableSeatPositions
+  // komponenterna! Med live members-data
+  // `children` (case files bilden) placeras efter stolarna i Scene
   return (
-    <div className="flex flex-col justify-between pt-20 px-2 min-h-[calc(100vh-64px-80px)]">
-      <section className="flex justify-between pt-8">
-        {[0, 1].map((i) => (
-          <div
-            key={i}
-            className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
-          >
-            {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
-          </div>
-        ))}
-      </section>
-
+    <>
+      {tableSeatPositions.map((position, i) => (
+        <Seat key={position} profile={members[i]?.profiles} className={position} />
+      ))}
       {children}
-
-      <section className="flex justify-between">
-        {[2, 3].map((i) => (
-          <div
-            key={i}
-            className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
-          >
-            {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
-          </div>
-        ))}
-      </section>
-    </div>
+    </>
   );
 }
