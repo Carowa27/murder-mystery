@@ -26,7 +26,7 @@ const EvidencePage = async ({ params }: { params: Promise<{ investigationId: str
         <CreateNoteForm investigationId={investigationId} />
       </div>
       {/* `flex-1 overflow-y-auto` för att göra vår notes area scrollable, annars fortsätter de under vår gamenav */}
-      <nav className="flex-1 overflow-y-auto text-surface flex flex-col ps-10 pt-6 pb-4 rotate-1 leading-5.5">
+      <nav className="flex-1 overflow-y-auto text-surface flex flex-col ps-10 pt-6 pb-4 rotate-0 leading-5.5">
         {notes && notes.length > 0 ? (
           notes.map((note, i) => <Note n={note} currentUserId={claims?.sub as string} key={i} />)
         ) : (
