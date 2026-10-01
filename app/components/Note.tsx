@@ -4,6 +4,7 @@ import { INotes } from '@/lib/interfaces/gameRelated';
 import { CheckIcon, LinkIcon, PencilSimpleIcon, XIcon } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { ScalableImageBox } from './ScalableImageBox';
 
 interface INoteParams {
   n: INotes;
@@ -75,83 +76,92 @@ export const Note = ({ n }: INoteParams) => {
     }
   }
   return (
-    <section
-      style={{ transform: `rotate(${rotation}deg)` }}
-      className="flex flex-col gap-2 shadow-md rounded py-2 px-4 my-2 mx-4 bg-[url(/images/item-backgrounds/open-case-v2.png)] bg-center bg-no-repeat bg-fill"
-    >
-      <div className="flex justify-between items-start">
-        {editing ? (
-          <>
-            {/* Check icon när vi ändrar en note. */}
-            {/* X:et avbryter edit mode, skulle kunna ändras ifall det inte känns intuitivt nog */}
-            <button
-              onClick={handleEdit}
-              disabled={saving}
-              className="cursor-pointer opacity-60 active:opacity-100 transition-opacity disabled:opacity-30"
-            >
-              <CheckIcon size={16} />
-            </button>
-            <button
-              // Eftersom X ikonen har "double duty" behöver de olika nycklar så att de behandlas som två olika element!
-              // Utan denna key property på båda knappar (godtyckliga strings) kan vi inte ändra en anteckning, avbryta och
-              // sedan ta bort den. X knappen blir "greyed out"
-              key="cancel"
-              onClick={handleCancelEdit}
-              className="cursor-pointer opacity-60 active:opacity-100 transition-opacity"
-            >
-              <XIcon size={16} />
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              onClick={() => setEditing(true)}
-              className="cursor-pointer opacity-60 active:opacity-100 transition-opacity"
-            >
-              <PencilSimpleIcon size={16} />
-            </button>
-            <button
-              key="delete"
-              onClick={handleDelete}
-              disabled={deleting}
-              className="cursor-pointer opacity-60 active:opacity-100 transition-opacity disabled:opacity-30"
-            >
-              <XIcon size={16} />
-            </button>
-          </>
-        )}
-      </div>
-      {editing ? (
-        // Auto resizing textarea när vi ändrar en note. Höjden anpassas dynamiskt efter innehållet
-        <textarea
-          ref={(el) => {
-            if (el) {
-              el.style.height = 'auto';
-              el.style.height = el.scrollHeight + 'px';
-            }
-          }}
-          value={editContent}
-          onChange={(e) => {
-            setEditContent(e.target.value);
-            e.target.style.height = 'auto';
-            e.target.style.height = e.target.scrollHeight + 'px';
-          }}
-          autoFocus
-          rows={1}
-          className="!font-handwritten !text-2xl bg-white/90 text-surface rounded px-2 py-1 focus:outline-none resize-none"
-        />
-      ) : (
-        <p className="!font-handwritten !text-2xl">{n.content}</p>
-      )}
-      {n.case_clues !== null && (
-        <p className="flex gap-2 align-center">
-          <LinkIcon size={20} />
-          {n.case_clues.title}
-        </p>
-      )}
-      <p className="!text-sm self-end">
-        {n.profiles?.display_name} {dateFormatter(n.created_at)}
-      </p>
+    <section style={{ transform: `rotate(${rotation}deg)` }} className="my-2 mx-4">
+      {/* Samma ljusa papper som på ledtrådssidan, men med halva hörnen eftersom
+          lappen är liten. Bara mitten av bilden töjs, så kanterna ser likadana ut
+          hur bred lappen än blir. */}
+      <ScalableImageBox
+        image="/images/item-backgrounds/document-v2.png"
+        slice="70 80 130 100"
+        edge="18px 20px 33px 25px"
+        className="drop-shadow-[0_6px_12px_rgba(0,0,0,0.6)]"
+      >
+        <div className="flex flex-col gap-2 px-5 py-3">
+          <div className="flex justify-between items-start">
+            {editing ? (
+              <>
+                {/* Check icon när vi ändrar en note. */}
+                {/* X:et avbryter edit mode, skulle kunna ändras ifall det inte känns intuitivt nog */}
+                <button
+                  onClick={handleEdit}
+                  disabled={saving}
+                  className="cursor-pointer opacity-80 active:opacity-100 transition-opacity disabled:opacity-30"
+                >
+                  <CheckIcon size={20} />
+                </button>
+                <button
+                  // Eftersom X ikonen har "double duty" behöver de olika nycklar så att de behandlas som två olika element!
+                  // Utan denna key property på båda knappar (godtyckliga strings) kan vi inte ändra en anteckning, avbryta och
+                  // sedan ta bort den. X knappen blir "greyed out"
+                  key="cancel"
+                  onClick={handleCancelEdit}
+                  className="cursor-pointer opacity-80 active:opacity-100 transition-opacity"
+                >
+                  <XIcon size={20} />
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => setEditing(true)}
+                  className="cursor-pointer opacity-80 active:opacity-100 transition-opacity"
+                >
+                  <PencilSimpleIcon size={20} />
+                </button>
+                <button
+                  key="delete"
+                  onClick={handleDelete}
+                  disabled={deleting}
+                  className="cursor-pointer opacity-80 active:opacity-100 transition-opacity disabled:opacity-30"
+                >
+                  <XIcon size={20} />
+                </button>
+              </>
+            )}
+          </div>
+          {editing ? (
+            // Auto resizing textarea när vi ändrar en note. Höjden anpassas dynamiskt efter innehållet
+            <textarea
+              ref={(el) => {
+                if (el) {
+                  el.style.height = 'auto';
+                  el.style.height = el.scrollHeight + 'px';
+                }
+              }}
+              value={editContent}
+              onChange={(e) => {
+                setEditContent(e.target.value);
+                e.target.style.height = 'auto';
+                e.target.style.height = e.target.scrollHeight + 'px';
+              }}
+              autoFocus
+              rows={1}
+              className="!font-handwritten !text-2xl bg-white/90 text-surface rounded px-2 py-1 focus:outline-none resize-none"
+            />
+          ) : (
+            <p className="!font-handwritten !text-2xl">{n.content}</p>
+          )}
+          {n.case_clues !== null && (
+            <p className="flex gap-2 align-center">
+              <LinkIcon size={20} />
+              {n.case_clues.title}
+            </p>
+          )}
+          <p className="!text-sm self-end">
+            {n.profiles?.display_name} {dateFormatter(n.created_at)}
+          </p>
+        </div>
+      </ScalableImageBox>
     </section>
   );
 };
