@@ -96,7 +96,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000008',
     (SELECT id FROM clue_types WHERE name = 'Brottsplatsrapport'),
     'Kar fyra',
-    'Piero Ferrante hittades klockan 06:30 av skördearbetarna, liggande på botten av kar fyra, som tömdes och skulle skuras. Ficklampan i hans hand lyste fortfarande. Manluckan i karets sida står alltid öppen när ett kar ska skuras, men nu var den stängd och reglad utifrån. Fläkten som blåser ut koldioxid ur tomma kar stod på golvet med stickproppen bredvid uttaget. Aluminiumstegen låg på golvet vid motsatta väggen, femton meter bort. I grannkaret jäste årets skörd för fullt.',
+    'Piero Ferrante hittades klockan 06:30 på morgonen den 14 september av skördearbetarna, liggande på botten av kar fyra, som tömdes och skulle skuras. Ficklampan i hans hand lyste fortfarande. Manluckan i karets sida står alltid öppen när ett kar ska skuras, men nu var den stängd och reglad utifrån. Fläkten som blåser ut koldioxid ur tomma kar stod på golvet med stickproppen bredvid uttaget. Aluminiumstegen låg på golvet vid motsatta väggen, femton meter bort. I grannkaret jäste årets skörd för fullt.',
     false
   ),
   (

@@ -120,7 +120,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000009',
     (SELECT id FROM clue_types WHERE name = 'Polisrapport'),
     'Huvudkontorets utredning',
-    'Ingen myndighet kan komma till platsen förrän i oktober, så utredningen gjordes av stationschefen på uppdrag av huvudkontoret och togs över av polis i Cambridge i november. Åtta personer övervintrade. Midvinterkvällen firades i mässen från klockan sju. När larmet gick 22:10 satt fem personer kvar vid bordet. Beattie sov i sin koj, Dunbar uppger sig ha varit i köket och Mailer kom in från sälhyddan strax efter tio. Regeln är att ingen går ut ensam i storm, och att den som går ut skriver upp sig på utpasseringstavlan. Slade skrev upp sig 22:12. Stormen drog in strax före tio, och när Slade gick ut låg vinden på trettio meter per sekund med noll sikt.',
+    'Ingen myndighet kan komma till platsen förrän i oktober, så utredningen gjordes av stationschefen på uppdrag av huvudkontoret och togs över av polis i Cambridge i november. Åtta personer övervintrade. Midvinterkvällen den 21 juni firades i mässen från klockan sju. När larmet gick 22:10 satt fem personer kvar vid bordet. Beattie sov i sin koj, Dunbar uppger sig ha varit i köket och Mailer kom in från sälhyddan strax efter tio. Regeln är att ingen går ut ensam i storm, och att den som går ut skriver upp sig på utpasseringstavlan. Slade skrev upp sig 22:12. Stormen drog in strax före tio, och när Slade gick ut låg vinden på trettio meter per sekund med noll sikt.',
     false
   ),
   (

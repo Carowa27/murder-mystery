@@ -119,7 +119,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000003',
     (SELECT id FROM clue_types WHERE name = 'Brottsplatsrapport'),
     'Simbassängen på C-däck',
-    'Cornelius Farrow hittades klockan 06:10 av badmästaren, liggande på rygg i bassängen, som stod fylld till knähöjd. Han var klädd i pyjamas och morgonrock, utan tofflor. Kaklet närmast bassängen var torrt och där fanns inga våta avtryck. Däremot går en rad intorkade droppar från dörren till maskinrummet fram till bassängkanten. I morgonrockens ficka låg nyckeln till svit A-4. Grinden till bassängen var låst och nyckeln hängde på sin krok i sportkontoret.',
+    'Cornelius Farrow hittades klockan 06:10 på morgonen den 8 mars av badmästaren, liggande på rygg i bassängen, som stod fylld till knähöjd. Han var klädd i pyjamas och morgonrock, utan tofflor. Kaklet närmast bassängen var torrt och där fanns inga våta avtryck. Däremot går en rad intorkade droppar från dörren till maskinrummet fram till bassängkanten. I morgonrockens ficka låg nyckeln till svit A-4. Grinden till bassängen var låst och nyckeln hängde på sin krok i sportkontoret.',
     false
   ),
   (

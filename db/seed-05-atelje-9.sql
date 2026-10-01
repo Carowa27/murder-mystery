@@ -103,7 +103,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000005',
     (SELECT id FROM clue_types WHERE name = 'Brottsplatsrapport'),
     'Ateljé 9, scen 108',
-    'Vincent Hale föll klockan 21:20 vid fjärde tagningen, mitt framför kameran och inför nitton personer. Han träffades i bröstet på fyra meters håll. Vapnet är en revolver av kaliber .38 ur studions vapenskåp. I trumman ligger fem lösa patroner och en tom hylsa. Ateljéporten var stängd för utomstående och grindvakten förde in varje namn som passerade under kvällen.',
+    'Vincent Hale föll vid fjärde tagningen klockan 21:20 på kvällen den 9 augusti, mitt framför kameran och inför nitton personer. Han träffades i bröstet på fyra meters håll. Vapnet är en revolver av kaliber .38 ur studions vapenskåp. I trumman ligger fem lösa patroner och en tom hylsa. Ateljéporten var stängd för utomstående och grindvakten förde in varje namn som passerade under kvällen.',
     false
   ),
   (
