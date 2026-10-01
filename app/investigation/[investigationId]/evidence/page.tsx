@@ -1,4 +1,5 @@
 import { EvidenceLink } from '@/app/components/EvidenceLink';
+import { ScalableImageBox } from '@/app/components/ScalableImageBox';
 import { IFoundClues } from '@/lib/interfaces/gameRelated';
 import { cookies } from 'next/headers';
 
@@ -29,25 +30,35 @@ const EvidencePage = async ({ params }: { params: Promise<{ investigationId: str
     return groups;
   }, {});
 
+  // Mappen är alltid lika stor (68 procent av skärmhöjden). Blir listan för
+  // lång scrollar den inuti mappen i stället för att rinna ut över kanten.
+  // Siffrorna i slice och edge förklaras i ScalableImageBox.
   return (
-    <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/evidence-bg.png)] bg-center bg-no-repeat bg-cover flex flex-col justify-center items-center">
-      <div
-        className={`w-[95%] h-[65vh] bg-[url(/images/item-backgrounds/open-case-v2.png)] bg-contain bg-top-center bg-no-repeat`}
+    <div className="flex min-h-[calc(100vh-64px-80px)] items-center justify-center bg-[url(/images/backgrounds/evidence-bg.png)] bg-cover bg-center px-3 py-6">
+      <ScalableImageBox
+        image="/images/item-backgrounds/open-case-v2.png"
+        slice="115 110 180 135"
+        edge="58px 55px 90px 68px"
+        className="h-[68vh] w-full max-w-md rotate-1 drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
       >
-        <nav className="w-[90%] text-surface flex flex-col ps-[12%] pt-12 rotate-1 leading-5.5">
-          {Object.entries(cluesByType).map(([type, clues]) => (
-            <section key={type} className="rotate-1 ms-4">
-              <h3 className="my-2 !font-printed">{type}</h3>
+        {/* Marginalen håller texten på pappret, under gemet och innanför kanterna.
+            overflow-y-auto på listan gör att den scrollar när den inte får plats. */}
+        <div className="h-full pt-16 pr-10 pb-12 pl-12">
+          <nav className="flex h-full flex-col gap-6 overflow-y-auto pr-1 text-surface scrollbar-thin">
+            {Object.entries(cluesByType).map(([type, clues]) => (
+              <section key={type}>
+                <h3 className="!font-printed leading-7">{type}</h3>
 
-              <ul className="flex flex-col gap-3 last:pb-3 ">
-                {clues.map((clue) => (
-                  <EvidenceLink key={clue.case_clues.id} clue={clue} />
-                ))}
-              </ul>
-            </section>
-          ))}
-        </nav>
-      </div>
+                <ul className="mt-2 flex flex-col gap-3 leading-5">
+                  {clues.map((clue) => (
+                    <EvidenceLink key={clue.case_clues.id} clue={clue} />
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </nav>
+        </div>
+      </ScalableImageBox>
     </div>
   );
 };

@@ -5,6 +5,8 @@ import type { ITeam } from '@/lib/interfaces/gameRelated';
 import CopyInviteLink from '@/app/components/CopyInviteLink';
 import CaseDrawer from '@/app/components/CaseDrawer';
 import TeamMembers from '@/app/components/TeamMembers';
+import { Scene } from '@/app/components/Scene';
+import { Seat, tableSeatPositions } from '@/app/components/Seat';
 
 export default async function TeamDetailPage({ params }: { params: Promise<{ teamId: string }> }) {
   const { teamId } = await params;
@@ -41,33 +43,41 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
     members.find((m) => m.profiles.id === typedTeam.owner_id)?.profiles.display_name ?? 'Ägaren';
 
   return (
-    <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/team-bg.png)] bg-center bg-no-repeat bg-cover">
+    <div className="relative h-[calc(100vh-64px-80px)] overflow-hidden bg-background">
+      <Scene
+        background="/images/backgrounds/team-floor.webp"
+        image="/images/item-backgrounds/team-table.webp"
+        width={1015}
+        height={1233}
+      >
+        {tableSeatPositions.map((position, i) => (
+          <Seat key={position} profile={members[i]?.profiles} className={position} />
+        ))}
+
+        <div className="absolute top-[50%] left-1/2 w-[62cqw] -translate-x-1/2 -translate-y-1/2 -rotate-10">
+          <div className="relative aspect-[1537/1025]">
+            <Image
+              src="/images/item-backgrounds/casefiles-w-lightsource.png"
+              alt=""
+              fill
+              sizes="90vw"
+            />
+          </div>
+        </div>
+      </Scene>
+
       <div className="absolute top-2 left-0 right-0 flex justify-center z-10">
         <CopyInviteLink inviteCode={typedTeam.invite_code} />
       </div>
 
-      {/* TeamMembers renderar avatarerna och hanterar real-time uppdateringar */}
-      <TeamMembers teamId={typedTeam.id} initialMembers={members}>
-        {/* Det här ser fortfarande lite konstigt ut. Som sagt: JSX hanterar allt mellan <Component> och </Component> som `children` prop:en automatiskt så nu blir denna <section> `children`. Se även kommentar i TeamMembersProps */}
-        <section className="relative">
-          <div className="flex justify-center">
-            <Image
-              src={'/images/item-backgrounds/casefiles-w-lightsource.png'}
-              alt={''}
-              width={100}
-              height={100}
-              className="w-[80%] h-auto pe-4 pb-8 -rotate-10"
-            />
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* CaseDrawer hanterar nu våra tre states: */}
-            {/* * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..." */}
-            {/* * Inget fall valt, owner → "Välj fall" knapp → öppna drawer */}
-            {/* * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner) */}
-            <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
-          </div>
-        </section>
-      </TeamMembers>
+      {/* Utanför Scene, annars fastnar lådan i scenen. Sidans mitt är bordets mitt. */}
+      {/* CaseDrawer hanterar nu våra tre states: */}
+      {/* * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..." */}
+      {/* * Inget fall valt, owner → "Välj fall" knapp → öppna drawer */}
+      {/* * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner) */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
+      </div>
     </div>
   );
 }
