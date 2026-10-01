@@ -91,7 +91,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000001',
     (SELECT id FROM clue_types WHERE name = 'Brottsplatsrapport'),
     'Svit 402',
-    'Armand Rousseau hittades klockan 06:20 av städerskan, sittande i fåtöljen vid fönstret. Inga tecken på kamp. Dörren var låst inifrån med nyckeln kvar i låset, fönstret reglat. På bordet stod en konjakskaraff och två glas. Bara det ena hade använts.',
+    'Armand Rousseau hittades av städerskan klockan 06:20 på morgonen den 15 mars, sittande i fåtöljen vid fönstret. Inga tecken på kamp. Dörren var låst inifrån med nyckeln kvar i låset, fönstret reglat. På bordet stod en konjakskaraff och två glas. Bara det ena hade använts.',
     false
   ),
   (

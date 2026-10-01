@@ -117,7 +117,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000010',
     (SELECT id FROM clue_types WHERE name = 'Brottsplatsrapport'),
     'Rummet och lastkajens tak',
-    'Lau Wing-kit hittades klockan 06:15 på lastkajens tak, sex våningar under fönstret till sitt eget rum på tjugotredje våningen. Fönstret är krossat i hela sin bredd. I rummet står stolen kvar vid skrivbordet och papperen ligger utspridda över golvet, vilket stämmer med att vinden stod in genom hålet i sju timmar. På skrivbordet står ett glas whisky och en karaff. I den tomma hållaren på hyllan bakom skrivbordet saknas en modell av en fartygspropeller i brons, som enligt sekreteraren stod där på fredagen.',
+    'Lau Wing-kit hittades klockan 06:15 på lastkajens tak, sex våningar under fönstret till sitt eget rum på tjugotredje våningen. Fönstret är krossat i hela sin bredd. I rummet står stolen kvar vid skrivbordet och papperen ligger utspridda över golvet, vilket stämmer med att vinden stod in genom hålet i sju timmar. På skrivbordet står ett glas whisky och en karaff. I den tomma hållaren på hyllan bakom skrivbordet saknas en modell av en fartygspropeller i brons, som enligt sekreteraren stod där på eftermiddagen.',
     false
   ),
   (
@@ -125,7 +125,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000010',
     (SELECT id FROM clue_types WHERE name = 'Polisrapport'),
     'Royal Hong Kong Police, första genomgången',
-    'Signal åtta hissades 17:40 och personalen skickades hem. Sju personer blev kvar i huset över natten och samtliga uppger att de höll sig på sina egna våningar. Ytterdörrarna låses automatiskt när signalen går upp och vaktmästaren för bok över varje person som passerar entrén därefter. Ingen utomstående finns i boken. Kortläsarna till våningsdörrarna sattes in förra året och skriver ut kortnummer, dörr och klockslag på en remsa. Bolaget hade två dagar tidigare tecknat avtal om att sälja rörelsen.',
+    'Signal åtta hissades 17:40 den 9 september och personalen skickades hem. Sju personer blev kvar i huset över natten och samtliga uppger att de höll sig på sina egna våningar. Ytterdörrarna låses automatiskt när signalen går upp och vaktmästaren för bok över varje person som passerar entrén därefter. Ingen utomstående finns i boken. Kortläsarna till våningsdörrarna sattes in förra året och skriver ut kortnummer, dörr och klockslag på en remsa. Bolaget hade två dagar tidigare tecknat avtal om att sälja rörelsen.',
     false
   ),
   (

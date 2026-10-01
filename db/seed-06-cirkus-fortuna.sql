@@ -96,7 +96,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000006',
     (SELECT id FROM clue_types WHERE name = 'Brottsplatsrapport'),
     'Manegen efter numret',
-    'Aurel Bassi föll klockan 21:40, under kvällens sista nummer. Numret slutar med att han kastar sig från trapetsen och grips om handlederna av fångaren, och flera i publiken uppger att greppet aldrig togs. Han tog i nätet med rygg och axlar, varpå nätet gav vika i nordöstra hörnet och han slog i sågspånet under. Två av hörnsurrningarna sitter kvar, två hänger lösa. Repändarna i de lösa är rena och släta i snittet, inte fransiga som i ett brustet rep.',
+    'Aurel Bassi föll klockan 21:40 den 14 oktober, under kvällens sista nummer. Numret slutar med att han kastar sig från trapetsen och grips om handlederna av fångaren, och flera i publiken uppger att greppet aldrig togs. Han tog i nätet med rygg och axlar, varpå nätet gav vika i nordöstra hörnet och han slog i sågspånet under. Två av hörnsurrningarna sitter kvar, två hänger lösa. Repändarna i de lösa är rena och släta i snittet, inte fransiga som i ett brustet rep.',
     false
   ),
   (

@@ -102,7 +102,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000002',
     (SELECT id FROM clue_types WHERE name = 'Brottsplatsrapport'),
     'Kupé 5',
-    'Viktor Halász hittades klockan 05:40 av sovvagnskonduktören, liggande på den nedfällda britsen i skjorta och väst. Kupédörren var olåst, fönstret stängt och igensnöat. På fällbordet stod en konjakskupa med en skvätt kvar i botten. Resväskan var uppbruten med ett trubbigt verktyg och den förseglade trälådan låg tom på golvet. På mattan intill britsen låg ett avklippt mörkblått sidensnöre.',
+    'Viktor Halász hittades klockan 05:40 på morgonen den 4 mars av sovvagnskonduktören, liggande på den nedfällda britsen i skjorta och väst. Kupédörren var olåst, fönstret stängt och igensnöat. På fällbordet stod en konjakskupa med en skvätt kvar i botten. Resväskan var uppbruten med ett trubbigt verktyg och den förseglade trälådan låg tom på golvet. På mattan intill britsen låg ett avklippt mörkblått sidensnöre.',
     false
   ),
   (

@@ -96,7 +96,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000004',
     (SELECT id FROM clue_types WHERE name = 'Brottsplatsrapport'),
     'Foten av fyrtrappan',
-    'Ragnar Stenberg låg på granitgolvet vid nedersta trappsteget, på rygg och med huvudet mot väggen. Fotogenlampan stod kvar på steget ovanför, oskadd och med hela glaset. Bredvid honom på golvet låg urverkets lod, ett tyngdstycke i mässing. Stövlarna var blöta ända upp på skaftet och det låg sand på de tre nedersta stegen. Enligt hustrun gick han över gården till tornet strax efter klockan ett. Dörren ut mot gården står alltid olåst, och uppe i lanterninen satt nyckeln kvar i luckan till urverket.',
+    'Ragnar Stenberg låg på granitgolvet vid nedersta trappsteget, på rygg och med huvudet mot väggen. Fotogenlampan stod kvar på steget ovanför, oskadd och med hela glaset. Bredvid honom på golvet låg urverkets lod, ett tyngdstycke i mässing. Stövlarna var blöta ända upp på skaftet och det låg sand på de tre nedersta stegen. Enligt hustrun gick han över gården till tornet strax efter klockan ett natten mot den 13 november. Dörren ut mot gården står alltid olåst, och uppe i lanterninen satt nyckeln kvar i luckan till urverket.',
     false
   ),
   (

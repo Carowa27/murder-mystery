@@ -104,7 +104,7 @@ VALUES
     'a0000000-0000-4000-8000-000000000007',
     (SELECT id FROM clue_types WHERE name = 'Brottsplatsrapport'),
     'Studio B',
-    'Gerald Prentice hittades klockan 17:32 sittande vid programledarbordet, framåtlutad med höger hand kvar på bordsmikrofonens fot. Handflatan är bränd i ett band tvärs över. Studion var mörklagd så när som på arbetsbelysningen. Mikrofonens hölje är av metall och står på en fot som är skruvad i bordsskivan. Kontakten i bordets uttag sitter löst och dess två skruvar har färska märken efter en skruvmejsel. Ingenting i rummet är stulet eller flyttat.',
+    'Gerald Prentice hittades klockan 17:32 den 30 juli, sittande vid programledarbordet, framåtlutad med höger hand kvar på bordsmikrofonens fot. Handflatan är bränd i ett band tvärs över. Studion var mörklagd så när som på arbetsbelysningen. Mikrofonens hölje är av metall och står på en fot som är skruvad i bordsskivan. Kontakten i bordets uttag sitter löst och dess två skruvar har färska märken efter en skruvmejsel. Ingenting i rummet är stulet eller flyttat.',
     false
   ),
   (
