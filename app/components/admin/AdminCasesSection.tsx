@@ -45,7 +45,7 @@ export const AdminCasesSection = () => {
         <thead>
           <tr className="border-b">
             <th className="text-left p-2">Titel</th>
-            <th className="text-left p-2">Stage</th>
+            <th className="text-center p-2">Stage</th>
             <th className="text-center p-2">Redigera</th>
             <th className="text-center p-2">Radera</th>
           </tr>
@@ -68,7 +68,7 @@ export const AdminCasesSection = () => {
                 <td className="p-2 text-center">
                   <button
                     onClick={() => router.push(`/admin/cases/${c.id}/edit-case`)}
-                    className="px-2 py-1 rounded bg-gold text-background"
+                    className="px-2 py-1 rounded bg-gold text-background hover:cursor-pointer"
                   >
                     Redigera
                   </button>
@@ -77,7 +77,7 @@ export const AdminCasesSection = () => {
                 <td className="p-2 text-center">
                   <button
                     onClick={() => router.push(`/admin/cases/${c.id}/delete-case/`)}
-                    className="px-2 py-1 rounded bg-danger text-white"
+                    className="px-2 py-1 rounded bg-danger text-white hover:cursor-pointer"
                   >
                     Radera
                   </button>

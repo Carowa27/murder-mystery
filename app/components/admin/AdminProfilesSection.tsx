@@ -35,7 +35,7 @@ export const AdminProfilesSection = () => {
           <thead>
             <tr className="border-b">
               <th className="text-left p-2">Namn</th>
-              <th className="text-left p-2">Roll</th>
+              <th className="text-center p-2">Roll</th>
               <th className="text-center p-2">Redigera</th>
               <th className="text-center p-2">Radera</th>
             </tr>
@@ -57,7 +57,7 @@ export const AdminProfilesSection = () => {
                   <td className="p-2 text-center">
                     <button
                       onClick={() => handleEdit(p.id)}
-                      className="px-2 py-1 rounded bg-gold text-background"
+                      className="px-2 py-1 rounded bg-gold text-background hover:cursor-pointer"
                     >
                       Redigera
                     </button>
@@ -65,7 +65,7 @@ export const AdminProfilesSection = () => {
                   <td className="p-2 text-center">
                     <button
                       // onClick={() => handleDelete(c.id)}
-                      className="px-2 py-1 rounded bg-danger text-white"
+                      className="px-2 py-1 rounded bg-danger text-white hover:cursor-pointer"
                     >
                       Radera
                     </button>
