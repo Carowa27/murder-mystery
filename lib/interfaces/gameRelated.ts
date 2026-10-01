@@ -82,6 +82,7 @@ export interface ICase {
   created_at: string;
   description: string;
   difficulty_id: number;
+  difficulties: { name: string; max_accusations: number };
   id: string;
   image_url: string;
   location: string;

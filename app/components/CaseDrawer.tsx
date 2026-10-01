@@ -94,7 +94,7 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
             <button
               onClick={handleStartCase}
               disabled={starting}
-              className="rounded px-6 py-2 font-label text-xs uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer min-w-[8rem] h-9 disabled:opacity-60"
+              className="rounded px-6 py-2 font-label text-xs uppercase tracking-widest text-background hover:opacity-90 active:opacity-90 transition-opacity cursor-pointer min-w-[8rem] h-9 disabled:opacity-60"
               style={{ backgroundImage: 'var(--btn-primary)' }}
             >
               {starting ? (
@@ -114,7 +114,7 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
                 setSelectedCase(null);
                 setOpen(true);
               }}
-              className="font-label text-xs uppercase tracking-widest text-text-secondary active:text-gold transition-colors cursor-pointer"
+              className="font-label text-xs uppercase tracking-widest text-text-secondary hover:text-gold active:text-gold transition-colors cursor-pointer"
             >
               Byt fall
             </button>
@@ -140,7 +140,7 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer"
+        className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background hover:opacity-90 active:opacity-90 transition-opacity cursor-pointer"
         style={{ backgroundImage: 'var(--btn-primary)' }}
       >
         Välj fall
@@ -148,12 +148,12 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center"
+          className="fixed inset-0 z-50 flex items-end md:items-center justify-center"
           onClick={() => setOpen(false)}
         >
           <div className="absolute inset-0 bg-black/60" />
           <div
-            className="relative w-full max-w-lg h-[70vh] overflow-y-auto rounded-t-2xl bg-surface border-t border-gold/30 p-6 animate-slide-up"
+            className="relative w-full max-w-lg h-[70vh] md:h-auto md:max-h-[70vh] overflow-y-auto rounded-t-2xl md:rounded-2xl bg-surface border-t md:border border-gold/30 p-6 animate-slide-up md:animate-none"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
@@ -191,8 +191,13 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
                     )}
                     <div className="py-3 pr-3">
                       <h3 className="text-gold text-sm font-bold">{c.title}</h3>
+                      {c.difficulties && (
+                        <p className="text-gold/60 text-xs mt-0.5 capitalize">
+                          {c.difficulties.name}
+                        </p>
+                      )}
                       {c.description && (
-                        <p className="text-text-secondary text-xs mt-1 line-clamp-3">
+                        <p className="text-text-secondary text-xs mt-1 line-clamp-2">
                           {c.description}
                         </p>
                       )}
