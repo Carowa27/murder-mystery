@@ -45,7 +45,7 @@ export default function OngoingInvestigation({
       </p>
 
       <button
-        onClick={() => router.push(`/investigation/${investigationId}/office`)}
+        onClick={() => router.push(`/investigation/${investigationId}/team`)}
         className="rounded px-8 py-3 font-label text-sm uppercase tracking-widest text-background transition-opacity active:opacity-90 cursor-pointer min-w-[10rem]"
         style={{ backgroundImage: 'var(--btn-primary)' }}
       >
