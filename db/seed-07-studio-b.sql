@@ -134,7 +134,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000705',
     'a0000000-0000-4000-8000-000000000007',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Bandet från kontrollrummet',
     'Bandspelaren spelade in ljudet från kantinens apparat via en ledning, tre timmar i sträck. Vid 17:04 hörs kommentatorn ropa ut det tredje målet och publiken på Wembley. En och en halv sekund senare hörs i bakgrunden ett skarpt knäpp och ett kort skrik från en man, båda ur studiomikrofonen som stod öppen mot bandet. Därefter hörs ingenting mer därifrån. Bandet placerar alltså dödsögonblicket vid 17:04.',
     true
@@ -174,7 +174,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000710',
     'a0000000-0000-4000-8000-000000000007',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Researchpärmen om Hackney',
     'Pärmen låg i Sylvia Cross skrivbord och innehåller arton månaders arbete: hyreskvitton, fotografier av trapphus, namn på fjorton familjer som vräkts. Överst ligger en lapp från Prentice, daterad den 28 juli: "Programmet läggs ner. Materialet arkiveras. G.P." Sist i pärmen ligger ett brev från en av de vräkta, Doreen Keane, som skriver att hon inte orkar mer. Doreen Keane avled på sjukhuset i Hackney den 28 juli.',
     true

@@ -149,7 +149,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000305',
     'a0000000-0000-4000-8000-000000000003',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Badjournalen på A-däck',
     'Varje bad förs in med hyttnummer, klockslag och beställare. Natten mot den åttonde mars finns en enda rad: A-4, 01:15, beställt av fartygsläkaren, infört av Quill. Nästa rad är från morgonen därpå. Svit A-4 är Farrows. När intendenten kom dit vid åtta var badkaret torrt och nyskurat, trots att städerskorna ännu inte hunnit till A-däck.',
     true
@@ -197,7 +197,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000311',
     'a0000000-0000-4000-8000-000000000003',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Ionia-papperen i portföljen',
     'Portföljen stod kvar i sviten, olåst och orörd. Överst ligger en dödsattest från ångaren Ionia, daterad i juni 1931: Eleanor Farrow, fyrtiotvå år, hjärtsvikt. Eleanor var Farrows första hustru. Under attesten ligger två sidor anteckningar med samma handstil, där ordet morfin står tre gånger och ett klockslag är understruket. Attesten är undertecknad av fartygsläkaren A. Kelleher. Längst ner ligger tre brev från samme man, det sista skrivet i januari i år, som ber om mer pengar.',
     true

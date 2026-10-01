@@ -50,7 +50,6 @@ const CharacterSpecificPage = async ({
                 showVictim={true}
                 onWall={false}
                 width={110}
-                crossSize={'small'}
               />
             </div>
 

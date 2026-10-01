@@ -46,7 +46,7 @@ export default function CreateNoteForm({ investigationId }: { investigationId: s
         onChange={(e) => setContent(e.target.value)}
         placeholder="Skriv en anteckning..."
         rows={2}
-        className="flex-1 rounded bg-background/80 border border-gold/30 text-text-primary placeholder:text-text-secondary/50 px-3 py-2 text-sm font-handwritten resize-none focus:outline-none focus:border-gold/60"
+        className="flex-1 rounded bg-background/80 border border-gold/30 text-text-primary placeholder:text-text-secondary/50 px-3 py-2 text-xl font-handwritten resize-none focus:outline-none focus:border-gold/60"
       />
       <button
         type="submit"

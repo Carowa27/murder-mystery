@@ -33,10 +33,10 @@ export const Corkboard = ({ characters }: IParams) => {
                 <Polaroid
                   c={p}
                   showName={false}
+                  scribbleName={true}
                   showVictim={true}
                   onWall={true}
                   width={'100%'}
-                  crossSize={'small'}
                 />
               </div>
             ))}

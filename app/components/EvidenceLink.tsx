@@ -11,9 +11,15 @@ export const EvidenceLink = ({ clue }: IParams) => {
   const investigationId = params.investigationId as string;
   const baseUrl = `/investigation/${investigationId}`;
 
+  // Hela raden är klickbar, och py-1.5 gör den lagom hög för ett finger.
   return (
-    <Link href={`${baseUrl}/evidence/${clue.case_clues.id}`}>
-      <li className="!font-printed ps-5">{clue.case_clues.title}</li>
-    </Link>
+    <li>
+      <Link
+        href={`${baseUrl}/evidence/${clue.case_clues.id}`}
+        className="block py-1.5 ps-5 !font-printed"
+      >
+        {clue.case_clues.title}
+      </Link>
+    </li>
   );
 };

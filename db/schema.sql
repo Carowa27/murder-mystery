@@ -902,7 +902,7 @@ INSERT INTO clue_types (name) VALUES
   ('Obduktionsrapport'),
   ('Övervakningsbilder'),
   ('Fingeravtrycksanalys'),
-  ('Item');
+  ('Objekt');
 
 -- Priset är satt av gruppen och ändras här, inte i koden. code måste vara
 -- exakt samma sträng som payments.product tillåter.

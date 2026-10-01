@@ -27,8 +27,10 @@ const CharacterPage = async ({ params }: { params: Promise<{ investigationId: st
       {/* Tre foton per rad. Då ryms även det största fallet, nio personer, utan
           att man behöver scrolla. calc((100%-2rem)/3) är en tredjedel av raden
           minus de två mellanrummen på 1rem. Blir sista raden inte full hamnar
-          fotona i mitten tack vare justify-center. */}
-      <section className="mx-auto flex max-w-md flex-wrap justify-center gap-x-4 gap-y-6 px-4 pt-[16%] pb-8">
+          fotona i mitten tack vare justify-center.
+          Lampan slutar ungefär 8 procent ner i bilden. På höga, smala skärmar
+          följer bilden höjden, så då räknas avståndet ovanför fotona på höjden. */}
+      <section className="mx-auto flex max-w-md flex-wrap justify-center gap-x-4 gap-y-6 px-4 pt-[max(16%,calc((100vh-144px)*0.1))] pb-8">
         {characters &&
           characters.map((p, i) => (
             <Link
@@ -43,7 +45,6 @@ const CharacterPage = async ({ params }: { params: Promise<{ investigationId: st
                 showVictim={true}
                 onWall={true}
                 width={'100%'}
-                crossSize={'big'}
               />
             </Link>
           ))}

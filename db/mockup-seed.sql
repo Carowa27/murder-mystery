@@ -121,7 +121,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000005',
     'a0000000-0000-4000-8000-000000000001',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Huvudboken från hotellets kontor',
     'Sidorna för januari och februari är omskrivna med nyare bläck. Summorna stämmer inte med bankens besked: 180 000 franc saknas. Marginalanteckningarna är skrivna med bokhållaren Bardots handstil. Längst ner på februarisidan har Rousseau själv skrivit ett datum och strukit under det två gånger: den 15 mars.',
     true

@@ -39,29 +39,23 @@ const EvidenceSpecificPage = async ({
 
   const evidence: IFoundClues = await res.json();
 
-  const policeDocs = [
-    'Brottsplatsrapport',
-    'Polisrapport',
-    'Obduktionsrapport',
-    'Fingeravtrycksanalys',
-    'Övervakningsbilder',
-  ];
-  // Polisens dokument skrivs på det ljusa pappret, allt annat på det bruna.
+  // Ledtrådarna växlar mellan det ljusa och det bruna pappret. Sista tecknet i
+  // id:t avgör, och i seed-filerna är ledtrådarna numrerade 1, 2, 3 och så vidare.
   // De två bilderna har hörn av olika storlek, därför olika slice och edge.
   // Vad siffrorna betyder står i ScalableImageBox.
-  const isPoliceDoc = policeDocs.some((type) => evidence.case_clues.clue_types.name.includes(type));
-  const paper = isPoliceDoc
+  const isEven = parseInt(evidenceId.slice(-1), 16) % 2 === 0;
+  const paper = isEven
     ? {
-        image: '/images/item-backgrounds/document-v2.png',
-        slice: '70 80 130 100',
-        edge: '35px 40px 65px 50px',
-        layerClassName: '',
-      }
-    : {
         image: '/images/item-backgrounds/document-v1.png',
         slice: '40',
         edge: '20px',
         layerClassName: 'brightness-140',
+      }
+    : {
+        image: '/images/item-backgrounds/document-v2.png',
+        slice: '70 80 130 100',
+        edge: '35px 40px 65px 50px',
+        layerClassName: '',
       };
 
   // Pappret har alltid A4-format (aspect-[1/1.414]). Blir texten för lång

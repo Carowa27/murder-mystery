@@ -49,7 +49,7 @@ const EvidencePage = async ({ params }: { params: Promise<{ investigationId: str
               <section key={type}>
                 <h3 className="!font-printed leading-7">{type}</h3>
 
-                <ul className="mt-2 flex flex-col gap-3 leading-5">
+                <ul className="mt-1 flex flex-col leading-5">
                   {clues.map((clue) => (
                     <EvidenceLink key={clue.case_clues.id} clue={clue} />
                   ))}
