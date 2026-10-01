@@ -38,7 +38,7 @@ export async function POST(
       .from('investigations')
       .select(
         `case_id, status,
-         cases!inner ( difficulties!inner ( max_accusations ) )`
+        cases!inner ( difficulties!inner ( max_accusations ) )`
       )
       .eq('id', investigationId)
       .single();
