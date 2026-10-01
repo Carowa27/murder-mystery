@@ -191,8 +191,13 @@ export default function CaseDrawer({ teamId, isOwner, ownerName }: CaseDrawerPro
                     )}
                     <div className="py-3 pr-3">
                       <h3 className="text-gold text-sm font-bold">{c.title}</h3>
+                      {c.difficulties && (
+                        <p className="text-gold/60 text-xs mt-0.5 capitalize">
+                          {c.difficulties.name}
+                        </p>
+                      )}
                       {c.description && (
-                        <p className="text-text-secondary text-xs mt-1 line-clamp-3">
+                        <p className="text-text-secondary text-xs mt-1 line-clamp-2">
                           {c.description}
                         </p>
                       )}
