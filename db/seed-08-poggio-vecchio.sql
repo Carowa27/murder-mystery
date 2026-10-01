@@ -126,7 +126,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000805',
     'a0000000-0000-4000-8000-000000000008',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Aluminiumstegen',
     'Stegen är det enda sättet att ta sig upp ur ett tomt kar. Den låg femton meter från kar fyra, och i kalkdammet på golvet syns var den stått: tätt intill karets kant, med fötterna i två tydliga märken. Spåren efter att den dragits därifrån går åt sidan, inte mot förrådet där den hör hemma. På stegens övre steg finns färg från karets kant, och på Pieros underarm finns aluminium från samma steg. Han gick alltså ner för den, och någon flyttade den efteråt.',
     true

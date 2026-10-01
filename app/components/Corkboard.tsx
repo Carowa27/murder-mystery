@@ -9,6 +9,14 @@ interface IParams {
   characters: IGameCharacter[];
 }
 
+// cqw till skillnad mot vw sätter sin bredd i procent mot närmsta föräldern med @container, inte hela skärmen.
+// Ett foto är 12.5cqw brett, alltså en åttondel av tavlan, oavsett
+// hur stor skärmen är.
+//
+// Alla fall får samma storlek på fotona, så att det största fallet (nio
+// personer) ryms i tre rader med tre foton. Raden är 43cqw: tre foton på
+// 12.5cqw plus två mellanrum på 2.5cqw. Då bryter raden efter tre foton,
+// och en sista rad som inte är full hamnar i mitten.
 export const Corkboard = ({ characters }: IParams) => {
   const params = useParams();
   const investigationId = params.investigationId as string;
@@ -16,20 +24,21 @@ export const Corkboard = ({ characters }: IParams) => {
 
   return (
     <Link href={`${baseUrl}/characters`}>
-      <section className="w-[100%] aspect-[1536/1024] pt-[10%] bg-[url(/images/item-backgrounds/corkboard.png)] bg-top-right bg-no-repeat bg-cover">
-        {/* <section className="grid grid-flow-col auto-cols-max gap-2 justify-center mx-2 pt-[16%] -rotate-3"> */}
-        <div className="w-[75%] flex flex-wrap justify-center gap-2 mx-auto">
+      <section className="@container relative aspect-[1536/1024] w-full bg-[url(/images/item-backgrounds/corkboard.png)] bg-cover">
+        {/* top-[12%] lägger fotona precis under lampan. */}
+        <div className="absolute top-[12%] left-1/2 flex w-[43cqw] -translate-x-1/2 flex-wrap justify-center gap-[2.5cqw]">
           {characters &&
             characters.map((p: IGameCharacter, i: number) => (
-              <Polaroid
-                key={i}
-                c={p}
-                showName={false}
-                showVictim={true}
-                onWall={true}
-                width={50}
-                crossSize={'small'}
-              />
+              <div key={i} className="w-[12.5cqw]">
+                <Polaroid
+                  c={p}
+                  showName={false}
+                  scribbleName={true}
+                  showVictim={true}
+                  onWall={true}
+                  width={'100%'}
+                />
+              </div>
             ))}
         </div>
       </section>

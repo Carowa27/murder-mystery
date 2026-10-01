@@ -133,7 +133,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000505',
     'a0000000-0000-4000-8000-000000000005',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Den sjätte lösa patronen',
     'I rekvisitavagnens översta låda, under en putstrasa, låg en enda lös patron ur samma sats som de fem i trumman. Satsen levereras i askar om femtio. I asken i skåpet ligger fyrtiofyra, i trumman fem, och den i lådan är den femtionde. Någon har alltså tagit ut en lös patron ur revolvern, lagt den i lådan och satt en skarp patron i dess ställe.',
     true
@@ -173,7 +173,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000510',
     'a0000000-0000-4000-8000-000000000005',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Liggaren i vapenhandeln i Burbank',
     'Den 6 augusti såldes en ask .38 av det märke kulan kommer från, betald kontant. I liggaren har köparen skrivit L. Marek och en adress i Glendale som inte finns. Regissören Leo Marek stod den dagen i ateljén från sju på morgonen till nio på kvällen, vilket sexton personer intygar, och handstilen är inte hans. Den stämmer med Estelle Wards anteckningar i produktionsboken, ända ner till det öppna M:et. Biträdet minns en kvinna i fyrtioårsåldern som frågade vilken ammunition som passar en revolver av den modell som brukar synas i filmer.',
     true

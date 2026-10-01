@@ -5,6 +5,8 @@ import type { ITeam } from '@/lib/interfaces/gameRelated';
 import CopyInviteLink from '@/app/components/CopyInviteLink';
 import CaseDrawer from '@/app/components/CaseDrawer';
 import OngoingInvestigation from '@/app/components/OngoingInvestigation';
+import TeamMembers from '@/app/components/TeamMembers';
+import { Scene } from '@/app/components/Scene';
 
 export default async function TeamDetailPage({ params }: { params: Promise<{ teamId: string }> }) {
   const { teamId } = await params;
@@ -49,61 +51,48 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ tea
     members.find((m) => m.profiles.id === typedTeam.owner_id)?.profiles.display_name ?? 'Ägaren';
 
   return (
-    <div className="relative min-h-[calc(100vh-64px-80px)] bg-[url(/images/backgrounds/team-bg.png)] bg-center bg-no-repeat bg-cover">
+    <div className="relative h-[calc(100vh-64px-80px)] overflow-hidden bg-background">
+      <Scene
+        background="/images/backgrounds/team-floor.webp"
+        image="/images/item-backgrounds/team-table.webp"
+        width={1015}
+        height={1233}
+      >
+        {/* TeamMembers renderar avatarerna och hanterar real-time uppdateringar */}
+        {/* Det här ser fortfarande lite konstigt ut. Som sagt: JSX hanterar `children` som allt mellan öppnande och stängande taggen */}
+        <TeamMembers teamId={typedTeam.id} initialMembers={members}>
+          <div className="absolute top-[50%] left-1/2 w-[62cqw] -translate-x-1/2 -translate-y-1/2 -rotate-10">
+            <div className="relative aspect-[1537/1025]">
+              <Image
+                src="/images/item-backgrounds/casefiles-w-lightsource.png"
+                alt=""
+                fill
+                sizes="90vw"
+              />
+            </div>
+          </div>
+        </TeamMembers>
+      </Scene>
+
       <div className="absolute top-2 left-0 right-0 flex justify-center z-10">
         <CopyInviteLink inviteCode={typedTeam.invite_code} />
       </div>
 
-      <div className="flex flex-col justify-between pt-20 px-2 min-h-[calc(100vh-64px-80px)]">
-        <section className="flex justify-between pt-8">
-          {[0, 1].map((i) => (
-            <div
-              key={i}
-              className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
-            >
-              {/* Visa första bokstaven i användarens namn! */}
-              {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
-            </div>
-          ))}
-        </section>
-
-        <section className="relative">
-          <div className="flex justify-center">
-            <Image
-              src={'/images/item-backgrounds/casefiles-w-lightsource.png'}
-              alt={''}
-              width={100}
-              height={100}
-              className="w-[80%] h-auto pe-4 pb-8 -rotate-10"
-            />
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Här används ongoingInvestigation! Pågående utredning finns → visa "Fortsätt" och "Överge" istället för CaseDrawer */}
-            {ongoingInvestigation ? (
-              <OngoingInvestigation
-                investigationId={ongoingInvestigation.id}
-                status={ongoingInvestigation.status}
-              />
-            ) : (
-              // CaseDrawer hanterar nu våra tre states:
-              // * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..."
-              // * Inget fall valt, owner → "Välj fall" knapp → öppna drawer
-              // * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner)
-              <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
-            )}
-          </div>
-        </section>
-
-        <section className="flex justify-between">
-          {[2, 3].map((i) => (
-            <div
-              key={i}
-              className="flex justify-center items-center bg-primary/50 rounded-full h-20 w-20 border-4 border-primary"
-            >
-              {members[i] ? members[i].profiles.display_name.charAt(0).toUpperCase() : ''}
-            </div>
-          ))}
-        </section>
+      {/* Utanför Scene, annars fastnar lådan i scenen. Sidans mitt är bordets mitt. */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        {/* Här används ongoingInvestigation! Pågående utredning finns → visa "Fortsätt" och "Överge" istället för CaseDrawer */}
+        {ongoingInvestigation ? (
+          <OngoingInvestigation
+            investigationId={ongoingInvestigation.id}
+            status={ongoingInvestigation.status}
+          />
+        ) : (
+          // CaseDrawer hanterar nu våra tre states:
+          // * Inget fall valt, non-owner → "{ownerName} väljer fall att lösa..."
+          // * Inget fall valt, owner → "Välj fall" knapp → öppna drawer
+          // * Fall valt → Polaroid med case cover + "Starta fall" knapp (owner) eller "Väntar på att {ownerName} ska starta fallet..." (non-owner)
+          <CaseDrawer teamId={typedTeam.id} isOwner={isOwner} ownerName={ownerName} />
+        )}
       </div>
     </div>
   );

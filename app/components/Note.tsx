@@ -75,9 +75,11 @@ export const Note = ({ n }: INoteParams) => {
     }
   }
   return (
+    // Rutat papper ur ett kollegieblock. bg-cover håller rutorna kvadratiska och
+    // bg-left gör att hålen till vänster alltid syns. pl-[8%] håller texten till höger om hålen.
     <section
       style={{ transform: `rotate(${rotation}deg)` }}
-      className="flex flex-col gap-2 shadow-md rounded py-2 px-4 my-2 mx-4 bg-[url(/images/item-backgrounds/open-case-v2.png)] bg-center bg-no-repeat bg-fill"
+      className="flex flex-col gap-2 py-3 pr-5 pl-[8%] my-2 mx-4 bg-[url(/images/item-backgrounds/notepaper.webp)] bg-cover bg-left drop-shadow-[0_6px_12px_rgba(0,0,0,0.6)]"
     >
       <div className="flex justify-between items-start">
         {editing ? (
@@ -87,9 +89,9 @@ export const Note = ({ n }: INoteParams) => {
             <button
               onClick={handleEdit}
               disabled={saving}
-              className="cursor-pointer opacity-60 active:opacity-100 transition-opacity disabled:opacity-30"
+              className="cursor-pointer opacity-80 active:opacity-100 transition-opacity disabled:opacity-30"
             >
-              <CheckIcon size={16} />
+              <CheckIcon size={20} />
             </button>
             <button
               // Eftersom X ikonen har "double duty" behöver de olika nycklar så att de behandlas som två olika element!
@@ -97,26 +99,26 @@ export const Note = ({ n }: INoteParams) => {
               // sedan ta bort den. X knappen blir "greyed out"
               key="cancel"
               onClick={handleCancelEdit}
-              className="cursor-pointer opacity-60 active:opacity-100 transition-opacity"
+              className="cursor-pointer opacity-80 active:opacity-100 transition-opacity"
             >
-              <XIcon size={16} />
+              <XIcon size={20} />
             </button>
           </>
         ) : (
           <>
             <button
               onClick={() => setEditing(true)}
-              className="cursor-pointer opacity-60 active:opacity-100 transition-opacity"
+              className="cursor-pointer opacity-80 active:opacity-100 transition-opacity"
             >
-              <PencilSimpleIcon size={16} />
+              <PencilSimpleIcon size={20} />
             </button>
             <button
               key="delete"
               onClick={handleDelete}
               disabled={deleting}
-              className="cursor-pointer opacity-60 active:opacity-100 transition-opacity disabled:opacity-30"
+              className="cursor-pointer opacity-80 active:opacity-100 transition-opacity disabled:opacity-30"
             >
-              <XIcon size={16} />
+              <XIcon size={20} />
             </button>
           </>
         )}

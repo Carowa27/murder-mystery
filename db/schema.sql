@@ -139,6 +139,11 @@ CREATE TABLE team_members (
 
 CREATE INDEX team_members_user_id_idx ON team_members (user_id);
 
+-- Krävs för att Supabase Realtime ska fungera tillförlitligt på team sidan.
+-- Utan detta skickas bara primary key, och vår subscription i TeamMembers
+-- får inte user_id för att kunna hämta profilen.
+ALTER TABLE team_members REPLICA IDENTITY FULL;
+
 
 -- ============================================================
 -- 5. Spelomgångar
@@ -902,7 +907,7 @@ INSERT INTO clue_types (name) VALUES
   ('Obduktionsrapport'),
   ('Övervakningsbilder'),
   ('Fingeravtrycksanalys'),
-  ('Item');
+  ('Objekt');
 
 -- Priset är satt av gruppen och ändras här, inte i koden. code måste vara
 -- exakt samma sträng som payments.product tillåter.

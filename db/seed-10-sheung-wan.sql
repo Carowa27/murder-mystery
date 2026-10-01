@@ -139,7 +139,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000001004',
     'a0000000-0000-4000-8000-000000000010',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Glassplittret',
     'Nio tiondelar av glaset låg utanför huset, på lastkajens tak och på gatan nedanför. Hade rutan tryckts in av vinden skulle splittret ha legat inne i rummet. De skärvor som sitter kvar i karmen är böjda utåt. Vinden låg den natten från nordost, och ordförandens fönster vetter mot sydväst, alltså i lä. Krosset börjar i en punkt en meter över golvet, vilket svarar mot ett slag med ett trubbigt föremål och inte mot en kropp som faller mot rutan.',
     true
@@ -155,7 +155,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000001006',
     'a0000000-0000-4000-8000-000000000010',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Kortläsarremsan från tjugotredje våningen',
     'Remsan för kvällen visar tre passager genom korridorsdörren på tjugotredje våningen. 19:12 kort 004, ordföranden själv, som sedan inte passerar dörren igen. 21:58 kort 011, ingående. 22:16 kort 011, utgående. Kort 011 är utfärdat till Lau Mei-ling. Hennes eget kort ligger i hennes handväska på tjugoförsta våningen, och hon uppger att reservkortet med samma nummer har legat i hamnkontorets skrivbord sedan hennes farbror tappade sitt i juli.',
     false
@@ -187,7 +187,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000001010',
     'a0000000-0000-4000-8000-000000000010',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Fyndet i hamnbassängen',
     'Polisens dykare sökte av bottnen innanför kajkanten och tog upp modellen av fartygspropellern på fyra meters djup, elva meter ut från den punkt kameran visar. Föremålet väger tre och ett halvt kilo och är av brons. På den ena bladkanten finns hår och vävnad som stämmer med ordförandens skada, och bronset är av samma sammansättning som spåren i såret. Modellen är den som saknas ur hållaren på tjugotredje våningen.',
     true

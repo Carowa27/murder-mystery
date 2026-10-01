@@ -126,7 +126,7 @@ VALUES
   (
     'c0000000-0000-4000-8000-000000000605',
     'a0000000-0000-4000-8000-000000000006',
-    (SELECT id FROM clue_types WHERE name = 'Item'),
+    (SELECT id FROM clue_types WHERE name = 'Objekt'),
     'Surrningarna i de lösa hörnen',
     'De två lösa surrningarna är slagna med en annan knop än de två som höll. Repet i dem är dessutom kapat och skarvat, och snittet är gjort med ett vasst blad. Knopen är den som används i de italienska och franska sällskapen och slås åt motsatt håll jämfört med den danska. Tre personer hos Fortuna har lärt sig rigga söderut: Bassi själv, hans hustru Vera och ungraren Janos Kertesz. Iversens knop sitter i de två hörn som höll. En lös surrning syns inte uppifrån plattformen, bara från sidan, vilket är skälet till att ingen i numret märkte något.',
     true

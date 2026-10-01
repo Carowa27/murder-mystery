@@ -1,8 +1,8 @@
-const InvestigationPage = () => {
-  return (
-    <div className="min-h-[calc(100vh-64px-80px)] bg-[url(/images/background-images/office-bg.png)] bg-center bg-no-repeat bg-cover">
-      Investigation
-    </div>
-  );
+import { redirect } from 'next/navigation';
+
+// Spelet börjar på kontoret, så /investigation/[id] skickar vidare dit.
+const InvestigationPage = async ({ params }: { params: Promise<{ investigationId: string }> }) => {
+  const { investigationId } = await params;
+  redirect(`/investigation/${investigationId}/office`);
 };
 export default InvestigationPage;
