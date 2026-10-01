@@ -59,6 +59,9 @@ export default async function Home() {
           {hasOngoing ? 'Fortsätt spela' : 'Börja spela'}
         </div>
       </Link>
+      <Link href={'/user-guide'}>
+        Läs vår <span className="text-gold">spel guide</span> för att enklare sätta igång!
+      </Link>
     </div>
   );
 }
